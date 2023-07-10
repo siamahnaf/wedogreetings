@@ -1,7 +1,5 @@
 export interface EventData {
     "@row.id": number;
-    Id: string;
-    "Record Owner": string;
     title: string;
     subtitle: string;
     description: string;
@@ -10,4 +8,8 @@ export interface EventData {
     duration: number;
     setup: boolean;
     additions: string;
+    "Image 1": string;
+    "image 2": string;
+    "Image 3": string;
+    "Image 4": string;
 }
