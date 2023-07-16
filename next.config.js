@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["eu.teamdesk.net"]
+    domains: ["wdg.teamdesk.net"]
   }
 }
 

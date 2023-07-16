@@ -3,12 +3,13 @@ import { ReactNode } from "react";
 
 //Interface
 interface Props {
-    children: ReactNode
+    children: ReactNode;
+    className?: string;
 }
 
-const Container = ({ children }: Props) => {
+const Container = ({ children, className }: Props) => {
     return (
-        <div className="4xl:container 4xl:mx-auto px-16">
+        <div className={`4xl:container 4xl:mx-auto px-16 ${className}`}>
             {children}
         </div>
     );

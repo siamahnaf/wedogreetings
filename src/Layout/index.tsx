@@ -12,10 +12,10 @@ interface Props {
     active?: string;
 }
 
-const Layout = ({ children }: Props) => {
+const Layout = ({ children, active }: Props) => {
     return (
         <div>
-            <Header />
+            <Header active={active} />
             {children}
             <Footer />
         </div>

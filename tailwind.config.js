@@ -1,6 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 
-module.exports = {
+const withMT = require("@material-tailwind/react/utils/withMT");
+
+module.exports = withMT({
   content: [
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
@@ -23,11 +25,21 @@ module.exports = {
       boxShadow: {
         "3xl": "0px 1px 8px rgba(197, 198, 201, 0.4)"
       },
+      colors: {
+        "c-novel": "#999999",
+        "c-deep-sky": "#0AC2FF",
+        "c-light-slate": "#8980F5",
+        "c-hollywood": "#F4009D",
+        "c-neon": "#FFA033",
+        "c-sorbus": "#EC6A32",
+        "c-gainsboro": "#D9D9D9",
+        "c-white-smoke": "#F2F2F2"
+      },
       fontFamily: {
-        sans: ['var(--font-inter)']
+        sans: ['var(--font-poppins)']
       }
     }
   },
   plugins: [],
-}
+})
 

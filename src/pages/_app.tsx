@@ -6,12 +6,12 @@ import { useState } from "react";
 import { HydrationBoundary, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 //Fonts
-import { inter } from "@/Fonts";
+import { poppins } from "@/Fonts";
 
 const App = ({ Component, pageProps }: AppProps) => {
   const [queryClient] = useState(() => new QueryClient());
   return (
-    <main className={`${inter.variable} font-sans`}>
+    <main className={`${poppins.variable} font-sans`}>
       <QueryClientProvider client={queryClient}>
         <HydrationBoundary state={pageProps.dehydratedState}>
           <Component {...pageProps} />
