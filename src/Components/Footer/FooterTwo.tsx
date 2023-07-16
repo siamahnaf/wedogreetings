@@ -27,7 +27,7 @@ const FooterTwo = () => {
             </div>
             <ul className="flex gap-4 justify-center mb-5">
                 {Navs.map((item, i) => (
-                    <li>
+                    <li key={i}>
                         <Link href={item.url} className="text-base font-medium">
                             {item.name}
                         </Link>
@@ -36,7 +36,7 @@ const FooterTwo = () => {
             </ul>
             <ul className="flex gap-3 justify-center">
                 {Socials.map((item, i) => (
-                    <li>
+                    <li key={i}>
                         <Link href={item.url} className="bg-c-deep-sky w-[32px] h-[32px] rounded-md text-white flex justify-center items-center">
                             <Icon icon={item.icon} />
                         </Link>

@@ -16,7 +16,7 @@ const Copyright = () => {
             <div>
                 <ul className="flex gap-3">
                     {data.map((item, i) => (
-                        <li>
+                        <li key={i}>
                             <Link className="text-[15px] hover:text-c-deep-sky" href={item.url}>{item.name}</Link>
                         </li>
                     ))}
