@@ -6,11 +6,27 @@ import Availability from "./Timeline/Availability";
 import Configuration from "./Timeline/Configuration";
 import Confirm from "./Timeline/Confirm";
 
+//Context
+import { TimelineContext, AvailableDataTypes, ConfigureDataTypes } from "@/Context/timeline.context";
+
+//Interface Import
+import { Inputs as AvailabilityTypes } from "@/Components/Product/Timeline/Availability";
+import { Inputs as ConfigureTypes } from "@/Components/Product/Timeline/Configuration";
+
 const Timeline = () => {
     //State
     const [activeStep, setActiveStep] = useState(0);
     const [isLastStep, setIsLastStep] = useState(false);
     const [isFirstStep, setIsFirstStep] = useState(false);
+
+    //Data Storing
+    const [availableData, setAvailableData] = useState<AvailableDataTypes>({
+        formData: {} as AvailabilityTypes,
+        franchiseeId: null
+    });
+    const [configureData, setConfigureData] = useState<ConfigureDataTypes>({
+        formData: {} as ConfigureTypes
+    });
 
     //Handler
     const handleNext = () => !isLastStep && setActiveStep((cur) => cur + 1);
@@ -55,17 +71,19 @@ const Timeline = () => {
                     </Step>
                 </Stepper>
             </div>
-            <div className="mt-16 bg-white shadow-3xl py-5 px-6 rounded-lg">
-                {activeStep === 0 &&
-                    <Availability />
-                }
-                {activeStep === 1 &&
-                    <Configuration />
-                }
-                {activeStep === 2 &&
-                    <Confirm />
-                }
-            </div>
+            <TimelineContext.Provider value={{ activeStep, isLastStep, isFirstStep, handleNext, handlePrev, availableData, setAvailableData, configureData, setConfigureData }}>
+                <div>
+                    <div className={`${activeStep === 0 ? "block" : "hidden"}`}>
+                        <Availability />
+                    </div>
+                    <div className={`${activeStep === 1 ? "block" : "hidden"}`}>
+                        <Configuration />
+                    </div>
+                    <div className={`${activeStep === 2 ? "block" : "hidden"}`}>
+                        <Confirm />
+                    </div>
+                </div>
+            </TimelineContext.Provider>
         </div>
     );
 };

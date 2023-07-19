@@ -13,7 +13,7 @@ import Timeline from "@/Components/Product/Timeline";
 
 //Query
 import { QueryClient, dehydrate } from "@tanstack/react-query";
-import { GET_SINGLE_PRODUCT } from "@/Query/Function/Product/product.function";
+import { GET_SINGLE_PRODUCT, GET_ALL_PRODUCT } from "@/Query/Function/Product/product.function";
 
 const ProductView = () => {
     return (
@@ -27,7 +27,7 @@ const ProductView = () => {
                     <Details />
                 </div>
             </Container>
-            <Container className="py-10">
+            <Container className="py-16">
                 <Timeline />
             </Container>
         </Layout>
@@ -43,6 +43,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
     //Fetching Data
     await queryClient.prefetchQuery({ queryKey: ["product", ctx.query.id], queryFn: () => GET_SINGLE_PRODUCT(Number(ctx.query.id)) });
+    await queryClient.prefetchQuery({ queryKey: ["allProduct"], queryFn: GET_ALL_PRODUCT });
 
     return {
         props: { dehydratedState: dehydrate(queryClient) }
