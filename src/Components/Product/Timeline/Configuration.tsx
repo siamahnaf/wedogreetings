@@ -6,6 +6,7 @@ import { Icon } from "@iconify/react";
 //Components
 import Backdrop from "./Configuration/Backdrop";
 import Letters from "./Configuration/Letters";
+import Emojis from "./Configuration/Emojis";
 
 //Context
 import { TimelineContext } from "@/Context/timeline.context";
@@ -93,9 +94,11 @@ const Configuration = () => {
                             </div>
                             <div className="col-span-5">
                                 {!backdrop &&
-                                    <div className="bg-c-white-smoke py-3 text-center rounded-lg cursor-pointer" onClick={() => setBackdrop(true)}>
-                                        <Image src="/images/preview.png" alt="Preview Image" width={32} height={32} className="mx-auto opacity-75" />
-                                        <p className="text-c-novel opacity-80 mt-2">Tap or click to select</p>
+                                    <div className="bg-c-white-smoke text-center rounded-lg cursor-pointer aspect-[6/1] justify-center items-center flex" onClick={() => setBackdrop(true)}>
+                                        <div>
+                                            <Image src="/images/preview.png" alt="Preview Image" width={32} height={32} className="mx-auto opacity-75" />
+                                            <p className="text-c-novel opacity-80 mt-2">Tap or click to select</p>
+                                        </div>
                                     </div>
                                 }
                                 {backdrop &&
@@ -130,6 +133,9 @@ const Configuration = () => {
             </div>
             <div className={`mt-16 bg-white shadow-3xl py-12 px-8 rounded-lg w-[60%] mx-auto ${step === "step1" ? "block" : "hidden"}`}>
                 <Letters setStep={setStep} />
+            </div>
+            <div className={`mt-16 bg-white shadow-3xl py-12 px-8 rounded-lg w-[70%] mx-auto ${step === "step2" ? "block" : "hidden"}`}>
+                <Emojis setStep={setStep} />
             </div>
         </>
     );

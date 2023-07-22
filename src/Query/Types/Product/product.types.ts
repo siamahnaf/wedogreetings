@@ -19,6 +19,7 @@ export interface FranchiseeAreaCodeData {
     "Record Owner": string;
     Franchisee: string;
     "Area Code": string;
+    Surcharge: number;
 }
 
 
@@ -96,4 +97,13 @@ export interface GetLettersData {
     Image: string;
     Status: string;
     Item_selector: string;
+}
+
+export interface FranchiseePricingData {
+    "@row.id": number
+    Id: string
+    "Record Owner": string
+    "MidWk Price": number
+    "Wknd Price": number
+    Franchisee: string
 }

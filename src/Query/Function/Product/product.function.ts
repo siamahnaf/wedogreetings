@@ -1,7 +1,7 @@
 import { headers } from "../../Client";
 
 //Types
-import { ProductData, FranchiseeAreaCodeData, UnavailabilityData, FranchiseeDetailsData, AddCustomRequestData, AddCustomRequestResponse, GetBackdropData, GetBackdropStock, GetLettersData } from "@/Query/Types/Product/product.types";
+import { ProductData, FranchiseeAreaCodeData, UnavailabilityData, FranchiseeDetailsData, AddCustomRequestData, AddCustomRequestResponse, GetBackdropData, GetBackdropStock, GetLettersData, FranchiseePricingData } from "@/Query/Types/Product/product.types";
 
 
 //Get Web Gallery Sections
@@ -33,3 +33,9 @@ export const GET_INVENTORY_STOCK = async (franchise: string): Promise<GetBackdro
 //Get Letters
 export const GET_LETTERS = async (letter: string): Promise<GetLettersData[]> => await (await fetch(`https://wdg.teamdesk.net/secure/api/v2/90582/Inventory%20Master%20Vertical/Default%20View/select.json?filter=%5BItem%5D%3D%22${letter}%22%20and%20%5BCategory%5D%3D%22Letters%22`, { headers }).then(res => res.json()));
 
+//GET Emoji
+export const GET_EMOJIS = async (): Promise<GetBackdropData[]> => await (await fetch("https://wdg.teamdesk.net/secure/api/v2/90582/Inventory%20Master%20Vertical/Default%20View/select.json?filter=%5BCategory%5D%3D%22Accessories%22", { headers }).then(res => res.json()));
+
+
+//GET Emoji
+export const GET_FRANCHISEE_PRICING = async (id: string): Promise<FranchiseePricingData[]> => await (await fetch(`https://wdg.teamdesk.net/secure/api/v2/90582/Franchisee%20Pricing/select.json?filter=%5BFranchisee%5D%3D%22${id}%22`, { headers }).then(res => res.json()));

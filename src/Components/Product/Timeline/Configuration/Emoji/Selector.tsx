@@ -12,33 +12,39 @@ import { poppins } from "@/Fonts";
 import { GetBackdropData } from "@/Query/Types/Product/product.types";
 
 //Interface
-export interface LetterTypes {
+interface EmojiTypes {
     index: number;
-    url: string,
+    url: string;
     id: string;
     name: string;
-    letter: string;
 }
 export interface OnChangeItemTypes {
     url: string;
     id: string;
     name: string;
 }
+export interface OnChangeUpdateTypes {
+    url: string;
+    id: string;
+    name: string;
+    index: number;
+}
 interface Props {
     open: boolean;
     onClose: () => void;
     items: GetBackdropData[];
-    onChange: (item: OnChangeItemTypes) => void;
-    selected: LetterTypes[];
+    onChange: (item: OnChangeUpdateTypes) => void;
+    selected: EmojiTypes;
     index: number;
 }
 
 const Backdrop = ({ open, onClose, items, onChange, selected, index }: Props) => {
     //Handler onItem click
     const onItemClick = (item: OnChangeItemTypes) => {
-        onChange(item);
+        onChange({ ...item, index: index });
         onClose();
     }
+
     return (
         <Dialog
             open={open}
@@ -65,7 +71,7 @@ const Backdrop = ({ open, onClose, items, onChange, selected, index }: Props) =>
                     {items?.map((item, i) => (
                         <div key={i} className="cursor-pointer" onClick={() => onItemClick({ url: item.Image, id: item["@row.id"].toString(), name: item.Item })}>
                             {item.Image ?
-                                <Image src={imageUrl(item["@row.id"], item.Image, 43480466)} width={258} height={258} alt={item.Item} className="rounded-lg aspect-[1/1]" /> :
+                                <Image src={imageUrl(item["@row.id"], item.Image, 43480466)} width={258} height={258} alt={item.Item} className="aspect-[1/1]" /> :
                                 <div className="bg-c-white-smoke rounded-lg aspect-[1/1] text-center flex justify-center items-center">
                                     <Image src="/images/preview.png" width={32} height={32} alt={item.Item} className="mx-auto" />
                                 </div>}

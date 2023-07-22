@@ -12,6 +12,8 @@ import { TimelineContext, AvailableDataTypes, ConfigureDataTypes } from "@/Conte
 //Interface Import
 import { Inputs as AvailabilityTypes } from "@/Components/Product/Timeline/Availability";
 import { Inputs as ConfigureTypes } from "@/Components/Product/Timeline/Configuration";
+import { LetterTypes } from "@/Components/Product/Timeline/Configuration/Letters/SingleLetters/Selector";
+import { EmojiTypes } from "@/Components/Product/Timeline/Configuration/Emojis";
 
 const Timeline = () => {
     //State
@@ -22,11 +24,15 @@ const Timeline = () => {
     //Data Storing
     const [availableData, setAvailableData] = useState<AvailableDataTypes>({
         formData: {} as AvailabilityTypes,
-        franchiseeId: null
+        franchiseeId: null,
+        franchiseeName: "",
+        surcharge: null
     });
     const [configureData, setConfigureData] = useState<ConfigureDataTypes>({
         formData: {} as ConfigureTypes
     });
+    const [letters, setLetters] = useState<LetterTypes[]>([]);
+    const [emojis, setEmojis] = useState<EmojiTypes[]>([]);
 
     //Handler
     const handleNext = () => !isLastStep && setActiveStep((cur) => cur + 1);
@@ -71,7 +77,7 @@ const Timeline = () => {
                     </Step>
                 </Stepper>
             </div>
-            <TimelineContext.Provider value={{ activeStep, isLastStep, isFirstStep, handleNext, handlePrev, availableData, setAvailableData, configureData, setConfigureData }}>
+            <TimelineContext.Provider value={{ activeStep, isLastStep, isFirstStep, handleNext, handlePrev, availableData, setAvailableData, configureData, setConfigureData, letters, setLetters, emojis, setEmojis }}>
                 <div>
                     <div className={`${activeStep === 0 ? "block" : "hidden"}`}>
                         <Availability />

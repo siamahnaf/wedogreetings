@@ -81,7 +81,12 @@ const Availability = () => {
             setAvailability(false)
         } else {
             setAvailability(true)
-            setAvailableData?.({ formData: value, franchiseeId: postalData.data?.[0]?.Franchisee })
+            setAvailableData?.({
+                formData: value,
+                franchiseeId: postalData.data?.[0]?.Franchisee,
+                franchiseeName: franchiseeData.data?.[0]?.["First Name"] + " " + franchiseeData.data?.[0]["Last Name"],
+                surcharge: postalData.data?.[0]?.Surcharge
+            })
         }
     }
 

@@ -13,7 +13,6 @@ import { poppins } from "@/Fonts";
 import { TimelineContext } from "@/Context/timeline.context";
 
 //Query
-import { QueryClient } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
 import { GET_BACKDROP, GET_INVENTORY_STOCK } from "@/Query/Function/Product/product.function";
 import { GetBackdropData } from "@/Query/Types/Product/product.types";
