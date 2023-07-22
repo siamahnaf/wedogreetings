@@ -40,6 +40,7 @@ const Letters = ({ setStep }: Props) => {
             });
             setNames(chars);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [configureData?.formData.name]);
 
     return (

@@ -57,11 +57,8 @@ const Configuration = () => {
     //Lifecycle Hook
     useEffect(() => {
         register("backdrop", { required: "Backdrop is required field!" })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-    useEffect(() => {
-
-    }, [backdrop])
 
     return (
         <>

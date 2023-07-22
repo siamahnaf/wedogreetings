@@ -109,6 +109,7 @@ const Availability = () => {
         if (postalCode) {
             trigger("postalCode")
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [postalCode])
 
     useEffect(() => {
@@ -116,6 +117,7 @@ const Availability = () => {
             unavailableData.refetch()
             franchiseeData.refetch()
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [postalData])
 
     return (
