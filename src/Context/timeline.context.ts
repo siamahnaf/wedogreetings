@@ -16,7 +16,7 @@ export interface AvailableDataTypes {
     franchiseeId: string | null;
     franchiseeName: string | null;
     surcharge: number | null;
-    details: FranchiseeDetailsData
+    details: FranchiseeDetailsData;
 }
 export interface ConfigureDataTypes {
     formData: ConfigureTypes;

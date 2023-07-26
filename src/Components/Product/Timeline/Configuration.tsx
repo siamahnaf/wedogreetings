@@ -75,6 +75,7 @@ const Configuration = () => {
         if (displayText) {
             trigger("name")
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [displayText])
 
     return (

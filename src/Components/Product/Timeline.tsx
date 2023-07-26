@@ -15,6 +15,7 @@ import { Inputs as ConfigureTypes } from "@/Components/Product/Timeline/Configur
 import { LetterTypes } from "@/Components/Product/Timeline/Configuration/Letters/SingleLetters/Selector";
 import { EmojiTypes } from "@/Components/Product/Timeline/Configuration/Emojis";
 import { Inputs as CustomerTypes } from "@/Components/Product/Timeline/Confirm/Customer";
+import { FranchiseeDetailsData } from "@/Query/Types/Product/product.types";
 
 const Timeline = () => {
     //State
@@ -27,7 +28,8 @@ const Timeline = () => {
         formData: {} as AvailabilityTypes,
         franchiseeId: null,
         franchiseeName: "",
-        surcharge: null
+        surcharge: null,
+        details: {} as FranchiseeDetailsData
     });
     const [configureData, setConfigureData] = useState<ConfigureDataTypes>({
         formData: {} as ConfigureTypes
