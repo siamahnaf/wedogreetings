@@ -35,8 +35,8 @@ const SingleLetters = ({ item, selected, setSelected, index }: Props) => {
     const { availableData, configureData } = useContext(TimelineContext);
 
     //Query
-    const { data, isPending, refetch } = useQuery({ queryKey: ["letters", item], queryFn: () => GET_LETTERS(item), enabled: !!item });
-    const stock = useQuery({ queryKey: ["stock", { franchise: availableData?.franchiseeId }], queryFn: () => GET_INVENTORY_STOCK(availableData?.franchiseeId as string) });
+    const { data, isPending } = useQuery({ queryKey: ["letters", item], queryFn: () => GET_LETTERS(item), enabled: !!item });
+    const stock = useQuery({ queryKey: ["stock", { franchise: availableData?.franchiseeName }], queryFn: () => GET_INVENTORY_STOCK(availableData?.franchiseeId as string) });
 
     //Handler
     const onItemClick = (item: OnChangeItemTypes) => {
@@ -52,7 +52,7 @@ const SingleLetters = ({ item, selected, setSelected, index }: Props) => {
     useEffect(() => {
         if (data && stock.data) {
             const results = data.map((item) => {
-                const hasStock = stock.data.filter((f) => f["Inventory Name"] === item["@row.id"].toString());
+                const hasStock = stock.data.filter((f) => f["Reference to Inventory Name"] === item["@row.id"].toString());
                 return item.Qty > hasStock.length ? item : undefined;
             }).filter(Boolean);
             setOptions(results as GetBackdropData[]);

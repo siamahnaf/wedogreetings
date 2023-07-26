@@ -20,7 +20,7 @@ import { GetBackdropData } from "@/Query/Types/Product/product.types";
 import { OnChangeUpdateTypes } from "./Emoji/Selector";
 
 //Initial Data
-const initialData = Array.from({ length: 16 }, (_, index) => ({
+const initialData = Array.from({ length: 6 }, (_, index) => ({
     index: index,
     url: "",
     id: "",
@@ -47,10 +47,11 @@ const Emojis = ({ setStep }: Props) => {
     const [emoji, setEmoji] = useState<EmojiTypes[]>(initialData);
     const [items, setItems] = useState<GetBackdropData[]>([]);
     const [open, setOpen] = useState<number | null>(null);
+    const [highlight, setHighlight] = useState<string>("");
 
     //Query
     const { data } = useQuery({ queryKey: ["emojis"], queryFn: GET_EMOJIS });
-    const stock = useQuery({ queryKey: ["stock", { franchise: availableData?.franchiseeId }], queryFn: () => GET_INVENTORY_STOCK(availableData?.franchiseeId as string) });
+    const stock = useQuery({ queryKey: ["stock", { franchise: availableData?.franchiseeName }], queryFn: () => GET_INVENTORY_STOCK(availableData?.franchiseeName as string) });
 
     //Handler onItemClick
     const onItemClick = (item: OnChangeUpdateTypes) => {
@@ -72,11 +73,20 @@ const Emojis = ({ setStep }: Props) => {
         handleNext?.();
     }
 
+    //Highlight Handler
+    const highlightHandler = (position: string) => {
+        if (highlight === position) {
+            setHighlight("")
+        } else {
+            setHighlight(position)
+        }
+    }
+
     //Lifecycle Hook
     useMemo(() => {
         if (data && stock.data) {
             const results = data.map((item) => {
-                const hasStock = stock.data.filter((f) => f["Inventory Name"] === item["@row.id"].toString());
+                const hasStock = stock.data.filter((f) => f["Reference to Inventory Name"] === item["@row.id"].toString());
                 return item.Qty > hasStock.length ? item : undefined;
             }).filter(Boolean);
             setItems(results as GetBackdropData[])
@@ -85,15 +95,14 @@ const Emojis = ({ setStep }: Props) => {
 
     return (
         <div>
-            <p className="text-c-novel text-base text-center mb-10">Select a icons classes from the drop down then tap on the tiles to select your choice. <span className="text-black">If you are not sure which would look best the physical printed items on the day of installing.</span></p>
-            <p className="text-center font-semibold text-base mb-3">Top of display</p>
+            <p className="text-c-novel text-base text-center mb-12 w-[70%] mx-auto">Select a icons classes from the drop down then tap on the tiles to select your choice. <span className="text-black">If you are not sure which would look best the physical printed items on the day of installing.</span></p>
             <div className="flex justify-center px-6">
-                <div className="grid grid-cols-8 gap-4 items-center">
-                    <div className="col-span-1">
-                        <div className="grid grid-cols-1 gap-4">
-                            {emoji.slice(14, 16).reverse().map((item) => (
+                <div className="grid grid-cols-12 gap-4 items-center">
+                    <div className="col-span-2">
+                        <div className="mb-3">
+                            {emoji.slice(0, 1).map((item) => (
                                 <Fragment key={item.index}>
-                                    <div key={item.id} className="w-[75px] h-[75px] rounded-md bg-c-white-smoke cursor-pointer" onClick={() => setOpen(item.index)}>
+                                    <div key={item.id} className={`w-[70px] h-[70px] rounded-md bg-c-gainsboro cursor-pointer p-2 border-2 border-solid mx-auto ${highlight === "left" ? "border-black" : "border-transparent"}`} onClick={() => setOpen(item.index)}>
                                         <div className="flex justify-center items-center h-full">
                                             {item.url === null &&
                                                 <div className="bg-c-white-smoke rounded-lg aspect-[1/1] text-center flex justify-center items-center">
@@ -118,16 +127,13 @@ const Emojis = ({ setStep }: Props) => {
                                 </Fragment>
                             ))}
                         </div>
-                        <p className="text-center font-semibold text-[13px] mt-3">Left Side</p>
-                    </div>
-                    <div className="col-start-2 col-span-6">
-                        <div className="grid grid-cols-6 gap-4">
-                            {emoji.slice(0, 6).map((item) => (
+                        <div className="grid grid-cols-2 gap-3">
+                            {emoji.slice(1, 3).map((item) => (
                                 <Fragment key={item.index}>
-                                    <div key={item.id} className="w-[75px] h-[75px] rounded-md bg-c-white-smoke cursor-pointer" onClick={() => setOpen(item.index)}>
+                                    <div key={item.id} className={`w-[70px] h-[70px] rounded-md bg-c-gainsboro cursor-pointer p-2 border-2 border-solid ${highlight === "left" ? "border-black" : "border-transparent"}`} onClick={() => setOpen(item.index)}>
                                         <div className="flex justify-center items-center h-full">
                                             {item.url === null &&
-                                                <div className="bg-c-white-smoke rounded-lg aspect-[1/1] text-center flex justify-center items-center">
+                                                <div className="bg-c-gainsboro rounded-lg aspect-[1/1] text-center flex justify-center items-center">
                                                     <Image src="/images/preview.png" width={32} height={32} alt={item.name} className="mx-auto" />
                                                 </div>
                                             }
@@ -149,43 +155,29 @@ const Emojis = ({ setStep }: Props) => {
                                 </Fragment>
                             ))}
                         </div>
-                        <div className="my-4">
-                            <Letters />
-                        </div>
-                        <div className="grid grid-cols-6 gap-4">
-                            {emoji.slice(8, 14).reverse().map((item) => (
-                                <Fragment key={item.index}>
-                                    <div key={item.id} className="w-[75px] h-[75px] rounded-md bg-c-white-smoke cursor-pointer" onClick={() => setOpen(item.index)}>
-                                        <div className="flex justify-center items-center h-full">
-                                            {item.url === null &&
-                                                <div className="bg-c-white-smoke rounded-lg aspect-[1/1] text-center flex justify-center items-center">
-                                                    <Image src="/images/preview.png" width={32} height={32} alt={item.name} className="mx-auto" />
-                                                </div>
-                                            }
-                                            {item.url &&
-                                                <div>
-                                                    <Image src={imageUrl(Number(item.id), item.url, 43480466)} width={258} height={258} alt={item.name} className="w-[70px]" />
-                                                </div>
-                                            }
-                                        </div>
-                                    </div>
-                                    <Selector
-                                        open={open === item.index}
-                                        onClose={() => setOpen(null)}
-                                        items={items}
-                                        selected={item}
-                                        onChange={onItemClick}
-                                        index={item.index}
-                                    />
-                                </Fragment>
-                            ))}
+                        <div className="text-center mt-3">
+                            <p className="font-semibold text-base">Left Side</p>
+                            <button className="text-xs font-medium text-c-deep-sky" onClick={() => highlightHandler("left")}>{highlight === "left" ? "Hide" : "Show me"}</button>
                         </div>
                     </div>
-                    <div className="col-span-1">
-                        <div className="grid grid-cols-1 gap-4">
-                            {emoji.slice(6, 8).map((item) => (
+                    <div className="col-span-8">
+                        <div className="text-center mb-3">
+                            <p className="font-semibold text-base">Top of display</p>
+                            <button className="text-xs font-medium text-c-deep-sky" onClick={() => highlightHandler("top")}>{highlight === "top" ? "Hide" : "Show me"}</button>
+                        </div>
+                        <div className="mb-3">
+                            <Letters highlight={highlight} />
+                        </div>
+                        <div className="text-center mt-3">
+                            <p className="font-semibold text-base">Forefront of display</p>
+                            <button className="text-xs font-medium text-c-deep-sky" onClick={() => highlightHandler("bottom")}>{highlight === "bottom" ? "Hide" : "Show me"}</button>
+                        </div>
+                    </div>
+                    <div className="col-span-2">
+                        <div className="mb-3">
+                            {emoji.slice(3, 4).map((item) => (
                                 <Fragment key={item.index}>
-                                    <div key={item.id} className="w-[75px] h-[75px] rounded-md bg-c-white-smoke cursor-pointer" onClick={() => setOpen(item.index)}>
+                                    <div key={item.id} className={`w-[70px] h-[70px] rounded-md bg-c-gainsboro cursor-pointer p-2 border-2 border-solid mx-auto ${highlight === "right" ? "border-black" : "border-transparent"}`} onClick={() => setOpen(item.index)}>
                                         <div className="flex justify-center items-center h-full">
                                             {item.url === null &&
                                                 <div className="bg-c-white-smoke rounded-lg aspect-[1/1] text-center flex justify-center items-center">
@@ -210,11 +202,41 @@ const Emojis = ({ setStep }: Props) => {
                                 </Fragment>
                             ))}
                         </div>
-                        <p className="text-center font-semibold text-[13px] mt-3">Right Side</p>
+                        <div className="grid grid-cols-2 gap-3">
+                            {emoji.slice(4, 6).map((item) => (
+                                <Fragment key={item.index}>
+                                    <div key={item.id} className={`w-[70px] h-[70px] rounded-md bg-c-gainsboro cursor-pointer p-2 border-2 border-solid ${highlight === "right" ? "border-black" : "border-transparent"}`} onClick={() => setOpen(item.index)}>
+                                        <div className="flex justify-center items-center h-full">
+                                            {item.url === null &&
+                                                <div className="bg-c-white-smoke rounded-lg aspect-[1/1] text-center flex justify-center items-center">
+                                                    <Image src="/images/preview.png" width={32} height={32} alt={item.name} className="mx-auto" />
+                                                </div>
+                                            }
+                                            {item.url &&
+                                                <div>
+                                                    <Image src={imageUrl(Number(item.id), item.url, 43480466)} width={258} height={258} alt={item.name} className="w-[70px]" />
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                    <Selector
+                                        open={open === item.index}
+                                        onClose={() => setOpen(null)}
+                                        items={items}
+                                        selected={item}
+                                        onChange={onItemClick}
+                                        index={item.index}
+                                    />
+                                </Fragment>
+                            ))}
+                        </div>
+                        <div className="text-center mt-3">
+                            <p className="font-semibold text-base">Right Side</p>
+                            <button className="text-xs font-medium text-c-deep-sky" onClick={() => highlightHandler("right")}>{highlight === "right" ? "Hide" : "Show me"}</button>
+                        </div>
                     </div>
                 </div>
             </div>
-            <p className="text-center font-semibold text-base mt-3">Forefront of display</p>
             <div className="mt-12">
                 <div className="flex gap-3 justify-center mt-8">
                     <button className="bg-c-gainsboro text-white py-1.5 px-10 rounded-md" type="button" onClick={() => setStep("step1")}>

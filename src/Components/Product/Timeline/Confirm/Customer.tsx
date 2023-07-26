@@ -1,12 +1,16 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, ChangeEvent, useContext } from "react";
 import { Input, Textarea } from "@material-tailwind/react";
 import { useForm, SubmitHandler } from "react-hook-form";
+
+//Context
+import { TimelineContext } from "@/Context/timeline.context";
 
 //Interface
 interface Props {
     setStep: Dispatch<SetStateAction<string>>;
 }
-interface Inputs {
+export interface Inputs {
+    "Title": string;
     "First Name": string;
     "Last Name": string;
     "Phone": string;
@@ -24,9 +28,13 @@ const Customer = ({ setStep }: Props) => {
         formState: { errors }
     } = useForm<Inputs>();
 
+    //Context
+    const { setCustomer } = useContext(TimelineContext);
+
 
     //Submit Handler
     const onSubmit: SubmitHandler<Inputs> = (value) => {
+        setCustomer?.(value)
         setStep("step2")
     }
 
@@ -38,6 +46,18 @@ const Customer = ({ setStep }: Props) => {
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="grid grid-cols-2 gap-4">
+                    <div className="col-span-2">
+                        <Input
+                            label="Title"
+                            color="cyan"
+                            id="title"
+                            {...register("Title", { required: true })}
+                            error={errors["Title"] ? true : false}
+                            onInput={(e: ChangeEvent<HTMLInputElement>) => {
+                                e.target.value = e.target.value.replace(/\|/g, '')
+                            }}
+                        />
+                    </div>
                     <div>
                         <Input
                             label="First Name"
@@ -45,6 +65,9 @@ const Customer = ({ setStep }: Props) => {
                             id="firstName"
                             {...register("First Name", { required: true })}
                             error={errors["First Name"] ? true : false}
+                            onInput={(e: ChangeEvent<HTMLInputElement>) => {
+                                e.target.value = e.target.value.replace(/\|/g, '')
+                            }}
                         />
                     </div>
                     <div>
@@ -54,6 +77,9 @@ const Customer = ({ setStep }: Props) => {
                             id="lastName"
                             {...register("Last Name", { required: true })}
                             error={errors["Last Name"] ? true : false}
+                            onInput={(e: ChangeEvent<HTMLInputElement>) => {
+                                e.target.value = e.target.value.replace(/\|/g, '')
+                            }}
                         />
                     </div>
                     <div>
@@ -63,6 +89,9 @@ const Customer = ({ setStep }: Props) => {
                             id="phone"
                             {...register("Phone", { required: true })}
                             error={errors["Phone"] ? true : false}
+                            onInput={(e: ChangeEvent<HTMLInputElement>) => {
+                                e.target.value = e.target.value.replace(/\|/g, '')
+                            }}
                         />
                     </div>
                     <div>
@@ -70,8 +99,14 @@ const Customer = ({ setStep }: Props) => {
                             label="Email"
                             color="cyan"
                             id="email"
-                            {...register("Email", { required: true })}
+                            {...register("Email", {
+                                required: true,
+                                pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
+                            })}
                             error={errors["Email"] ? true : false}
+                            onInput={(e: ChangeEvent<HTMLInputElement>) => {
+                                e.target.value = e.target.value.replace(/\|/g, '')
+                            }}
                         />
                     </div>
                     <div>
@@ -81,6 +116,9 @@ const Customer = ({ setStep }: Props) => {
                             id="postCode"
                             {...register("Post Code", { required: true })}
                             error={errors["Post Code"] ? true : false}
+                            onInput={(e: ChangeEvent<HTMLInputElement>) => {
+                                e.target.value = e.target.value.replace(/\|/g, '')
+                            }}
                         />
                     </div>
                     <div>
@@ -90,6 +128,9 @@ const Customer = ({ setStep }: Props) => {
                             id="country"
                             {...register("Country", { required: true })}
                             error={errors["Country"] ? true : false}
+                            onInput={(e: ChangeEvent<HTMLInputElement>) => {
+                                e.target.value = e.target.value.replace(/\|/g, '')
+                            }}
                         />
                     </div>
                     <div className="col-span-2">
@@ -99,6 +140,9 @@ const Customer = ({ setStep }: Props) => {
                             id="address"
                             {...register("Address line", { required: true })}
                             error={errors["Address line"] ? true : false}
+                            onInput={(e: ChangeEvent<HTMLTextAreaElement>) => {
+                                e.target.value = e.target.value.replace(/\|/g, '')
+                            }}
                         />
                     </div>
                 </div>

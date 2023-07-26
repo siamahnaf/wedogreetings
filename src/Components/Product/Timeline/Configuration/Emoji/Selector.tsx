@@ -63,7 +63,7 @@ const Backdrop = ({ open, onClose, items, onChange, selected, index }: Props) =>
                 </button>
             </div>
             <div>
-                <h6 className="text-lg font-semibold">Select Letters</h6>
+                <h6 className="text-lg font-semibold">Select Accessories</h6>
                 <hr className="mt-3" />
             </div>
             <div className="max-h-[400px] overflow-auto">

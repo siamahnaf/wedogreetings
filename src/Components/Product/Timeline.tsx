@@ -14,6 +14,7 @@ import { Inputs as AvailabilityTypes } from "@/Components/Product/Timeline/Avail
 import { Inputs as ConfigureTypes } from "@/Components/Product/Timeline/Configuration";
 import { LetterTypes } from "@/Components/Product/Timeline/Configuration/Letters/SingleLetters/Selector";
 import { EmojiTypes } from "@/Components/Product/Timeline/Configuration/Emojis";
+import { Inputs as CustomerTypes } from "@/Components/Product/Timeline/Confirm/Customer";
 
 const Timeline = () => {
     //State
@@ -33,6 +34,7 @@ const Timeline = () => {
     });
     const [letters, setLetters] = useState<LetterTypes[]>([]);
     const [emojis, setEmojis] = useState<EmojiTypes[]>([]);
+    const [customer, setCustomer] = useState<CustomerTypes>();
 
     //Handler
     const handleNext = () => !isLastStep && setActiveStep((cur) => cur + 1);
@@ -77,7 +79,7 @@ const Timeline = () => {
                     </Step>
                 </Stepper>
             </div>
-            <TimelineContext.Provider value={{ activeStep, isLastStep, isFirstStep, handleNext, handlePrev, availableData, setAvailableData, configureData, setConfigureData, letters, setLetters, emojis, setEmojis }}>
+            <TimelineContext.Provider value={{ activeStep, isLastStep, isFirstStep, handleNext, handlePrev, availableData, setAvailableData, configureData, setConfigureData, letters, setLetters, emojis, setEmojis, customer, setCustomer }}>
                 <div>
                     <div className={`${activeStep === 0 ? "block" : "hidden"}`}>
                         <Availability />

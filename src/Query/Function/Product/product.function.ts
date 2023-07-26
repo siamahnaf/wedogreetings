@@ -1,7 +1,10 @@
 import { headers } from "../../Client";
 
+//Helpers
+import { getOwner } from "@/Helper/record-owner";
+
 //Types
-import { ProductData, FranchiseeAreaCodeData, UnavailabilityData, FranchiseeDetailsData, AddCustomRequestData, AddCustomRequestResponse, GetBackdropData, GetBackdropStock, GetLettersData, FranchiseePricingData } from "@/Query/Types/Product/product.types";
+import { ProductData, FranchiseeAreaCodeData, UnavailabilityData, FranchiseeDetailsData, AddCustomRequestData, AddCustomRequestResponse, GetBackdropData, GetBackdropStock, GetLettersData } from "@/Query/Types/Product/product.types";
 
 
 //Get Web Gallery Sections
@@ -14,28 +17,27 @@ export const GET_ALL_PRODUCT = async (): Promise<ProductData[]> => await (await 
 export const GET_POSTAL_CODE = async (code: string): Promise<FranchiseeAreaCodeData[]> => await (await fetch(`https://wdg.teamdesk.net/secure/api/v2/90582/Franchisee%20Area%20Code/select.json?filter=%5BArea%20Code%5D%3D%22${code.replace(/ /g, "%20")}%22`, { headers }).then(res => res.json()));
 
 //GET Unavailability Date
-export const GET_UNAVAILABLE_DATE = async (id: string): Promise<UnavailabilityData[]> => await (await fetch(`https://wdg.teamdesk.net/secure/api/v2/90582/Franchisee%20Unavailability/select.json?filter=%5BFranchisee%20Name%5D%3D%22${id}%22`, { headers }).then(res => res.json()));
+export const GET_UNAVAILABLE_DATE = async (id: string): Promise<UnavailabilityData[]> => await (await fetch(`https://wdg.teamdesk.net/secure/api/v2/90582/Franchisee%20Unavailability/select.json?filter=%5BReference%20to%20Admin%20-%20User%20Property%5D%3DToUser(%22${getOwner(id)}%22)`, { headers }).then(res => res.json()));
 
 //Get Franchisee Details
-export const GET_FRANCHISEE_DETAILS = async (id: string): Promise<FranchiseeDetailsData[]> => await (await fetch(`https://wdg.teamdesk.net/secure/api/v2/90582/Franchisee%20Details/select.json?filter=%5Bid%5D%3D%22${id}%22`, { headers }).then(res => res.json()));
+export const GET_FRANCHISEE_DETAILS = async (id: string): Promise<FranchiseeDetailsData[]> => await (await fetch(`https://wdg.teamdesk.net/secure/api/v2/90582/Admin%20-%20User%20Property/select.json?filter=%5BRecord%20Owner%5D%3DToUser(%22${getOwner(id)}%22)`, { headers }).then(res => res.json()));
 
 
 //Add Custom Request
-export const ADD_CUSTOM_REQUEST = async (data: AddCustomRequestData): Promise<AddCustomRequestResponse[]> => await (await fetch("https://wdg.teamdesk.net/secure/api/v2/90582/Custom%20Request/create.json", { method: "POST", headers, body: JSON.stringify(data) }).then(res => res.json()));
+export const ADD_CUSTOM_REQUEST = async (data: AddCustomRequestData): Promise<AddCustomRequestResponse[]> => await (await fetch("https://wdg.teamdesk.net/secure/api/v2/90582/Admin%20-%20Custom%20Request/create.json", { method: "POST", headers, body: JSON.stringify(data) }).then(res => res.json()));
+
+//Get Example Letters
+export const GET_EXAMPLE_LETTERS = async (): Promise<GetLettersData[]> => await (await fetch("https://wdg.teamdesk.net/secure/api/v2/90582/Web%20Inventory%20Master%20Vertical/List%20All/select.json?filter=%5BCategory%5D%3D%22Letters%22%20and%20%5BStatus%5D%3D%22Active%22&top=30", { headers }).then(res => res.json()));
 
 //GET Backdrop
-export const GET_BACKDROP = async (): Promise<GetBackdropData[]> => await (await fetch("https://wdg.teamdesk.net/secure/api/v2/90582/Inventory%20Master%20Vertical/Default%20View/select.json?filter=%5BCategory%5D%3D%22Foldable%20Background%22", { headers }).then(res => res.json()));
+export const GET_BACKDROP = async (): Promise<GetBackdropData[]> => await (await fetch("https://wdg.teamdesk.net/secure/api/v2/90582/Web%20Inventory%20Master%20Vertical/List%20All/select.json?filter=%5BCategory%5D%3D%22Foldable%20Background%22%20and%20%5BStatus%5D%3D%22Active%22", { headers }).then(res => res.json()));
 
 //Get Backdrop Stock
-export const GET_INVENTORY_STOCK = async (franchise: string): Promise<GetBackdropStock[]> => await (await fetch(`https://wdg.teamdesk.net/secure/api/v2/90582/Customer%20Rentals/select.json?filter=%5BFranchisee%20Name%5D%3D%22${franchise}%22%20and%20(%5BStatus%5D%3D%22Rented%22%20or%20%5BStatus%5D%3D%22Damaged%22)`, { headers }).then(res => res.json()));
+export const GET_INVENTORY_STOCK = async (franchise: string): Promise<GetBackdropStock[]> => await (await fetch(`https://wdg.teamdesk.net/secure/api/v2/90582/Customer%20Rental/select.json?filter=%5BRecord%20Owner%5D%3DToUser(%22${getOwner(franchise)}%22)`, { headers }).then(res => res.json()));
 
 
 //Get Letters
-export const GET_LETTERS = async (letter: string): Promise<GetLettersData[]> => await (await fetch(`https://wdg.teamdesk.net/secure/api/v2/90582/Inventory%20Master%20Vertical/Default%20View/select.json?filter=%5BItem%5D%3D%22${letter}%22%20and%20%5BCategory%5D%3D%22Letters%22`, { headers }).then(res => res.json()));
+export const GET_LETTERS = async (letter: string): Promise<GetLettersData[]> => await (await fetch(`https://wdg.teamdesk.net/secure/api/v2/90582/Web%20Inventory%20Master%20Vertical/List%20All/select.json?filter=%5BCategory%5D%3D%22Letters%22%20and%20%5BStatus%5D%3D%22Active%22%20and%20%5BItem%5D%3D%22${letter}%22`, { headers }).then(res => res.json()));
 
 //GET Emoji
-export const GET_EMOJIS = async (): Promise<GetBackdropData[]> => await (await fetch("https://wdg.teamdesk.net/secure/api/v2/90582/Inventory%20Master%20Vertical/Default%20View/select.json?filter=%5BCategory%5D%3D%22Accessories%22", { headers }).then(res => res.json()));
-
-
-//GET Emoji
-export const GET_FRANCHISEE_PRICING = async (id: string): Promise<FranchiseePricingData[]> => await (await fetch(`https://wdg.teamdesk.net/secure/api/v2/90582/Franchisee%20Pricing/select.json?filter=%5BFranchisee%5D%3D%22${id}%22`, { headers }).then(res => res.json()));
+export const GET_EMOJIS = async (): Promise<GetBackdropData[]> => await (await fetch("https://wdg.teamdesk.net/secure/api/v2/90582/Web%20Inventory%20Master%20Vertical/List%20All/select.json?filter=(%5BCategory%5D%3D%22Accessories%22%20or%20%5BCategory%5D%3D%22Emojis%22)%20and%20%5BStatus%5D%3D%22Active%22&top=20", { headers }).then(res => res.json()));

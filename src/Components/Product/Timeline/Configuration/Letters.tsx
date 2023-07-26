@@ -46,7 +46,7 @@ const Letters = ({ setStep }: Props) => {
     return (
         <div>
             <p className="text-base text-c-novel text-center">
-                Tap or click the letter to changes to <span className="text-black">UPPER</span> or <span className="text-black">LOWER</span> case and also <span className="text-black">Color</span>.
+                <span className="text-black">Tap/click letters</span> to adjust options. <span className="text-black">Only these color options</span> are available for <span className="text-black">rent on this day.</span>
             </p>
             <div className="grid grid-cols-8 gap-4 mt-8">
                 {names.map((item, i) => (

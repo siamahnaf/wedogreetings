@@ -4,6 +4,7 @@ import { useForm, SubmitHandler, Controller, set } from "react-hook-form";
 import { Datepicker, DateValueType } from "react-custom-datepicker-tailwind";
 import { Icon } from "@iconify/react";
 import { useRouter } from "next/router";
+import Timepicker from "@/Components/Common/Timepicker";
 
 //Components
 import Available from "./Availability/Available";
@@ -23,11 +24,14 @@ export interface Inputs {
     date: DateValueType;
     rental: string;
     postalCode: string;
+    setUpTime: string;
+    removalTime: string;
 }
 
 const Availability = () => {
     //State
     const [availability, setAvailability] = useState<null | boolean>(null);
+    const [time, setTime] = useState();
 
     //Hook Initializing
     const router = useRouter();
@@ -59,8 +63,8 @@ const Availability = () => {
 
     //Query
     const postalData = useQuery({ queryKey: ["postalArea", postalCode], queryFn: () => GET_POSTAL_CODE(postalCode), enabled: false });
-    const unavailableData = useQuery({ queryKey: ["unavailability", postalData.data?.[0]?.Franchisee], queryFn: () => GET_UNAVAILABLE_DATE(postalData.data?.[0]?.Franchisee as string), enabled: false });
-    const franchiseeData = useQuery({ queryKey: ["franchiseeData", postalData.data?.[0]?.Franchisee], queryFn: () => GET_FRANCHISEE_DETAILS(postalData.data?.[0]?.Franchisee as string), enabled: false });
+    const unavailableData = useQuery({ queryKey: ["unavailability", postalData.data?.[0]?.["Reference to Admin - User Property"]], queryFn: () => GET_UNAVAILABLE_DATE(postalData.data?.[0]?.["Reference to Admin - User Property"] as string), enabled: false });
+    const franchiseeData = useQuery({ queryKey: ["franchiseeData", postalData.data?.[0]?.["Reference to Admin - User Property"]], queryFn: () => GET_FRANCHISEE_DETAILS(postalData.data?.[0]?.["Reference to Admin - User Property"] as string), enabled: false });
 
     //Form Submit
     const onSubmit: SubmitHandler<Inputs> = (value) => {
@@ -83,9 +87,10 @@ const Availability = () => {
             setAvailability(true)
             setAvailableData?.({
                 formData: value,
-                franchiseeId: postalData.data?.[0]?.Franchisee,
-                franchiseeName: franchiseeData.data?.[0]?.["First Name"] + " " + franchiseeData.data?.[0]["Last Name"],
-                surcharge: postalData.data?.[0]?.Surcharge
+                franchiseeId: postalData.data?.[0]?.["Reference to Admin - User Property"],
+                franchiseeName: franchiseeData.data[0]["Public Name"],
+                surcharge: postalData.data?.[0]?.Surcharge,
+                details: franchiseeData.data[0]
             })
         }
     }
@@ -125,7 +130,7 @@ const Availability = () => {
             {availability === null &&
                 <div className="mt-16 bg-white shadow-3xl py-12 px-8 rounded-lg">
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <div className="grid grid-cols-3 gap-6">
+                        <div className="grid grid-cols-3 gap-4">
                             <div>
                                 <Controller
                                     control={control}
@@ -133,7 +138,7 @@ const Availability = () => {
                                     rules={{ required: "Event is required field!" }}
                                     render={({ field: { onChange, value } }) => (
                                         <Select
-                                            label="Event"
+                                            label="Event type"
                                             value={value}
                                             color="cyan"
                                             onChange={(e) => onChange(e as string)}
@@ -159,7 +164,7 @@ const Availability = () => {
                                     rules={{ required: "Option is required field!" }}
                                     render={({ field: { onChange, value } }) => (
                                         <Select
-                                            label="Options"
+                                            label="When is your event?"
                                             value={value}
                                             color="cyan"
                                             onChange={(e) => onChange(e as string)}
@@ -181,7 +186,7 @@ const Availability = () => {
                             <div>
                                 <div>
                                     <Input
-                                        label="Postal Code"
+                                        label="Delivery postcode"
                                         color="cyan"
                                         onInput={handleInput}
                                         {...register("postalCode", {
@@ -201,6 +206,40 @@ const Availability = () => {
                                     </p>
                                 }
                             </div>
+                        </div>
+                        <div className="grid grid-cols-4 gap-4 mt-5">
+                            <div>
+                                <Controller
+                                    control={control}
+                                    name="date"
+                                    rules={{ required: "Date is required field!" }}
+                                    render={({ field: { onChange, value } }) => (
+                                        <Datepicker
+                                            useRange={false}
+                                            asSingle={true}
+                                            value={value}
+                                            onChange={onChange}
+                                            primaryColor="cyan"
+                                            minDate={new Date()}
+                                            disabledDates={unavailableData.data?.map((item) => ({ startDate: new Date(item.From), endDate: new Date(item.To) }))}
+                                            customInput={
+                                                <Input
+                                                    label="Rental Date(s)"
+                                                    color="cyan"
+                                                    error={errors.date ? true : false}
+                                                    icon={<Icon icon="uis:calender" />}
+                                                />
+                                            }
+                                        />
+                                    )}
+                                />
+                                {errors.date &&
+                                    <p className="text-red-600 text-sm flex gap-1.5 items-start mt-1.5">
+                                        <Icon className="text-base flex-[0_0_5%] mt-[3px]" icon="mdi:error" />
+                                        <span>{errors.date?.message}</span>
+                                    </p>
+                                }
+                            </div>
                             <div>
                                 <Controller
                                     control={control}
@@ -208,7 +247,7 @@ const Availability = () => {
                                     rules={{ required: "Rental is required field!" }}
                                     render={({ field: { onChange, value } }) => (
                                         <Select
-                                            label="Rental"
+                                            label="How many days"
                                             value={value}
                                             color="cyan"
                                             onChange={(e) => onChange(e as string)}
@@ -232,32 +271,40 @@ const Availability = () => {
                             <div>
                                 <Controller
                                     control={control}
-                                    name="date"
-                                    rules={{ required: "Date is required field!" }}
+                                    name="setUpTime"
+                                    rules={{ required: "Set-up time is required field!" }}
                                     render={({ field: { onChange, value } }) => (
-                                        <Datepicker
-                                            useRange={false}
-                                            asSingle={true}
-                                            value={value}
+                                        <Timepicker
                                             onChange={onChange}
-                                            primaryColor="cyan"
-                                            minDate={new Date()}
-                                            disabledDates={unavailableData.data?.map((item) => ({ startDate: new Date(item.From), endDate: new Date(item.To) }))}
-                                            customInput={
-                                                <Input
-                                                    label="Date"
-                                                    color="cyan"
-                                                    error={errors.date ? true : false}
-                                                    icon={<Icon icon="uis:calender" />}
-                                                />
-                                            }
+                                            value={value}
+                                            label="Set-up time"
                                         />
                                     )}
                                 />
-                                {errors.date &&
+                                {errors.setUpTime &&
                                     <p className="text-red-600 text-sm flex gap-1.5 items-start mt-1.5">
-                                        <Icon className="text-base flex-[0_0_5%] mt-[3px]" icon="mdi:error" />
-                                        <span>{errors.date?.message}</span>
+                                        <Icon className="text-base flex-[0_0_10%] mt-[3px]" icon="mdi:error" />
+                                        <span>{errors.setUpTime?.message}</span>
+                                    </p>
+                                }
+                            </div>
+                            <div>
+                                <Controller
+                                    control={control}
+                                    name="removalTime"
+                                    rules={{ required: "Removal time is required field!" }}
+                                    render={({ field: { onChange, value } }) => (
+                                        <Timepicker
+                                            onChange={onChange}
+                                            value={value}
+                                            label="Removal time"
+                                        />
+                                    )}
+                                />
+                                {errors.removalTime &&
+                                    <p className="text-red-600 text-sm flex gap-1.5 items-start mt-1.5">
+                                        <Icon className="text-base flex-[0_0_10%] mt-[3px]" icon="mdi:error" />
+                                        <span>{errors.removalTime?.message}</span>
                                     </p>
                                 }
                             </div>
@@ -274,8 +321,7 @@ const Availability = () => {
             {availability === true &&
                 <Available
                     date={getValues("date")?.endDate as Date}
-                    firstName={franchiseeData.data?.[0]?.["First Name"] as string}
-                    lastName={franchiseeData.data?.[0]["Last Name"] as string}
+                    name={franchiseeData?.data?.[0]?.["Public Name"] as string}
                     setAvailability={setAvailability}
                 />
             }
@@ -284,9 +330,6 @@ const Availability = () => {
                     setAvailability={setAvailability}
                 />
             }
-            {/* {JSON.stringify(postalData.data)}
-            {JSON.stringify(unavailableData.data)}
-            {JSON.stringify(franchiseeData.data)} */}
         </>
     );
 };

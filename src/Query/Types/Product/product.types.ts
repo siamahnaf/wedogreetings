@@ -12,40 +12,43 @@ export interface ProductData {
     "Prod Img Large 4": string;
     "Expire Product Date": Date;
 }
-
 export interface FranchiseeAreaCodeData {
     "@row.id": number;
-    Id: string;
-    "Record Owner": string;
-    Franchisee: string;
     "Area Code": string;
     Surcharge: number;
+    Id: string;
+    "Record Owner": string;
+    "Franchisee (old)": string;
+    "Reference to Admin - User Property": string;
 }
-
 
 export interface UnavailabilityData {
     "@row.id": number;
     Event: string;
-    "Franchisee Details First Name": string;
     From: string;
     To: string;
+    "Franchisee Name (old)": string;
+    Id: string;
+    "Record Owner": string;
+    "Reference to Admin - User Property": string;
 }
 
 export interface FranchiseeDetailsData {
     "@row.id": number;
-    "First Name": string;
-    "Billing Address": string;
-    Phone: string;
-    Email: string;
-    "Comany Name": string;
-    "Sort Code": string;
-    "Account Number": string;
-    "Invoice Date": string;
-    "Francise Area Name": string;
-    Title: string;
+    User: string;
     "Public Name": string;
-    "Last Name": string;
+    Phone: string;
+    "Email for Orders": string;
+    Franchisee: boolean;
     Status: string;
+    "Franchise Area Name": string;
+    "Company Name": string;
+    "Delivery Address": string;
+    "MidWk Price": number;
+    "Wknd Price": number;
+    WID: string;
+    "Record Owner": string;
+    Title: string;
 }
 
 export interface AddCustomRequestData {
@@ -63,6 +66,7 @@ export interface AddCustomRequestResponse {
 
 export interface GetBackdropData {
     "@row.id": number;
+    Id: string;
     Category: string;
     "Sub-Category": string;
     Item: string;
@@ -73,19 +77,18 @@ export interface GetBackdropData {
     Item_selector: string;
 }
 
+
 export interface GetBackdropStock {
     "@row.id": number;
-    Status: string;
-    "Rental Days": number;
+    Position: string;
+    "Index Number": number;
     Id: string;
     "Record Owner": string;
-    "Franchisee Name": string;
-    "Customer Name": string;
-    "Inventory Name": string;
-    "Rent Date": string;
-    "Return Date": string;
-    "Signage Message": string;
+    "Reference to Inventory Name": string;
+    "Reference to Customer Transaction": string;
+    "Position Abbreviation": string;
 }
+
 
 export interface GetLettersData {
     "@row.id": number;
@@ -97,13 +100,4 @@ export interface GetLettersData {
     Image: string;
     Status: string;
     Item_selector: string;
-}
-
-export interface FranchiseePricingData {
-    "@row.id": number
-    Id: string
-    "Record Owner": string
-    "MidWk Price": number
-    "Wknd Price": number
-    Franchisee: string
 }
