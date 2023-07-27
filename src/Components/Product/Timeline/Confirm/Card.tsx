@@ -42,10 +42,10 @@ const Card = ({ setStep }: Props) => {
                     </div>
                 </div>
             </div>
-            <form action='https://secure-test.worldpay.com/wcc/purchase' method="POST">
+            <form action='https://secure-test.worldpay.com/wcc/purchase' method="POST" target="_blank">
                 <input type='hidden' name='instId' value='1471088' />
                 <input type='hidden' name='amount' value='10.99' />
-                <input type='hidden' name='cartId' value='test' />
+                <input type='hidden' name='cartId' value="uniqueId" />
                 <input type='hidden' name='currency' value='GBP' />
                 <input type='hidden' name='testMode' value='100' />
                 <input type='hidden' name='accId1' value='WEGREETLTDM1' />
