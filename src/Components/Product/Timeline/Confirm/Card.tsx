@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useContext, FormEvent } from "react";
+import { Dispatch, SetStateAction, useContext } from "react";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
 
@@ -27,6 +27,7 @@ const Card = ({ setStep }: Props) => {
             return totalPrice + publicHolidayPrice;
         }
     }
+
     return (
         <div>
             <div className="text-center mb-12">
@@ -41,7 +42,7 @@ const Card = ({ setStep }: Props) => {
                     </div>
                 </div>
             </div>
-            <form action='https://secure-test.worldpay.com/wcc/purchase' method="POST" target="_blank">
+            <form action='https://secure-test.worldpay.com/wcc/purchase' method="POST">
                 <input type='hidden' name='instId' value='1471088' />
                 <input type='hidden' name='amount' value='10.99' />
                 <input type='hidden' name='cartId' value='test' />
