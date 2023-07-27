@@ -76,6 +76,7 @@ const Card = ({ setStep }: Props) => {
                 popupWindow.close();
             }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [responseData])
 
     useEffect(() => {
@@ -101,6 +102,7 @@ const Card = ({ setStep }: Props) => {
             mutate(formData)
             setHasRunEffect(true);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [responseData])
 
     return (
