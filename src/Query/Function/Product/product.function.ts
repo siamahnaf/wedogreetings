@@ -37,7 +37,9 @@ export const GET_INVENTORY_STOCK = async (franchise: string): Promise<GetBackdro
 
 
 //Get Letters
-export const GET_LETTERS = async (letter: string): Promise<GetLettersData[]> => await (await fetch(`https://wdg.teamdesk.net/secure/api/v2/90582/Web%20Inventory%20Master%20Vertical/List%20All/select.json?filter=%5BCategory%5D%3D%22Letters%22%20and%20%5BStatus%5D%3D%22Active%22%20and%20%5BItem%5D%3D%22${letter}%22`, { headers }).then(res => res.json()));
+export const GET_LETTERS = async (letter: string): Promise<GetLettersData[]> => await (await fetch(`https://wdg.teamdesk.net/secure/api/v2/90582/Web%20Inventory%20Master%20Vertical/Default%20View/select.json?filter=(%5BCategory%5D%3D%22Letters%22%20or%20%5BCategory%5D%3D%22Numbers%22%20or%20%5BCategory%5D%3D%22Characters%22)%20and%20%5BStatus%5D%3D%22Active%22%20and%20%5BItem%5D%3D%22${letter}%22`, { headers }).then(res => res.json()));
+
+//([Category]="Letters" or [Category]="Numbers" or [Category]="Character") and [Status]="Active" and [Item]="2"
 
 //GET Emoji
 export const GET_EMOJIS = async (): Promise<GetBackdropData[]> => await (await fetch("https://wdg.teamdesk.net/secure/api/v2/90582/Web%20Inventory%20Master%20Vertical/List%20All/select.json?filter=(%5BCategory%5D%3D%22Accessories%22%20or%20%5BCategory%5D%3D%22Emojis%22)%20and%20%5BStatus%5D%3D%22Active%22&top=20", { headers }).then(res => res.json()));
