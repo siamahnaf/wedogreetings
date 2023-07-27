@@ -121,7 +121,7 @@ const Unavailable = ({ setAvailability }: Props) => {
                         Submit
                         <div className="absolute top-1/2 right-3 -translate-y-1/2">
                             {isPending &&
-                                <div className="w-5 h-5 border-b-2 border-main rounded-full animate-spin ml-auto"></div>
+                                <div className="w-5 h-5 border-b-2 border-white rounded-full animate-spin ml-auto"></div>
                             }
                         </div>
                     </button>

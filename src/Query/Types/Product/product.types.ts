@@ -101,3 +101,25 @@ export interface GetLettersData {
     Status: string;
     Item_selector: string;
 }
+
+export interface GetResponseData {
+    "@row.id": number
+    transId: string
+    cartId: string
+    name: string
+    Id: string
+    "Record Owner": string
+}
+
+export interface AddOrderPlaceData {
+    "Transaction Amount": number;
+    "Signage Message": string;
+    "Rental Date": string;
+    "id": string;
+    "Rental Days": number;
+    "WP Authcode": string;
+    "Reference to Admin - User Property": string;
+    "Reference to Web Product Listing": string;
+    "Rentals String": string;
+    "Customer String": string;
+}

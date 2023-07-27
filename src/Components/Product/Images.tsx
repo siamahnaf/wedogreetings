@@ -30,7 +30,7 @@ const Images = () => {
             <div className="mb-5">
                 <Image src={selected} alt="Selected" width={1024} height={680} className="aspect-[128/85] rounded-lg" />
             </div>
-            <div className="grid grid-cols-4 gap-4">
+            {/* <div className="grid grid-cols-4 gap-4">
                 <div>
                     <Image src={imageUrl(dataObject?.["@row.id"], dataObject?.["Prod Img Large 1"], 43477766)} width={512} height={340} alt={dataObject["Product Name"]} className="aspect-[128/85] rounded-lg cursor-pointer" onClick={() => setSelected(imageUrl(dataObject?.["@row.id"], dataObject?.["Prod Img Large 1"], 43477766))} />
                 </div>
@@ -43,7 +43,7 @@ const Images = () => {
                 <div>
                     <Image src={imageUrl(dataObject?.["@row.id"], dataObject?.["Prod Img Large 4"], 43482392)} width={512} height={340} alt={dataObject["Product Name"]} className="aspect-[128/85] rounded-lg cursor-pointer" onClick={() => setSelected(imageUrl(dataObject?.["@row.id"], dataObject?.["Prod Img Large 4"], 43482392))} />
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 };

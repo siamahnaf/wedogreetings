@@ -7,14 +7,13 @@ import Configuration from "./Timeline/Configuration";
 import Confirm from "./Timeline/Confirm";
 
 //Context
-import { TimelineContext, AvailableDataTypes, ConfigureDataTypes } from "@/Context/timeline.context";
+import { TimelineContext, AvailableDataTypes, ConfigureDataTypes, CustomerDataTypes } from "@/Context/timeline.context";
 
 //Interface Import
 import { Inputs as AvailabilityTypes } from "@/Components/Product/Timeline/Availability";
 import { Inputs as ConfigureTypes } from "@/Components/Product/Timeline/Configuration";
 import { LetterTypes } from "@/Components/Product/Timeline/Configuration/Letters/SingleLetters/Selector";
 import { EmojiTypes } from "@/Components/Product/Timeline/Configuration/Emojis";
-import { Inputs as CustomerTypes } from "@/Components/Product/Timeline/Confirm/Customer";
 import { FranchiseeDetailsData } from "@/Query/Types/Product/product.types";
 
 const Timeline = () => {
@@ -36,7 +35,7 @@ const Timeline = () => {
     });
     const [letters, setLetters] = useState<LetterTypes[]>([]);
     const [emojis, setEmojis] = useState<EmojiTypes[]>([]);
-    const [customer, setCustomer] = useState<CustomerTypes>();
+    const [customer, setCustomer] = useState<CustomerDataTypes>();
 
     //Handler
     const handleNext = () => !isLastStep && setActiveStep((cur) => cur + 1);

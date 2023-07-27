@@ -4,7 +4,7 @@ import { headers } from "../../Client";
 import { getOwner } from "@/Helper/record-owner";
 
 //Types
-import { ProductData, FranchiseeAreaCodeData, UnavailabilityData, FranchiseeDetailsData, AddCustomRequestData, AddCustomRequestResponse, GetBackdropData, GetBackdropStock, GetLettersData } from "@/Query/Types/Product/product.types";
+import { ProductData, FranchiseeAreaCodeData, UnavailabilityData, FranchiseeDetailsData, AddCustomRequestData, AddCustomRequestResponse, GetBackdropData, GetBackdropStock, GetLettersData, GetResponseData, AddOrderPlaceData } from "@/Query/Types/Product/product.types";
 
 
 //Get Web Gallery Sections
@@ -41,3 +41,10 @@ export const GET_LETTERS = async (letter: string): Promise<GetLettersData[]> => 
 
 //GET Emoji
 export const GET_EMOJIS = async (): Promise<GetBackdropData[]> => await (await fetch("https://wdg.teamdesk.net/secure/api/v2/90582/Web%20Inventory%20Master%20Vertical/List%20All/select.json?filter=(%5BCategory%5D%3D%22Accessories%22%20or%20%5BCategory%5D%3D%22Emojis%22)%20and%20%5BStatus%5D%3D%22Active%22&top=20", { headers }).then(res => res.json()));
+
+
+//Get The Response
+export const GET_PAYMENT_RESPONSE = async (id: string): Promise<GetResponseData[]> => await (await fetch(`https://wdg.teamdesk.net/secure/api/v2/90582/WorldPay%20Webhook/select.json?filter=%5BcartId%5D%3D%22${id}%22`, { headers }).then(res => res.json()));
+
+//Place the order
+export const PLACE_ORDER = async (data: AddOrderPlaceData): Promise<AddCustomRequestResponse[]> => await (await fetch("https://wdg.teamdesk.net/secure/api/v2/90582/Customer%20Transaction/create.json", { method: "POST", headers, body: JSON.stringify(data) }).then(res => res.json()));

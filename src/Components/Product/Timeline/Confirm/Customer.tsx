@@ -34,7 +34,8 @@ const Customer = ({ setStep }: Props) => {
 
     //Submit Handler
     const onSubmit: SubmitHandler<Inputs> = (value) => {
-        setCustomer?.(value)
+        const customerString = Object.values(value).join("|");
+        setCustomer?.({ formData: value, customerString })
         setStep("step2")
     }
 
@@ -141,7 +142,8 @@ const Customer = ({ setStep }: Props) => {
                             {...register("Address line", { required: true })}
                             error={errors["Address line"] ? true : false}
                             onInput={(e: ChangeEvent<HTMLTextAreaElement>) => {
-                                e.target.value = e.target.value.replace(/\|/g, '')
+                                e.target.value = e.target.value.replace(/\n/g, '');
+                                e.target.value = e.target.value.replace(/\|/g, '');
                             }}
                         />
                     </div>

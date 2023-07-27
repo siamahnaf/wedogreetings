@@ -31,9 +31,11 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.45.1",
     "tailwind-scrollbar": "^3.0.4",
-    "typescript": "5.1.6"
+    "typescript": "5.1.6",
+    "uniqid": "^5.4.0"
   },
   "devDependencies": {
+    "@types/uniqid": "^5.3.2",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.25",
     "tailwindcss": "^3.3.2"

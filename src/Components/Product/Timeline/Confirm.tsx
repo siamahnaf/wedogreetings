@@ -165,7 +165,7 @@ const Confirm = () => {
                                     </Fragment>
                                 ))}
                             </div>
-                            <p className="text-center font-semibold text-[13px] mt-3">Left Side</p>
+                            <p className="text-center font-semibold text-[13px] mt-3">Right Side</p>
                         </div>
                     </div>
                 </div>

@@ -21,6 +21,10 @@ export interface AvailableDataTypes {
 export interface ConfigureDataTypes {
     formData: ConfigureTypes;
 }
+export interface CustomerDataTypes {
+    formData: CustomerTypes;
+    customerString: string;
+}
 interface Context {
     activeStep: number;
     isLastStep: boolean;
@@ -35,8 +39,8 @@ interface Context {
     setLetters?: Dispatch<SetStateAction<LetterTypes[]>>;
     emojis?: EmojiTypes[];
     setEmojis?: Dispatch<SetStateAction<EmojiTypes[]>>;
-    customer?: CustomerTypes;
-    setCustomer?: Dispatch<SetStateAction<CustomerTypes | undefined>>;
+    customer?: CustomerDataTypes;
+    setCustomer?: Dispatch<SetStateAction<CustomerDataTypes | undefined>>;
 }
 
 
