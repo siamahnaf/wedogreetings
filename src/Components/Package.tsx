@@ -8,7 +8,7 @@ const MyComponent = () => {
 
     const handlePayClick = () => {
         const data = {
-            instId: '1471088',
+            instId: '44606504',
             amount: '10.99',
             cartId: 'test',
             currency: 'GBP',
