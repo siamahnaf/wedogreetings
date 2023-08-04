@@ -8,7 +8,7 @@ import Process from "@/Components/About/Process";
 
 const AboutUs = () => {
     return (
-        <Layout title="FAQ" active="about">
+        <Layout title="About us" active="about">
             <div>
                 <TopContent />
                 <Support />

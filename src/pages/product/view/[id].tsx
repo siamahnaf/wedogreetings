@@ -1,4 +1,5 @@
 import type { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
 
 //Layout
 import Layout from "@/Layout";
@@ -13,11 +14,21 @@ import Timeline from "@/Components/Product/Timeline";
 
 //Query
 import { QueryClient, dehydrate } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { GET_SINGLE_PRODUCT, GET_ALL_PRODUCT } from "@/Query/Function/Product/product.function";
 
 const ProductView = () => {
+    //Initialize
+    const router = useRouter();
+
+    //Query
+    const { data } = useQuery({ queryKey: ["product", router.query.id], queryFn: () => GET_SINGLE_PRODUCT(Number(router.query.id)) });
+
+    //Converting Data Array to Data Object
+    const dataObject = data?.find(() => true);
+
     return (
-        <Layout title="We do Greetings" active="home">
+        <Layout title={dataObject?.["Product Name"]} active="home">
             <Container className="py-10">
                 <Header />
             </Container>

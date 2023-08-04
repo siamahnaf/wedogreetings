@@ -4,6 +4,8 @@ import { ReactNode } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 
+//Seo
+import Seo from "@/Helper/Seo";
 
 //Interface
 interface Props {
@@ -12,9 +14,10 @@ interface Props {
     active?: string;
 }
 
-const Layout = ({ children, active }: Props) => {
+const Layout = ({ children, active, title }: Props) => {
     return (
         <div>
+            <Seo title={title} />
             <Header active={active} />
             {children}
             <Footer />

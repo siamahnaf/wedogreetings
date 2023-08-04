@@ -5,7 +5,7 @@ interface Props {
     html: string;
     to: string[];
     from: string;
-    cc?: string;
+    cc?: string[];
     subject: string;
 }
 
@@ -22,6 +22,7 @@ export const sentEmail = async ({ html, to, from, subject, cc }: Props) => {
         Source: from,
         Destination: {
             ToAddresses: to,
+            CcAddresses: cc
         },
         Message: {
             Body: {

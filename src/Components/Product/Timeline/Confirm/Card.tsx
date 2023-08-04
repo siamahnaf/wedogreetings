@@ -3,6 +3,14 @@ import Image from "next/image";
 import { Icon } from "@iconify/react";
 import moment from "moment";
 import crypto from "crypto";
+import { useRouter } from "next/router";
+import { render } from "@react-email/components";
+
+//Handler
+import { sentEmail } from "@/Helper/email";
+
+//Template
+import Template from "./Template";
 
 //Helpers Function
 import { getOrderId } from "@/Helper/uniqueId";
@@ -12,7 +20,7 @@ import { TimelineContext } from "@/Context/timeline.context";
 
 //Query
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { GET_PAYMENT_RESPONSE, PLACE_ORDER } from "@/Query/Function/Product/product.function";
+import { GET_PAYMENT_RESPONSE, PLACE_ORDER, GET_SINGLE_PRODUCT } from "@/Query/Function/Product/product.function";
 
 //Interface Import
 import { AddOrderPlaceData } from "@/Query/Types/Product/product.types";
@@ -32,18 +40,9 @@ const Card = ({ setStep }: Props) => {
     //Context
     const { customer, availableData, configureData, letters, emojis } = useContext(TimelineContext);
 
-    //Query
-    const responseData = useQuery({ queryKey: ["paymentResponse", uniqueId], queryFn: () => GET_PAYMENT_RESPONSE(uniqueId), refetchInterval: 500 });
-    const { mutate } = useMutation({
-        mutationKey: ["placeOrder"], mutationFn: (formData: AddOrderPlaceData) => PLACE_ORDER(formData),
-        onSuccess(data) {
-            if (data[0].status === 201) {
-                setStep("step3")
-            }
-        },
-        onError() {
-        }
-    });
+    //Initialize Router
+    const router = useRouter();
+
 
     //Handler get total price
     const getTotalPrice = () => {
@@ -59,6 +58,39 @@ const Card = ({ setStep }: Props) => {
             return totalPrice + publicHolidayPrice;
         }
     };
+
+    //Query
+    const products = useQuery({ queryKey: ["product", router.query.id], queryFn: () => GET_SINGLE_PRODUCT(Number(router.query.id)) });
+    const responseData = useQuery({ queryKey: ["paymentResponse", uniqueId], queryFn: () => GET_PAYMENT_RESPONSE(uniqueId), refetchInterval: 500 });
+    const { mutate } = useMutation({
+        mutationKey: ["placeOrder"], mutationFn: (formData: AddOrderPlaceData) => PLACE_ORDER(formData),
+        async onSuccess(data) {
+            if (data[0].status === 201) {
+                setStep("step3")
+                const emailData = {
+                    customerName: `${customer?.formData["First Name"]} ${customer?.formData["Last Name"]}` as string,
+                    event: products.data?.[0]["Product Name"] as string,
+                    franchiseName: availableData?.details["Public Name"] as string,
+                    cost: getTotalPrice() as number,
+                    rental: availableData?.formData.rental as string,
+                    date: availableData?.formData.rental as string,
+                    time: availableData?.formData.setUpTime as string,
+                    location: configureData?.formData.location as string,
+                    base: configureData?.formData.base as string,
+                    removalTime: availableData?.formData.removalTime as string,
+                    number: availableData?.details.Phone as string,
+                    email: availableData?.details["Email for Orders"] as string,
+                    transId: responseData.data?.[0].transId as string
+                }
+                const emailHtml = render(<Template {...emailData} />);
+                await sentEmail({ html: emailHtml, from: "info@wedogreetings.co.uk", to: [`${customer?.formData.Email}`], cc: [`${availableData?.details["Email Opt-Out"]}`], subject: "Your order is confirmed!" })
+            }
+        },
+        onError() {
+        }
+    });
+
+
 
     //Payment Submit Window    
     const onPaymentSubmit = () => {
