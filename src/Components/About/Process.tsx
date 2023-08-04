@@ -38,7 +38,7 @@ const Process = () => {
             <div className="w-[55%] mx-auto">
                 <Timeline>
                     {data.map((item, i) => (
-                        <TimelineItem>
+                        <TimelineItem key={i}>
                             {data.length - 1 !== i &&
                                 <TimelineConnector color="cyan" className="!w-[32px]" />
                             }

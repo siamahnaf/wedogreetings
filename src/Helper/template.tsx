@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Html, Head, Font, Img, Tailwind, Text, Heading, Section, Link, Container } from '@react-email/components';
+import { Html, Head, Font, Img, Tailwind, Text, Heading, Section, Link, Container } from "@react-email/components";
 
 
 //Interface
@@ -36,22 +36,22 @@ const email = ({ url }: Props) => {
                 <Container className="mt-6">
                     <Img src="/images/logo.png" alt="cat" width="281" height="42" className="mx-auto w-[400px]" />
                     <Heading as="h3" className="text-center text-2xl font-semibold mt-6">Order Confirmation</Heading>
-                    <Text className="text-[17px]">Dear <span className="font-semibold">[Customer's Name]</span></Text>
+                    <Text className="text-[17px]">Dear <span className="font-semibold">[Customers Name]</span></Text>
                     <Text className="text-[17px]">Thank you for choosing We Do Greeting for your special event.</Text>
-                    <Text className="text-[17px]">We're delighted to be part of your celebration and will strive to make it even more memorable.</Text>
+                    <Text className="text-[17px]">We&apos;re delighted to be part of your celebration and will strive to make it even more memorable.</Text>
                     <Text className="text-[17px]">
                         Your order has been successfully processed, and your booking for the <span className="font-semibold">"[Type of Event]"</span> setup has been confirmed. We appreciate your trust in our services.
                     </Text>
                     <Text className="text-[17px]">
-                        My name is <span>[Installer's Name]</span>. I will be responsible for ensuring everything runs smoothly on the day of your event. If you have any queries, concerns, or if you need to discuss anything regarding the event setup, please feel free to reach out to me. Here are my contact details:
+                        My name is <span>[Installers Name]</span>. I will be responsible for ensuring everything runs smoothly on the day of your event. If you have any queries, concerns, or if you need to discuss anything regarding the event setup, please feel free to reach out to me. Here are my contact details:
                     </Text>
                     <Section>
                         <Text className="m-0 text-[17px]">Date of installation: <span className="font-semibold">[Install Date]</span></Text>
                         <Text className="m-0 text-[17px]">Time of installation: <span className="font-semibold">[Install Time]</span></Text>
                         <Text className="m-0 text-[17px]">Installation location: <span className="font-semibold">[Installation Location]</span></Text>
                         <Text className="m-0 text-[17px]">Installation base: <span className="font-semibold">[Installation Base]</span></Text>
-                        <Text className="m-0 text-[17px]">Contact Number: <span className="font-semibold">[Installer's Contact Number]</span></Text>
-                        <Text className="m-0 text-[17px]">Email Address: <span className="font-semibold">[Installer's Email Address]</span></Text>
+                        <Text className="m-0 text-[17px]">Contact Number: <span className="font-semibold">[Installers Contact Number]</span></Text>
+                        <Text className="m-0 text-[17px]">Email Address: <span className="font-semibold">[Installers Email Address]</span></Text>
                     </Section>
                     <Text className="text-[17px]">Please find attached a detailed invoice for your order. If you have any queries related to the invoice, please don&apos;t hesitate to reach out to me. I will be more than happy to assist.</Text>
                     <Section>

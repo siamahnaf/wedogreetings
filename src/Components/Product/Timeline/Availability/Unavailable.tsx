@@ -89,7 +89,7 @@ const Unavailable = ({ setAvailability }: Props) => {
                 </Notification>
             }
             <h4 className="text-4xl font-bold text-c-deep-sky">REGRETTABLY</h4>
-            <p className="text-base text-c-novel mt-5"><span className="text-black">Oh no!</span> It looks like we don't currently have an installer in your area.</p>
+            <p className="text-base text-c-novel mt-5"><span className="text-black">Oh no!</span> It looks like we don&apos;t currently have an installer in your area.</p>
             <form onSubmit={handleSubmit(onSubmit)} className="mt-10">
                 <div className="grid grid-cols-2 gap-4">
                     <div className="col-span-2">

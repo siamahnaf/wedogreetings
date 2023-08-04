@@ -56,6 +56,7 @@ const Customer = ({ setStep }: Props) => {
 
     useEffect(() => {
         reset({ "Post Code": availableData?.formData.postalCode })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [availableData])
     return (
         <div>

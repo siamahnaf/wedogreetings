@@ -430,7 +430,7 @@ const Availability = () => {
                                                 error={errors.removalTime ? true : false}
                                             >
                                                 {getFilteredTime().map((item, i) => (
-                                                    <Option value={item} disabled={removalDisabled.includes(item)}>{item}</Option>
+                                                    <Option value={item} disabled={removalDisabled.includes(item)} key={i}>{item}</Option>
                                                 ))}
                                             </Select>
                                         )

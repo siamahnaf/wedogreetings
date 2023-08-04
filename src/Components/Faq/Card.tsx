@@ -21,7 +21,7 @@ const Card = () => {
         <div className="grid grid-cols-2 gap-16 mt-12">
             <div>
                 {data?.slice(0, Math.ceil(data.length / 2)).map((item, i) => (
-                    <div>
+                    <div key={i}>
                         <Accordion open={open === item["@row.id"]} icon={open === item["@row.id"] ? <Icon icon="majesticons:minus-line" className="text-[#FF5274] text-xl" /> : <Icon icon="majesticons:plus" className="text-c-deep-sky text-xl" />}>
                             <AccordionHeader onClick={() => handleOpen(item["@row.id"])} className="text-base text-black border-b-c-deep-sky border-opacity-20">{item["FAQ Question"]}</AccordionHeader>
                             <AccordionBody>
@@ -33,7 +33,7 @@ const Card = () => {
             </div>
             <div>
                 {data?.slice(Math.ceil(data.length / 2)).map((item, i) => (
-                    <div>
+                    <div key={i}>
                         <Accordion open={open === item["@row.id"]} icon={open === item["@row.id"] ? <Icon icon="majesticons:minus-line" className="text-[#FF5274] text-xl" /> : <Icon icon="majesticons:plus" className="text-c-deep-sky text-xl" />}>
                             <AccordionHeader onClick={() => handleOpen(item["@row.id"])} className="text-base text-black border-b-c-deep-sky border-opacity-20">{item["FAQ Question"]}</AccordionHeader>
                             <AccordionBody>
