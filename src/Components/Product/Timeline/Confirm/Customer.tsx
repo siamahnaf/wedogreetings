@@ -175,7 +175,7 @@ const Customer = ({ setStep }: Props) => {
                                 e.target.value = e.target.value.replace(/\|/g, '');
                             }}
                         />
-                        <p className="text-xs opacity-40">*Please provide the installation address where we will set up the display. Note that this address should fall within the same postcode coverage area as the one you've previously supplied for locating a local installer!</p>
+                        <p className="text-xs opacity-40">*Please provide the installation address where we will set up the display. Note that this address should fall within the same postcode coverage area as the one you&apos;ve previously supplied for locating a local installer!</p>
                     </div>
                 </div>
                 <div className="-ml-3 mt-6">
