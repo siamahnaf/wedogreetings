@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const Button = () => {
     return (
-        <div>
+        <div className="xxs:max-lg:hidden">
             <Link href="/contact-us" className="bg-c-deep-sky text-white py-2 px-6 rounded-md font-semibold text-base">
                 Contact Us
             </Link>

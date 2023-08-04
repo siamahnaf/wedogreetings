@@ -175,9 +175,10 @@ const Customer = ({ setStep }: Props) => {
                                 e.target.value = e.target.value.replace(/\|/g, '');
                             }}
                         />
+                        <p className="text-xs opacity-40">*Please provide the installation address where we will set up the display. Note that this address should fall within the same postcode coverage area as the one you've previously supplied for locating a local installer!</p>
                     </div>
                 </div>
-                <div className="mt-2 -ml-3">
+                <div className="-ml-3 mt-6">
                     <div className="text-left">
                         <Checkbox
                             label="Tick here if the installation address is the same as the billing address"
@@ -192,7 +193,7 @@ const Customer = ({ setStep }: Props) => {
                     </div>
                     <div className="text-left">
                         <Checkbox
-                            label="Option me into promotional materials."
+                            label="I would like to opt in to receive marketing materials."
                             id="cpromotional"
                             className="w-4 h-4 rounded"
                             color="cyan"

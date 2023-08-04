@@ -14,7 +14,7 @@ interface Props {
 
 const Navs = ({ active }: Props) => {
     return (
-        <div className="flex-1 text-center">
+        <div className="flex-1 text-center xxs:max-lg:hidden">
             <ul className="flex gap-2 justify-center">
                 {data.map((item, i) => (
                     <li key={i} className="mx-px">

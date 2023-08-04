@@ -83,7 +83,7 @@ const Card = ({ setStep }: Props) => {
                     transId: responseData.data?.[0].transId as string
                 }
                 const emailHtml = render(<Template {...emailData} />);
-                await sentEmail({ html: emailHtml, from: "info@wedogreetings.co.uk", to: [`${customer?.formData.Email}`], cc: [`${availableData?.details["Email Opt-Out"]}`], subject: "Your order is confirmed!" })
+                await sentEmail({ html: emailHtml, from: "info@wedogreetings.co.uk", to: [`${customer?.formData.Email}`], cc: [`${availableData?.details["Email Opt-Out"]}`, "simon@wegreetings.co.uk"], subject: "Your order is confirmed!" })
             }
         },
         onError() {
@@ -173,7 +173,7 @@ const Card = ({ setStep }: Props) => {
         <div>
             <div className="text-center mb-12">
                 <h5 className="text-3xl font-bold text-c-deep-sky uppercase">Payment</h5>
-                <p className="text-base text-c-novel mt-2">Choose payment method below</p>
+                <p className="text-base text-c-novel mt-2">Please select your preferred payment method from the options below</p>
             </div>
             <div>
                 <div className="bg-c-white-smoke w-[50%] mx-auto py-8 px-10 rounded relative border border-solid border-[#0AFFB1] cursor-pointer">

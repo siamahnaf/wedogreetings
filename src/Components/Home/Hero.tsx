@@ -7,6 +7,9 @@ import { Link } from "react-scroll";
 //Image Builder
 import { imageUrl } from "@/Helper/image-builder";
 
+//Container
+import Container from "../Common/Container";
+
 
 //Query
 import { useQuery } from "@tanstack/react-query";
@@ -46,20 +49,20 @@ const Hero = () => {
     }, [emblaApi, onSelect])
 
     return (
-        <div>
+        <Container className="!px-0">
             <div className="embla overflow-hidden relative">
                 <div className="embla__viewport" ref={emblaRef}>
                     <div className="embla__container flex">
                         {data?.map((item, i) => (
                             <div className="embla__slide flex-[0_0_100%] aspect-[9/5] relative" key={i}>
                                 <Image src={imageUrl(item["@row.id"], item.Image, 43480146)} alt={item.Header} width={1400} height={800} className="w-full h-full" />
-                                <div className="absolute z-20 bottom-[26%] left-0 w-full px-16">
-                                    <div className="w-1/2 text-white">
-                                        <h4 className="text-6xl font-bold mb-5">{item.Header}</h4>
-                                        <p className="text-base font-medium opacity-80 mb-8">{item.Copy}</p>
+                                <div className="absolute z-20 bottom-[26%] 4xl:bottom-[24%] 3xl:bottom-[25%] lg-max:bottom-[26%] lg:bottom-[15%] md:bottom-[10%] xxs:bottom-[8%] left-0 w-full px-16 lg-max:px-16 lg:px-12 md:px-8 lsm:px-6 xxs:px-4">
+                                    <div className="w-1/2 lg-max:w-1/2 lg:w-[60%] xxs:w-full text-white">
+                                        <h4 className="text-6xl lg-max:text-6xl md:text-4xl sm:text-3xl xs:text-2xl xxs:text-xl  font-bold mb-5 sm:mb-5 xxs:mb-1.5">{item.Header}</h4>
+                                        <p className="text-base 4xl:text-[17px] lg-max:text-base lg:text-[15px] lsm:text-sm xxs:text-sm font-medium opacity-80 mb-8 sm:mb-8 xxs:mb-5 xxs:max-lsm:line-clamp-2">{item.Copy}</p>
                                         <Link
                                             to="bookNow"
-                                            className="bg-c-deep-sky py-2 px-10 rounded-md font-semibold uppercase text-sm cursor-pointer"
+                                            className="bg-c-deep-sky py-2 px-10 sm:px-10 xxs:px-5 rounded-md font-semibold uppercase text-sm cursor-pointer sm:text-sm xxs:text-[13px]"
                                             smooth={true}
                                             offset={0}
                                             duration={300}
@@ -74,12 +77,12 @@ const Hero = () => {
                         ))}
                     </div>
                 </div>
-                <div className="absolute bottom-[26%] right-16 flex gap-5">
+                <div className="absolute bottom-[26%] 4xl:bottom-[24%] 3xl:bottom-[25%] lg-max:bottom-[26%] lg:bottom-[15%] md:bottom-[10%] right-16 lg-max:right-16 lg:right-12 md:right-8 lsm:right-6 flex gap-5 xxs:max-lg:hidden">
                     <PrevButton onClick={scrollPrev} disabled={prevBtnDisabled} />
                     <NextButton onClick={scrollNext} disabled={nextBtnDisabled} />
                 </div>
             </div>
-        </div>
+        </Container>
     );
 };
 

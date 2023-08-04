@@ -38,7 +38,7 @@ const Form = () => {
     const onSubmit: SubmitHandler<Inputs> = async (value) => {
         await setLoading(true)
         const emailHtml = render(<Template {...value} />);
-        await sentEmail({ html: emailHtml, from: "info@wegreetings.co.uk", to: ["info@wedogreetings.co.uk"], subject: `New contact message arrived from ${value.firstName}` }).then(() => {
+        await sentEmail({ html: emailHtml, from: "simon@wegreetings.co.uk", to: ["simon@wedogreetings.co.uk"], subject: `New contact message arrived from ${value.firstName}` }).then(() => {
             setOpen(true)
             setMessage({ text: "We will contact your soon!", severity: true })
             setLoading(false)

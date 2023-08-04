@@ -19,16 +19,18 @@ const Socials = [
 
 const FooterTwo = () => {
     return (
-        <div className="col-span-5 text-center">
+        <div className="col-span-5 lg:col-span-5 lsm:col-span-6 xxs:col-span-12 text-center xxs:max-lsm:mt-6">
             <div>
-                <Link href="/" className="block h-[80px] w-[320px] mx-auto">
+                <Link href="/" className="block h-[80px] xs:h-[80px] xxs:h-[50] w-[320px] xs:w-[320px] xxs:w-[250px] mx-auto">
                     <Rive src="/rive/logo.riv" width="100%" height="100%" />
                 </Link>
             </div>
             <ul className="flex gap-4 justify-center mb-5">
                 {Navs.map((item, i) => (
                     <li key={i}>
-                        <Link href={item.url} className="text-base font-medium">
+                        <Link href={item.url} className="text-base xs:text-base xxs:text-setTimeout(() => {
+                            
+                        }, timeout); font-medium">
                             {item.name}
                         </Link>
                     </li>

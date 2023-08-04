@@ -3,6 +3,7 @@ import Container from "@/Components/Common/Container";
 import Logo from "@/Components/Header/Logo";
 import Navs from "@/Components/Header/Navs";
 import Button from "@/Components/Header/Button";
+import Menu from "@/Components/Header/Menu";
 
 
 //Interface
@@ -17,6 +18,7 @@ const Header = ({ active }: Props) => {
                 <Logo />
                 <Navs active={active} />
                 <Button />
+                <Menu />
             </div>
         </Container>
     );
