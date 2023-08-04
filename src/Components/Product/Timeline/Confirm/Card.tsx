@@ -83,7 +83,7 @@ const Card = ({ setStep }: Props) => {
                     transId: responseData.data?.[0].transId as string
                 }
                 const emailHtml = render(<Template {...emailData} />);
-                await sentEmail({ html: emailHtml, from: "info@wedogreetings.co.uk", to: [`${customer?.formData.Email}`], cc: [`${availableData?.details["Email Opt-Out"]}`, "simon@wegreetings.co.uk"], subject: "Your order is confirmed!" })
+                await sentEmail({ html: emailHtml, from: "info@wedogreetings.co.uk", to: [`${customer?.formData.Email}`], cc: [`${availableData?.details["Email Opt-Out"]}`, "simon@wedogreetings.co.uk"], subject: "Your order is confirmed!" })
             }
         },
         onError() {
