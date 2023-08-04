@@ -40,7 +40,7 @@ const email = ({ url }: Props) => {
                     <Text className="text-[17px]">Thank you for choosing We Do Greeting for your special event.</Text>
                     <Text className="text-[17px]">We&apos;re delighted to be part of your celebration and will strive to make it even more memorable.</Text>
                     <Text className="text-[17px]">
-                        Your order has been successfully processed, and your booking for the <span className="font-semibold">"[Type of Event]"</span> setup has been confirmed. We appreciate your trust in our services.
+                        Your order has been successfully processed, and your booking for the <span className="font-semibold">&quote;[Type of Event]&quote;</span> setup has been confirmed. We appreciate your trust in our services.
                     </Text>
                     <Text className="text-[17px]">
                         My name is <span>[Installers Name]</span>. I will be responsible for ensuring everything runs smoothly on the day of your event. If you have any queries, concerns, or if you need to discuss anything regarding the event setup, please feel free to reach out to me. Here are my contact details:
