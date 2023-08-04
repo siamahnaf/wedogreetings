@@ -44,6 +44,16 @@ const Backdrop = ({ open, onClose, items, onChange, selected, index }: Props) =>
         onChange({ ...item, index: index });
         onClose();
     }
+    const groupedArray: { [key: string]: GetBackdropData[] } = items.reduce((acc, item) => {
+        const { Category, ...rest } = item;
+        if (!acc[Category]) {
+            acc[Category] = [];
+        }
+        acc[Category].push(item);
+        return acc;
+    }, {} as { [key: string]: GetBackdropData[] });
+
+
 
     return (
         <Dialog
@@ -67,14 +77,21 @@ const Backdrop = ({ open, onClose, items, onChange, selected, index }: Props) =>
                 <hr className="mt-3" />
             </div>
             <div className="max-h-[400px] overflow-auto">
-                <div className="grid grid-cols-5 gap-4 mt-5 pb-3">
-                    {items?.map((item, i) => (
-                        <div key={i} className="cursor-pointer" onClick={() => onItemClick({ url: item.Image, id: item["@row.id"].toString(), name: item.Item })}>
-                            {item.Image ?
-                                <Image src={imageUrl(item["@row.id"], item.Image, 43480466)} width={258} height={258} alt={item.Item} className="aspect-[1/1]" /> :
-                                <div className="bg-c-white-smoke rounded-lg aspect-[1/1] text-center flex justify-center items-center">
-                                    <Image src="/images/preview.png" width={32} height={32} alt={item.Item} className="mx-auto" />
-                                </div>}
+                <div className="mt-5 pb-3">
+                    {Object.keys(groupedArray)?.map((category, i) => (
+                        <div key={i}>
+                            <h5 className={`text-lg font-bold mb-10 ${i > 0 && "mt-16"}`}>{category}</h5>
+                            <div className="grid grid-cols-5 gap-4">
+                                {groupedArray[category].map((item, it) => (
+                                    <div key={i} className={`cursor-pointer ${item["@row.id"].toString() === selected.id && "bg-c-deep-sky p-3 rounded-lg"}`} onClick={() => onItemClick({ url: item.Image, id: item["@row.id"].toString(), name: item.Item })}>
+                                        {item.Image ?
+                                            <Image src={imageUrl(item["@row.id"], item.Image, 43480466)} width={258} height={258} alt={item.Item} className="aspect-[1/1]" /> :
+                                            <div className="bg-c-white-smoke rounded-lg aspect-[1/1] text-center flex justify-center items-center">
+                                                <Image src="/images/preview.png" width={32} height={32} alt={item.Item} className="mx-auto" />
+                                            </div>}
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     ))}
                 </div>

@@ -4,7 +4,7 @@ import { useForm, SubmitHandler, Controller, set } from "react-hook-form";
 import { Datepicker, DateValueType } from "react-custom-datepicker-tailwind";
 import { Icon } from "@iconify/react";
 import { useRouter } from "next/router";
-import Timepicker from "@/Components/Common/Timepicker";
+import moment from "moment";
 
 //Components
 import Available from "./Availability/Available";
@@ -12,7 +12,7 @@ import Unavailable from "./Availability/Unavailable";
 
 //Query
 import { useQuery } from "@tanstack/react-query";
-import { GET_ALL_PRODUCT, GET_POSTAL_CODE, GET_UNAVAILABLE_DATE, GET_FRANCHISEE_DETAILS } from "@/Query/Function/Product/product.function";
+import { GET_ALL_PRODUCT, GET_POSTAL_CODE, GET_UNAVAILABLE_DATE, GET_FRANCHISEE_DETAILS, GET_SET_UP_TIMES, GET_REMOVAL_TIMES } from "@/Query/Function/Product/product.function";
 
 //Context
 import { TimelineContext } from "@/Context/timeline.context";
@@ -31,7 +31,8 @@ export interface Inputs {
 const Availability = () => {
     //State
     const [availability, setAvailability] = useState<null | boolean>(null);
-    const [time, setTime] = useState();
+    const [setUpDisabled, setSetupDisabled] = useState<string[]>([]);
+    const [removalDisabled, setRemovalDisabled] = useState<string[]>([]);
 
     //Hook Initializing
     const router = useRouter();
@@ -59,12 +60,18 @@ const Availability = () => {
     });
 
     //Form Data
-    const postalCode = watch().postalCode
+    const postalCode = watch().postalCode;
+    const date = watch().date;
+    const rental = watch().rental;
+    const returnDate = moment(date?.endDate).add(rental, "days").format("YYYY-MM-DD")
 
     //Query
-    const postalData = useQuery({ queryKey: ["postalArea", postalCode], queryFn: () => GET_POSTAL_CODE(postalCode), enabled: false });
-    const unavailableData = useQuery({ queryKey: ["unavailability", postalData.data?.[0]?.["Reference to Admin - User Property"]], queryFn: () => GET_UNAVAILABLE_DATE(postalData.data?.[0]?.["Reference to Admin - User Property"] as string), enabled: false });
-    const franchiseeData = useQuery({ queryKey: ["franchiseeData", postalData.data?.[0]?.["Reference to Admin - User Property"]], queryFn: () => GET_FRANCHISEE_DETAILS(postalData.data?.[0]?.["Reference to Admin - User Property"] as string), enabled: false });
+    const postalData = useQuery({ queryKey: ["postalArea", postalCode], queryFn: () => GET_POSTAL_CODE(postalCode), enabled: !!postalCode, refetchOnWindowFocus: false });
+    const unavailableData = useQuery({ queryKey: ["unavailability", postalData.data?.[0]?.["Reference to Admin - User Property"]], queryFn: () => GET_UNAVAILABLE_DATE(postalData.data?.[0]?.["Reference to Admin - User Property"] as string), enabled: false, refetchOnWindowFocus: false });
+    const franchiseeData = useQuery({ queryKey: ["franchiseeData", postalData.data?.[0]?.["Reference to Admin - User Property"]], queryFn: () => GET_FRANCHISEE_DETAILS(postalData.data?.[0]?.["Reference to Admin - User Property"] as string), enabled: false, refetchOnWindowFocus: false });
+    const setUptimes = useQuery({ queryKey: ["setUpTimes", date, postalData.data?.[0]?.["Reference to Admin - User Property"]], queryFn: () => GET_SET_UP_TIMES(date?.endDate?.toString() as string, postalData.data?.[0]?.["Reference to Admin - User Property"] as string), enabled: false, refetchOnWindowFocus: false });
+    const removalTimes = useQuery({ queryKey: ["removalTimes", returnDate, postalData.data?.[0]?.["Reference to Admin - User Property"]], queryFn: () => GET_REMOVAL_TIMES(returnDate, postalData.data?.[0]?.["Reference to Admin - User Property"] as string), enabled: false, refetchOnWindowFocus: false });
+
 
     //Form Submit
     const onSubmit: SubmitHandler<Inputs> = (value) => {
@@ -108,9 +115,32 @@ const Availability = () => {
         event.target.value = formattedValue;
     };
 
+    //Get Times Handler
+    const getInitialTimes = () => {
+        const times = [];
+        const format = "HH:mm";
+        const start = moment("00:00", format);
+        const end = moment("23:30", format);
+        while (start <= end) {
+            times.push(start.format(format));
+            start.add(30, 'minutes');
+        }
+        return times;
+    }
+    const getFilteredTime = () => {
+        const times = [];
+        const format = "HH:mm";
+        const start = moment(franchiseeData.data?.[0]["Available for Installations From"], format);
+        const end = moment(franchiseeData.data?.[0]["Available Till"], format);
+        while (start <= end) {
+            times.push(start.format(format));
+            start.add(30, 'minutes');
+        }
+        return times;
+    }
+
     //Lifecycle Hook
     useEffect(() => {
-        postalData.refetch()
         if (postalCode) {
             trigger("postalCode")
         }
@@ -123,7 +153,68 @@ const Availability = () => {
             franchiseeData.refetch()
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [postalData])
+    }, [postalData.data])
+
+    useEffect(() => {
+        if (postalData.data && postalData.data?.length > 0 && date) {
+            setUptimes.refetch()
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [date])
+
+    useEffect(() => {
+        if (postalData.data && postalData.data?.length > 0 && date && rental) {
+            removalTimes.refetch()
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [rental, date])
+
+    useEffect(() => {
+        if (setUptimes.data) {
+            const times = setUptimes?.data.map((item) => {
+                const time = moment(item["Rental Date"]);
+                return {
+                    start: time.format("HH:mm"),
+                    end: time.clone().add(franchiseeData.data?.[0]["Allow Hours Between Installations"], 'hours').format('HH:mm')
+                }
+            });
+            const result: string[] = [];
+            times.forEach(({ start, end }) => {
+                let current = moment(start, 'HH:mm');
+
+                while (current.isSameOrBefore(moment(end, 'HH:mm'))) {
+                    result.push(current.format('HH:mm'));
+                    current.add(30, 'minutes');
+                }
+            });
+
+            setSetupDisabled(result)
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [setUptimes.data])
+
+    useEffect(() => {
+        if (removalTimes.data) {
+            const times = removalTimes?.data.map((item) => {
+                const time = moment(item["Return Date"]);
+                return {
+                    start: time.clone().subtract(franchiseeData.data?.[0]["Allow Hours Between Installations"], 'hours').format('HH:mm'),
+                    end: time.format("HH:mm")
+                }
+            });
+            const result: string[] = [];
+            times.forEach(({ start, end }) => {
+                let current = moment(start, 'HH:mm');
+
+                while (current.isSameOrBefore(moment(end, 'HH:mm'))) {
+                    result.push(current.format('HH:mm'));
+                    current.add(30, 'minutes');
+                }
+            });
+            setRemovalDisabled(result)
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [removalTimes.data])
 
     return (
         <>
@@ -247,7 +338,7 @@ const Availability = () => {
                                     rules={{ required: "Rental is required field!" }}
                                     render={({ field: { onChange, value } }) => (
                                         <Select
-                                            label="How many days"
+                                            label="How many days?"
                                             value={value}
                                             color="cyan"
                                             onChange={(e) => onChange(e as string)}
@@ -273,13 +364,35 @@ const Availability = () => {
                                     control={control}
                                     name="setUpTime"
                                     rules={{ required: "Set-up time is required field!" }}
-                                    render={({ field: { onChange, value } }) => (
-                                        <Timepicker
-                                            onChange={onChange}
-                                            value={value}
-                                            label="Set-up time"
-                                        />
-                                    )}
+                                    render={({ field: { onChange, value } }) => {
+                                        if (!watch("date") || !franchiseeData.data || franchiseeData.data.length === 0 || !franchiseeData.data[0]["Allow Hours Between Installations"] || !franchiseeData.data[0]["Available Till"]) return (
+                                            <Select
+                                                label="Set-up time"
+                                                color="cyan"
+                                                key="emptyStartTime"
+                                                onChange={(e) => onChange(e as string)}
+                                                error={errors.setUpTime ? true : false}
+                                            >
+                                                {getInitialTimes().map((item, i) => (
+                                                    <Option value={item} disabled={setUpDisabled.includes(item)} key={i}>{item}</Option>
+                                                ))}
+                                            </Select>
+                                        )
+                                        return (
+                                            <Select
+                                                label="Set-up time"
+                                                color="cyan"
+                                                key="notEmptyStartTime"
+                                                value={value}
+                                                onChange={(e) => onChange(e as string)}
+                                                error={errors.setUpTime ? true : false}
+                                            >
+                                                {getFilteredTime().map((item, i) => (
+                                                    <Option value={item} disabled={setUpDisabled.includes(item)} key={i}>{item}</Option>
+                                                ))}
+                                            </Select>
+                                        )
+                                    }}
                                 />
                                 {errors.setUpTime &&
                                     <p className="text-red-600 text-sm flex gap-1.5 items-start mt-1.5">
@@ -293,13 +406,35 @@ const Availability = () => {
                                     control={control}
                                     name="removalTime"
                                     rules={{ required: "Removal time is required field!" }}
-                                    render={({ field: { onChange, value } }) => (
-                                        <Timepicker
-                                            onChange={onChange}
-                                            value={value}
-                                            label="Removal time"
-                                        />
-                                    )}
+                                    render={({ field: { onChange, value } }) => {
+                                        if (!watch("date") || !franchiseeData.data || franchiseeData.data.length === 0 || !franchiseeData.data[0]["Allow Hours Between Installations"] || !franchiseeData.data[0]["Available Till"]) return (
+                                            <Select
+                                                label="Removal time"
+                                                color="cyan"
+                                                key="emptyStartTime"
+                                                onChange={(e) => onChange(e as string)}
+                                                error={errors.removalTime ? true : false}
+                                            >
+                                                {getInitialTimes().map((item, i) => (
+                                                    <Option value={item} key={i} disabled={removalDisabled.includes(item)}>{item}</Option>
+                                                ))}
+                                            </Select>
+                                        )
+                                        return (
+                                            <Select
+                                                label="Removal time"
+                                                color="cyan"
+                                                key="notEmptyStartTime"
+                                                value={value}
+                                                onChange={(e) => onChange(e as string)}
+                                                error={errors.removalTime ? true : false}
+                                            >
+                                                {getFilteredTime().map((item, i) => (
+                                                    <Option value={item} disabled={removalDisabled.includes(item)}>{item}</Option>
+                                                ))}
+                                            </Select>
+                                        )
+                                    }}
                                 />
                                 {errors.removalTime &&
                                     <p className="text-red-600 text-sm flex gap-1.5 items-start mt-1.5">
@@ -310,13 +445,17 @@ const Availability = () => {
                             </div>
                         </div>
                         <div className="text-center mt-14">
-                            <button className="bg-c-deep-sky text-white py-2 px-7 font-medium text-base rounded-lg" type="submit">
-                                CHECK AVAILABILITY
+                            <button className="bg-c-deep-sky text-white py-2 px-7 font-medium text-base rounded-lg relative" type="submit" disabled={postalData.isFetching || unavailableData.isFetching || franchiseeData.isFetching || setUptimes.isFetching || removalTimes.isFetching}>
+                                <span className={`${(postalData.isFetching || unavailableData.isFetching || franchiseeData.isFetching || setUptimes.isFetching || removalTimes.isFetching) ? "opacity-30" : "opacity-100"}`}>CHECK AVAILABILITY</span>
+                                <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
+                                    {(postalData.isFetching || unavailableData.isFetching || franchiseeData.isFetching || setUptimes.isFetching || removalTimes.isFetching) &&
+                                        <div className="w-5 h-5 border-b-2 border-white rounded-full animate-spin ml-auto"></div>
+                                    }
+                                </div>
                             </button>
                         </div>
                     </form>
                 </div>
-
             }
             {availability === true &&
                 <Available

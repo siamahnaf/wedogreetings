@@ -3,8 +3,8 @@ import Link from "next/link";
 //Data
 const data = [
     { name: "Home", id: "home", url: "/" },
-    { name: "About", id: "about", url: "/about" },
-    { name: "Book Greetings", id: "book", url: "/book-greetings" }
+    { name: "About", id: "about", url: "/about-us" },
+    { name: "FAQ's", id: "faq", url: "/faq" }
 ]
 
 //Interface

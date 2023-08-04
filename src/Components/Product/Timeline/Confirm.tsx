@@ -17,7 +17,7 @@ import { TimelineContext } from "@/Context/timeline.context";
 
 //Query
 import { useQuery } from "@tanstack/react-query";
-import { GET_SINGLE_PRODUCT, GET_FRANCHISEE_DETAILS } from "@/Query/Function/Product/product.function";
+import { GET_SINGLE_PRODUCT } from "@/Query/Function/Product/product.function";
 
 const Confirm = () => {
     //State
@@ -27,7 +27,7 @@ const Confirm = () => {
     const router = useRouter();
 
     //Context
-    const { availableData, configureData, emojis, handlePrev } = useContext(TimelineContext);
+    const { availableData, configureData, emojis, handlePrev, letters } = useContext(TimelineContext);
 
     //Query
     const { data } = useQuery({ queryKey: ["product", router.query.id], queryFn: () => GET_SINGLE_PRODUCT(Number(router.query.id)) });
@@ -62,6 +62,25 @@ const Confirm = () => {
         }
     }
 
+    //Handler
+    const getDynamicGrid = () => {
+        if (Number(letters?.length) < 8) {
+            const possibleGrids = ["grid-cols-1", "grid-cols-2", "grid-cols-3", "grid-cols-4", "grid-cols-5", "grid-cols-6", "grid-cols-7", "grid-cols-8", "grid-cols-9", "grid-cols-10", "grid-cols-11", "grid-cols-12"]
+            return possibleGrids[Number(letters?.length) - 1 + 4]
+        } else {
+            return `grid-cols-12`
+        }
+    }
+
+    const getColumNumber = () => {
+        if (Number(letters?.length) < 8) {
+            const possibleColumn = ["col-span-1", "col-span-2", "col-span-3", "col-span-4", "col-span-5", "col-span-6", "col-span-7", "col-span-8"]
+            return possibleColumn[Number(letters?.length) - 1]
+        } else {
+            return `col-span-8`
+        }
+    }
+
     return (
         <>
             <div className={`mt-16 bg-white shadow-3xl py-12 px-8 rounded-lg w-[90%] mx-auto ${step === "step0" ? "block" : "hidden"}`}>
@@ -73,7 +92,7 @@ const Confirm = () => {
                 </div>
                 <hr className="mb-16" />
                 <div className="flex justify-center">
-                    <div className="grid grid-cols-12 gap-4 items-center">
+                    <div className="grid grid-cols-12 gap-4 items-center justify-center">
                         <div className="col-span-2">
                             <div className="mb-3">
                                 {emojis?.slice(0, 1).map((item) => (

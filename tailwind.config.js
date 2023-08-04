@@ -42,7 +42,8 @@ module.exports = withMT({
     }
   },
   plugins: [
-    require('tailwind-scrollbar')
+    require('tailwind-scrollbar'),
+    require('@tailwindcss/typography')
   ]
 })
 

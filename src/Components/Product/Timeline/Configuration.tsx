@@ -1,7 +1,10 @@
 import { useContext, useState, useEffect, ChangeEvent } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
+
+//Customer Components
+import Dropdown from "@/Components/Common/Dropdown";
 
 //Components
 import Backdrop, { Items } from "./Configuration/Backdrop";
@@ -15,6 +18,8 @@ import { TimelineContext } from "@/Context/timeline.context";
 //Interface
 export interface Inputs {
     name: string;
+    location: string;
+    base: string;
     backdrop: {
         url: string;
         id: string;
@@ -33,6 +38,7 @@ const Configuration = () => {
         register,
         handleSubmit,
         formState: { errors },
+        control,
         watch,
         setValue,
         trigger
@@ -161,6 +167,75 @@ const Configuration = () => {
                                     <p className="text-red-600 text-sm flex gap-1.5 items-start mt-1.5">
                                         <Icon className="text-base flex-[0_0_5%] mt-[3px]" icon="mdi:error" />
                                         <span>{errors.backdrop?.message}</span>
+                                    </p>
+                                }
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-6 gap-5 items-center">
+                            <div className="col-span-1">
+                                <label htmlFor="location">Location</label>
+                            </div>
+                            <div className="col-span-5">
+                                <div>
+                                    <Controller
+                                        control={control}
+                                        name="location"
+                                        rules={{ required: "Location is required field!" }}
+                                        render={({ field: { onChange, value } }) => (
+                                            <Dropdown
+                                                value={value}
+                                                onChange={onChange}
+                                                options={[
+                                                    { label: "Indoor", value: "indoor" },
+                                                    { label: "Outdoor", value: "outdoor" }
+                                                ]}
+                                                placeholder="Select location"
+                                            />
+                                        )}
+                                    />
+                                </div>
+                            </div>
+                            <div className="col-span-5 col-start-2 -mt-4">
+                                {errors.location &&
+                                    <p className="text-red-600 text-sm flex gap-1.5 items-start mt-1.5">
+                                        <Icon className="text-base flex-[0_0_5%] mt-[3px]" icon="mdi:error" />
+                                        <span>{errors.location?.message}</span>
+                                    </p>
+                                }
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-6 gap-5 items-center">
+                            <div className="col-span-1">
+                                <label htmlFor="base">Base</label>
+                            </div>
+                            <div className="col-span-5">
+                                <div>
+                                    <Controller
+                                        control={control}
+                                        name="base"
+                                        rules={{ required: "Base is required field!" }}
+                                        render={({ field: { onChange, value } }) => (
+                                            <Dropdown
+                                                value={value}
+                                                onChange={onChange}
+                                                options={[
+                                                    { label: "Grass", value: "grass" },
+                                                    { label: "Concrete", value: "concrete" },
+                                                    { label: "Tile", value: "tile" },
+                                                    { label: "Sand", value: "sand" },
+                                                    { label: "Artificial grass", value: "artificial-grass" }
+                                                ]}
+                                                placeholder="Select your base"
+                                            />
+                                        )}
+                                    />
+                                </div>
+                            </div>
+                            <div className="col-span-5 col-start-2 -mt-4">
+                                {errors.base &&
+                                    <p className="text-red-600 text-sm flex gap-1.5 items-start mt-1.5">
+                                        <Icon className="text-base flex-[0_0_5%] mt-[3px]" icon="mdi:error" />
+                                        <span>{errors.base?.message}</span>
                                     </p>
                                 }
                             </div>

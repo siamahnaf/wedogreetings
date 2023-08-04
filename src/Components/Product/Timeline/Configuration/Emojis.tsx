@@ -41,7 +41,7 @@ interface Props {
 
 const Emojis = ({ setStep }: Props) => {
     //Context
-    const { availableData, setEmojis, handleNext } = useContext(TimelineContext);
+    const { availableData, setEmojis, handleNext, letters } = useContext(TimelineContext);
 
     //State
     const [emoji, setEmoji] = useState<EmojiTypes[]>(initialData);
@@ -97,7 +97,7 @@ const Emojis = ({ setStep }: Props) => {
         <div>
             <p className="text-c-novel text-base text-center mb-12 w-[70%] mx-auto">Select a icons classes from the drop down then tap on the tiles to select your choice. <span className="text-black">If you are not sure which would look best the physical printed items on the day of installing.</span></p>
             <div className="flex justify-center px-6">
-                <div className="grid grid-cols-12 gap-4 items-center">
+                <div className="grid grid-cols-12 gap-4 items-center justify-center">
                     <div className="col-span-2">
                         <div className="mb-3">
                             {emoji.slice(0, 1).map((item) => (
@@ -157,20 +157,20 @@ const Emojis = ({ setStep }: Props) => {
                         </div>
                         <div className="text-center mt-3">
                             <p className="font-semibold text-base">Left Side</p>
-                            <button className="text-xs font-medium text-c-deep-sky" onClick={() => highlightHandler("left")}>{highlight === "left" ? "Hide" : "Show me"}</button>
+                            <button className="text-xs font-medium text-c-deep-sky select-none" onClick={() => highlightHandler("left")}>{highlight === "left" ? "Click to Hide" : "Click to Select"}</button>
                         </div>
                     </div>
                     <div className="col-span-8">
                         <div className="text-center mb-3">
                             <p className="font-semibold text-base">Top of display</p>
-                            <button className="text-xs font-medium text-c-deep-sky" onClick={() => highlightHandler("top")}>{highlight === "top" ? "Hide" : "Show me"}</button>
+                            <button className="text-xs font-medium text-c-deep-sky select-none" onClick={() => highlightHandler("top")}>{highlight === "top" ? "Click to Hide" : "Click to Select"}</button>
                         </div>
                         <div className="mb-3">
                             <Letters highlight={highlight} />
                         </div>
                         <div className="text-center mt-3">
                             <p className="font-semibold text-base">Forefront of display</p>
-                            <button className="text-xs font-medium text-c-deep-sky" onClick={() => highlightHandler("bottom")}>{highlight === "bottom" ? "Hide" : "Show me"}</button>
+                            <button className="text-xs font-medium text-c-deep-sky select-none" onClick={() => highlightHandler("bottom")}>{highlight === "bottom" ? "Click to Hide" : "Click to Select"}</button>
                         </div>
                     </div>
                     <div className="col-span-2">
@@ -232,7 +232,7 @@ const Emojis = ({ setStep }: Props) => {
                         </div>
                         <div className="text-center mt-3">
                             <p className="font-semibold text-base">Right Side</p>
-                            <button className="text-xs font-medium text-c-deep-sky" onClick={() => highlightHandler("right")}>{highlight === "right" ? "Hide" : "Show me"}</button>
+                            <button className="text-xs font-medium text-c-deep-sky select-none" onClick={() => highlightHandler("right")}>{highlight === "right" ? "Click to Hide" : "Click to Select"}</button>
                         </div>
                     </div>
                 </div>

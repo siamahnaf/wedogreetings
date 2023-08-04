@@ -5,16 +5,16 @@ import { Icon } from "@iconify/react";
 
 const Navs = [
     { name: "Home", url: "/" },
-    { name: "About", url: "/about" },
-    { name: "Book Greetings", url: "/book-greetings" },
+    { name: "About", url: "/about-us" },
+    { name: "FAQ's", url: "/faq" },
     { name: "Contact Us", url: "/contact-us" },
 ]
 
 const Socials = [
-    { name: "Facebook", icon: "fa6-brands:facebook-f", url: "/" },
-    { name: "Twitter", icon: "fa6-brands:twitter", url: "/" },
-    { name: "Instagram", icon: "fa6-brands:square-instagram", url: "/" },
-    { name: "Linkedin", icon: "fa6-brands:linkedin", url: "/" },
+    { name: "Facebook", icon: "fa6-brands:facebook-f", url: "https://www.facebook.com/profile.php?id=100094442037677" },
+    { name: "Twitter", icon: "fa6-brands:twitter", url: "https://twitter.com/WeDoGreetingsHQ" },
+    { name: "Instagram", icon: "fa6-brands:square-instagram", url: "https://www.instagram.com/wedogreetings_hq/" },
+    { name: "Linkedin", icon: "fa6-brands:linkedin", url: "http://linkedin.com/company/we-do-greetings-hq" }
 ]
 
 const FooterTwo = () => {
@@ -37,7 +37,7 @@ const FooterTwo = () => {
             <ul className="flex gap-3 justify-center">
                 {Socials.map((item, i) => (
                     <li key={i}>
-                        <Link href={item.url} className="bg-c-deep-sky w-[32px] h-[32px] rounded-md text-white flex justify-center items-center">
+                        <Link href={item.url} className="bg-c-deep-sky w-[32px] h-[32px] rounded-md text-white flex justify-center items-center" target="_blank">
                             <Icon icon={item.icon} />
                         </Link>
                     </li>

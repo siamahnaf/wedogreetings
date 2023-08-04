@@ -1,6 +1,10 @@
-import { Dispatch, SetStateAction, ChangeEvent, useContext } from "react";
-import { Input, Textarea } from "@material-tailwind/react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { Dispatch, SetStateAction, ChangeEvent, useContext, useEffect } from "react";
+import { Input, Textarea, Checkbox, Select, Option } from "@material-tailwind/react";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import Link from "next/link";
+
+//Data
+import { countryData } from "@/Data/CountryData";
 
 //Context
 import { TimelineContext } from "@/Context/timeline.context";
@@ -18,18 +22,29 @@ export interface Inputs {
     "Address line": string;
     "Post Code": string;
     "Country": string;
+    "Opt-in Marketing": boolean;
+    "Opt-in Terms": boolean;
+    "Billing Address": boolean;
 }
 
 const Customer = ({ setStep }: Props) => {
+    //Context
+    const { setCustomer, availableData } = useContext(TimelineContext);
+
+
     //Form Initializing
     const {
         register,
         handleSubmit,
-        formState: { errors }
-    } = useForm<Inputs>();
-
-    //Context
-    const { setCustomer } = useContext(TimelineContext);
+        formState: { errors },
+        watch,
+        reset,
+        control
+    } = useForm<Inputs>({
+        defaultValues: {
+            "Post Code": availableData?.formData.postalCode
+        }
+    });
 
 
     //Submit Handler
@@ -39,6 +54,9 @@ const Customer = ({ setStep }: Props) => {
         setStep("step2")
     }
 
+    useEffect(() => {
+        reset({ "Post Code": availableData?.formData.postalCode })
+    }, [availableData])
     return (
         <div>
             <div className="text-center mb-12">
@@ -123,15 +141,25 @@ const Customer = ({ setStep }: Props) => {
                         />
                     </div>
                     <div>
-                        <Input
-                            label="Country"
-                            color="cyan"
-                            id="country"
-                            {...register("Country", { required: true })}
-                            error={errors["Country"] ? true : false}
-                            onInput={(e: ChangeEvent<HTMLInputElement>) => {
-                                e.target.value = e.target.value.replace(/\|/g, '')
-                            }}
+                        <Controller
+                            control={control}
+                            name="Country"
+                            rules={{ required: true }}
+                            render={({ field: { onChange, value } }) => (
+                                <Select
+                                    label="Country"
+                                    value={value}
+                                    color="cyan"
+                                    onChange={(e) => onChange(e as string)}
+                                    error={errors.Country ? true : false}
+                                >
+                                    {countryData.map((item, i) => (
+                                        <Option value={item.code} key={i}>
+                                            {item.name}
+                                        </Option>
+                                    ))}
+                                </Select>
+                            )}
                         />
                     </div>
                     <div className="col-span-2">
@@ -148,12 +176,50 @@ const Customer = ({ setStep }: Props) => {
                         />
                     </div>
                 </div>
+                <div className="mt-2 -ml-3">
+                    <div className="text-left">
+                        <Checkbox
+                            label="Tick here if the installation address is the same as the billing address"
+                            id="billingAddress"
+                            className="w-4 h-4 rounded"
+                            color="cyan"
+                            labelProps={{
+                                className: "text-[15px] text-c-novel"
+                            }}
+                            {...register("Billing Address")}
+                        />
+                    </div>
+                    <div className="text-left">
+                        <Checkbox
+                            label="Option me into promotional materials."
+                            id="cpromotional"
+                            className="w-4 h-4 rounded"
+                            color="cyan"
+                            labelProps={{
+                                className: "text-[15px] text-c-novel"
+                            }}
+                            {...register("Opt-in Marketing")}
+                        />
+                    </div>
+                    <div className="text-left">
+                        <Checkbox
+                            label={<p>I’ve read the <Link href="/site-terms-and-conditions" className="text-c-deep-sky" target="_blank">Site Terms & Conditions</Link>, <Link href="/rental-terms-and-conditions" className="text-c-deep-sky" target="_blank">Rental Terms & Conditions</Link> and <Link href="/privacy-and-cookie-policy" className="text-c-deep-sky" target="_blank">Privacy & Cookie Policy</Link></p>}
+                            id="cprivacy"
+                            className="w-4 h-4 rounded"
+                            color="cyan"
+                            labelProps={{
+                                className: "text-[15px] text-c-novel"
+                            }}
+                            {...register("Opt-in Terms", { required: true })}
+                        />
+                    </div>
+                </div>
                 <div>
                     <div className="flex gap-3 justify-center mt-8">
                         <button className="bg-c-gainsboro text-white py-1.5 px-10 rounded-md" type="button" onClick={() => setStep("step0")}>
                             Back
                         </button>
-                        <button className="bg-c-deep-sky py-1.5 px-12 text-white rounded-md" type="submit">
+                        <button className={`bg-c-deep-sky py-1.5 px-12 text-white rounded-md ${watch()["Opt-in Terms"] !== true && "opacity-50"}`} type="submit" disabled={watch("Opt-in Terms") !== true}>
                             Next
                         </button>
                     </div>

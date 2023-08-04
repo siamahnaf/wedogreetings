@@ -25,7 +25,7 @@ const Gallery = () => {
         <Container className="py-16 bg-[url('/images/bgs/gallery-bg.png')] bg-no-repeat bg-cover bg-center bg-c-sorbus bg-opacity-10">
             <div className="text-center">
                 <h4 className="text-4xl font-bold text-c-sorbus w-max mx-auto relative after:w-16 after:h-1 after:bg-c-deep-sky after:absolute after:top-1/2 after:-right-20 after:-translate-y-1/2 after:rounded before:w-16 before:h-1 before:bg-c-deep-sky before:absolute before:top-1/2 before:-left-20 before:-translate-y-1/2 before:rounded-md">Gallery </h4>
-                <p className="text-sm text-c-novel w-[40%] mx-auto mt-4">Our bold deluxe garden include the following greetings for lifes most celebrated occasions</p>
+                <p className="text-sm text-c-novel w-[40%] mx-auto mt-4">Birthdays, Weddings, Congrats, Gender Reveals we have it all</p>
             </div>
             <div className="embla overflow-hidden mt-12">
                 <div className="embla__viewport" ref={emblaRef}>

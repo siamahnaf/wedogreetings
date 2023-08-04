@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction, useContext, useState, useEffect } from "react
 import Image from "next/image";
 import { Icon } from "@iconify/react";
 import moment from "moment";
+import crypto from "crypto";
 
 //Helpers Function
 import { getOrderId } from "@/Helper/uniqueId";
@@ -32,8 +33,8 @@ const Card = ({ setStep }: Props) => {
     const { customer, availableData, configureData, letters, emojis } = useContext(TimelineContext);
 
     //Query
-    const responseData = useQuery({ queryKey: ["paymentResponse", uniqueId], queryFn: () => GET_PAYMENT_RESPONSE(uniqueId), refetchInterval: 1000 });
-    const { mutate, data } = useMutation({
+    const responseData = useQuery({ queryKey: ["paymentResponse", uniqueId], queryFn: () => GET_PAYMENT_RESPONSE(uniqueId), refetchInterval: 500 });
+    const { mutate } = useMutation({
         mutationKey: ["placeOrder"], mutationFn: (formData: AddOrderPlaceData) => PLACE_ORDER(formData),
         onSuccess(data) {
             if (data[0].status === 201) {
@@ -43,7 +44,6 @@ const Card = ({ setStep }: Props) => {
         onError() {
         }
     });
-    console.log(data);
 
     //Handler get total price
     const getTotalPrice = () => {
@@ -60,13 +60,26 @@ const Card = ({ setStep }: Props) => {
         }
     };
 
-    //Payment Submit Window
+    //Payment Submit Window    
     const onPaymentSubmit = () => {
         setFetching(true)
         const uniqueID = getOrderId();
         setUniqId(uniqueID);
-        const url = `https://secure-test.worldpay.com/wcc/purchase?instId=1471088&cartId=${uniqueID}&amount=${getTotalPrice()}&currency=GBP&testMode=100&accId1=WEGREETLTDM1`
-        const newPopupWindow = window.open(url, 'mini-popup', 'width=780,height=600');
+        const width = 770
+        const height = 550
+        const screenLeft = window.screenLeft || window.screenX || 0;
+        const screenTop = window.screenTop || window.screenY || 0;
+        const screenWidth = window.innerWidth || document.documentElement.clientWidth || screen.width;
+        const screenHeight = window.innerHeight || document.documentElement.clientHeight || screen.height;
+        const left = (screenWidth - width) / 2 + screenLeft;
+        const top = (screenHeight - height) / 2 + screenTop;
+        const createMD5Signature = (data: string) => {
+            return crypto.createHash('md5').update(data).digest('hex');
+        };
+        const billing = `&name=${customer?.formData["First Name"]}&address1=${customer?.formData["Address line"]}&postcode=${customer?.formData["Post Code"]}&country=${customer?.formData.Country}&tel=${customer?.formData.Phone}&email=${customer?.formData.Email}`
+        const url = `https://secure-test.worldpay.com/wcc/purchase?instId=1471088&cartId=${uniqueID}&amount=${getTotalPrice()}&currency=GBP&testMode=100&accId1=44606504&signature=${createMD5Signature(getTotalPrice()?.toString() as string)}${customer?.formData["Billing Address"] && billing}`;
+
+        const newPopupWindow = window.open(url, 'mini-popup', `width=${width},height=${height},top=${top},left=${left}`);
         setPopupWindow(newPopupWindow)
     }
 
@@ -75,16 +88,33 @@ const Card = ({ setStep }: Props) => {
             if (popupWindow) {
                 popupWindow.close();
             }
+            if (responseData.data?.[0]?.transId === null) {
+                setFetching(false);
+            }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [responseData])
 
     useEffect(() => {
         if (responseData.data?.[0]?.cartId === uniqueId && hasRunEffect === false) {
-            const backdropString = `${configureData?.formData.backdrop?.id}|FS|1`
-            const letterString = letters?.map((letter) => `${letter.id}|BS|${letter.index + 2}`).join(',');
-            const emojiString = emojis?.filter((emoji) => emoji.id !== "").map((emoji) => `${emoji.id}|${emoji.index < 3 ? "LS" : "RS"}|${emoji.index + Number(letters?.length)}`).join(', ');
-            const rentalString = `${backdropString},${letterString},${emojiString}`;
+            const result: { id: string, position: string }[] = [];
+            if (configureData?.formData.backdrop?.id) {
+                const objectEntry = { id: configureData.formData.backdrop.id, position: "BS" };
+                result.push(objectEntry);
+            }
+            letters?.forEach((item) => {
+                if (item.id) {
+                    const entry = { id: item.id, position: "FS" };
+                    result.push(entry);
+                }
+            });
+            emojis?.forEach((item) => {
+                if (item.id) {
+                    const entry = { id: item.id, position: item.index < 3 ? "LS" : "RS" };
+                    result.push(entry);
+                }
+            });
+            const rentalString = result.map((item, i) => `${item.id}|${item.position}|${i + 1}`).join(",")
             const datetimeString = availableData?.formData.date?.endDate + " " + availableData?.formData.setUpTime;
             const rentalDate = moment(datetimeString, "YYYY-MM-DD hh:mm A").format("YYYY-MM-DDTHH:mm:ss")
             const formData = {
@@ -97,7 +127,9 @@ const Card = ({ setStep }: Props) => {
                 "id": responseData.data[0].cartId as string,
                 "Reference to Web Product Listing": availableData?.formData.event as string,
                 "Rentals String": rentalString,
-                "Customer String": customer?.customerString as string
+                "Customer String": customer?.customerString as string,
+                "Location": configureData?.formData.location,
+                "Base": configureData?.formData.base
             }
             mutate(formData)
             setHasRunEffect(true);
@@ -123,7 +155,7 @@ const Card = ({ setStep }: Props) => {
                 <button className="bg-c-gainsboro text-white py-1.5 px-10 rounded-md" type="button" onClick={() => setStep("step1")} disabled={fetching}>
                     Back
                 </button>
-                <button className="bg-c-deep-sky py-1.5 px-12 text-white rounded-md relative" onClick={onPaymentSubmit} disabled={fetching}>
+                <button className="bg-c-deep-sky py-1.5 px-12 text-white rounded-md relative" onClick={onPaymentSubmit}>
                     <span className={`${fetching ? "opacity-30" : "opacity-100"}`}>Pay £{getTotalPrice()}</span>
                     <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
                         {fetching &&

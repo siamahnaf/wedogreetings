@@ -1,15 +1,21 @@
-import { render } from '@react-email/render';
+import { render } from '@react-email/components';
 import { SES } from '@aws-sdk/client-ses';
-import Email from "@/Helper/email";
+import Email from "@/Helper/template";
 
-const ses = new SES({ region: process.env.AWS_SES_REGION });
+const ses = new SES({
+    region: "eu-west-2",
+    credentials: {
+        accessKeyId: "AKIASXVIUFVMXF7F4HGQ",
+        secretAccessKey: "KGHk6dY73pQkrpVo/ecOtDbIjHFlxhJPsosTV5x2",
+    }
+});
 const emailHtml = render(<Email url="https://example.com" />);
 
 const Test = () => {
     //Handler
     const onSent = async () => {
         const params = {
-            Source: "info@wedogreeting.co.uk",
+            Source: "mail@siamahnaf.com",
             Destination: {
                 ToAddresses: ['siamahnaf198@gmail.com'],
             },
@@ -22,7 +28,7 @@ const Test = () => {
                 },
                 Subject: {
                     Charset: 'UTF-8',
-                    Data: 'hello world',
+                    Data: "",
                 },
             },
         };
@@ -30,8 +36,13 @@ const Test = () => {
     }
 
     return (
-        <div>
-
+        <div className="bg-gray-400">
+            <button onClick={onSent}>
+                Sent Email
+            </button>
+            <div className="w-[55%] mx-auto bg-white">
+                <div dangerouslySetInnerHTML={{ __html: emailHtml }} />
+            </div>
         </div>
     );
 };

@@ -48,7 +48,7 @@ const Inspire = ({ open, onClose }: Props) => {
                     {isPending ? (
                         <>
                             {Array.from({ length: 20 }, (_, index) => (
-                                <div key={index} className="bg-gray-200 aspect-[1/1] animate-pulse rounded-2xl"></div>
+                                <div key={index} className="bg-gray-200 aspect-[11/8] animate-pulse rounded-2xl"></div>
                             ))}
                         </>
                     ) : (
@@ -56,9 +56,9 @@ const Inspire = ({ open, onClose }: Props) => {
                             {data?.map((item, i) => (
                                 <div key={i}>
                                     {item.Image ?
-                                        <Image src={imageUrl(item["@row.id"], item.Image, 43480466)} width={258} height={258} alt={item.Item} className="rounded-lg aspect-[1/1]" /> :
-                                        <div className="bg-c-white-smoke rounded-lg aspect-[1/1] text-center flex justify-center items-center">
-                                            <Image src="/images/preview.png" width={32} height={32} alt={item.Item} className="mx-auto" />
+                                        <Image src={imageUrl(item["@row.id"], item.Image, 43488611)} width={385} height={280} alt={item.Image} className="rounded-lg aspect-[11/8]" /> :
+                                        <div className="bg-c-white-smoke rounded-lg aspect-[11/8] text-center flex justify-center items-center">
+                                            <Image src="/images/preview.png" width={32} height={32} alt={item.Type} className="mx-auto" />
                                         </div>}
                                 </div>
                             ))}

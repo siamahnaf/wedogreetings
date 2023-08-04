@@ -25,7 +25,7 @@ const Letters = ({ highlight }: Props) => {
                 </div>
             }
             <div className="">
-                <div className="grid grid-cols-8 gap-3">
+                <div className="grid grid-cols-8 gap-4">
                     {letters?.map((item, i) => (
                         <div key={i} className={`w-[70px] h-[70px] mx-auto rounded-md bg-c-white-smoke p-3 border-2 border-solid ${highlight === "bottom" ? "border-black" : "border-transparent"}`}>
                             {item.url &&

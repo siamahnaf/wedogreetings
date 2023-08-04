@@ -51,7 +51,7 @@ const Timeline = () => {
                     lineClassName="border border-dashed border-c-novel h-px bg-transparent"
                     activeLineClassName="border-transparent bg-c-deep-sky"
                 >
-                    <Step className="h-4 w-4 !bg-c-novel" onClick={() => setActiveStep(0)} completedClassName="!bg-c-deep-sky" activeClassName="!bg-c-deep-sky">
+                    <Step className="h-4 w-4 !bg-c-novel" completedClassName="!bg-c-deep-sky" activeClassName="!bg-c-deep-sky">
                         <div className="absolute -bottom-8 w-max text-center">
                             <p
                                 className={`font-medium text-base ${activeStep >= 0 ? "text-c-deep-sky" : "text-black"}`}
@@ -60,7 +60,7 @@ const Timeline = () => {
                             </p>
                         </div>
                     </Step>
-                    <Step className="h-4 w-4 !bg-c-novel" onClick={() => setActiveStep(1)} completedClassName="!bg-c-deep-sky" activeClassName="!bg-c-deep-sky">
+                    <Step className="h-4 w-4 !bg-c-novel" completedClassName="!bg-c-deep-sky" activeClassName="!bg-c-deep-sky">
                         <div className="absolute -bottom-8 w-max text-center">
                             <p
                                 className={`font-medium text-base ${activeStep >= 1 ? "text-c-deep-sky" : "text-black"}`}
@@ -69,7 +69,7 @@ const Timeline = () => {
                             </p>
                         </div>
                     </Step>
-                    <Step className="h-4 w-4 !bg-c-novel" onClick={() => setActiveStep(2)} completedClassName="!bg-c-deep-sky" activeClassName="!bg-c-deep-sky">
+                    <Step className="h-4 w-4 !bg-c-novel" completedClassName="!bg-c-deep-sky" activeClassName="!bg-c-deep-sky">
                         <div className="absolute -bottom-8 w-max text-center">
                             <p
                                 className={`font-medium text-base ${activeStep >= 2 ? "text-c-deep-sky" : "text-black"}`}

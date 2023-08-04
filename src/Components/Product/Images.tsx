@@ -25,25 +25,56 @@ const Images = () => {
     //Null return
     if (!dataObject) return null;
 
+    //Check a function
+    const checkPrintable = () => {
+        let count = 0;
+        if (dataObject["Prod Img Large 1"] !== null) {
+            count++
+        }
+        if (dataObject["Prod Img Large 2"] !== null) {
+            count++
+        }
+        if (dataObject["Prod Img Large 3"] !== null) {
+            count++
+        }
+        if (dataObject["Prod Img Large 4"] !== null) {
+            count++
+        }
+        if (count >= 2) {
+            return true
+        } else return false;
+    }
+
     return (
         <div>
             <div className="mb-5">
                 <Image src={selected} alt="Selected" width={1024} height={680} className="aspect-[128/85] rounded-lg" />
             </div>
-            {/* <div className="grid grid-cols-4 gap-4">
-                <div>
-                    <Image src={imageUrl(dataObject?.["@row.id"], dataObject?.["Prod Img Large 1"], 43477766)} width={512} height={340} alt={dataObject["Product Name"]} className="aspect-[128/85] rounded-lg cursor-pointer" onClick={() => setSelected(imageUrl(dataObject?.["@row.id"], dataObject?.["Prod Img Large 1"], 43477766))} />
-                </div>
-                <div>
-                    <Image src={imageUrl(dataObject?.["@row.id"], dataObject?.["Prod Img Large 2"], 43482390)} width={512} height={340} alt={dataObject["Product Name"]} className="aspect-[128/85] rounded-lg cursor-pointer" onClick={() => setSelected(imageUrl(dataObject?.["@row.id"], dataObject?.["Prod Img Large 2"], 43482390))} />
-                </div>
-                <div>
-                    <Image src={imageUrl(dataObject?.["@row.id"], dataObject?.["Prod Img Large 3"], 43482391)} width={512} height={340} alt={dataObject["Product Name"]} className="aspect-[128/85] rounded-lg cursor-pointer" onClick={() => setSelected(imageUrl(dataObject?.["@row.id"], dataObject?.["Prod Img Large 3"], 43482391))} />
-                </div>
-                <div>
-                    <Image src={imageUrl(dataObject?.["@row.id"], dataObject?.["Prod Img Large 4"], 43482392)} width={512} height={340} alt={dataObject["Product Name"]} className="aspect-[128/85] rounded-lg cursor-pointer" onClick={() => setSelected(imageUrl(dataObject?.["@row.id"], dataObject?.["Prod Img Large 4"], 43482392))} />
-                </div>
-            </div> */}
+            <div className="grid grid-cols-4 gap-4">
+                {checkPrintable() &&
+                    <>
+                        {dataObject["Prod Img Large 1"] !== null &&
+                            <div>
+                                <Image src={imageUrl(dataObject?.["@row.id"], dataObject?.["Prod Img Large 1"], 43477766)} width={512} height={340} alt={dataObject["Product Name"]} className="aspect-[128/85] rounded-lg cursor-pointer" onClick={() => setSelected(imageUrl(dataObject?.["@row.id"], dataObject?.["Prod Img Large 1"], 43477766))} />
+                            </div>
+                        }
+                        {dataObject["Prod Img Large 2"] !== null &&
+                            <div>
+                                <Image src={imageUrl(dataObject?.["@row.id"], dataObject?.["Prod Img Large 2"], 43482390)} width={512} height={340} alt={dataObject["Product Name"]} className="aspect-[128/85] rounded-lg cursor-pointer" onClick={() => setSelected(imageUrl(dataObject?.["@row.id"], dataObject?.["Prod Img Large 2"], 43482390))} />
+                            </div>
+                        }
+                        {dataObject["Prod Img Large 3"] !== null &&
+                            <div>
+                                <Image src={imageUrl(dataObject?.["@row.id"], dataObject?.["Prod Img Large 3"], 43482391)} width={512} height={340} alt={dataObject["Product Name"]} className="aspect-[128/85] rounded-lg cursor-pointer" onClick={() => setSelected(imageUrl(dataObject?.["@row.id"], dataObject?.["Prod Img Large 3"], 43482391))} />
+                            </div>
+                        }
+                        {dataObject["Prod Img Large 4"] !== null &&
+                            <div>
+                                <Image src={imageUrl(dataObject?.["@row.id"], dataObject?.["Prod Img Large 4"], 43482392)} width={512} height={340} alt={dataObject["Product Name"]} className="aspect-[128/85] rounded-lg cursor-pointer" onClick={() => setSelected(imageUrl(dataObject?.["@row.id"], dataObject?.["Prod Img Large 4"], 43482392))} />
+                            </div>
+                        }
+                    </>}
+            </div>
         </div>
     );
 };

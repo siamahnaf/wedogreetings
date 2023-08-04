@@ -49,14 +49,54 @@ export interface FranchiseeDetailsData {
     WID: string;
     "Record Owner": string;
     Title: string;
+    "Available for Installations From": string;
+    "Available Till": string;
+    "Allow Hours Between Installations": number;
+    "Email Opt-Out": boolean;
+}
+
+export interface OrderDetailsForTiming {
+    "@row.id": number;
+    Number: string;
+    "Transaction Amount": number;
+    "Transaction Date": string;
+    "Signage Message": string;
+    "Rental Date": string;
+    "Rental Days": number;
+    "Return Date": string;
+    "WP Authcode": string;
+    "Transaction Comment": string;
+    Id: string;
+    "Record Owner": string;
+    "Reference to Customer Details": string;
+    "Reference to Web Product Listing": string;
+    "# of Stands": number;
+    "Reference to Admin - User Property": string;
+    "Rentals String": string;
 }
 
 export interface AddCustomRequestData {
-    name: string;
-    email: string;
-    phone: string;
-    message: string;
+    "Title": string;
+    "First Name": string;
+    "Last Name": string;
+    "Phone": string;
+    "Email": string;
+    "Address line": string;
+    "Post Code": string;
+    "County": string;
+    "Opt-in Marketing": string;
+    "Opt-in Terms": string;
+    "Opt-in Seek Installer": string;
+    "Opt-in Franchise Op": string;
 }
+
+export interface GetExamLettersData {
+    "@row.id": number;
+    Image: string;
+    Type: string;
+    "Web Product Listing Product Name": string;
+}
+
 
 export interface AddCustomRequestResponse {
     status: number;
