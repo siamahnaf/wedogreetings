@@ -277,7 +277,7 @@ const Availability = () => {
                             <div className="col-span-4 lg:col-span-4 md:col-span-6 xxs:col-span-12">
                                 <div>
                                     <Input
-                                        label="Delivery postcode"
+                                        label="Delivery & installation postcode"
                                         color="cyan"
                                         onInput={handleInput}
                                         {...register("postalCode", {

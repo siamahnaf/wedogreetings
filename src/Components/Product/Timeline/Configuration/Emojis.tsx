@@ -120,7 +120,7 @@ const Emojis = ({ setStep }: Props) => {
                                     </div>
                                     <Selector
                                         open={open === item.index}
-                                        onClose={() => setOpen(null)}
+                                        onClose={() => console.log("clicked")}
                                         items={items}
                                         selected={item}
                                         onChange={onItemClick}
@@ -148,7 +148,7 @@ const Emojis = ({ setStep }: Props) => {
                                     </div>
                                     <Selector
                                         open={open === item.index}
-                                        onClose={() => setOpen(null)}
+                                        onClose={() => console.log("clicked")}
                                         items={items}
                                         selected={item}
                                         onChange={onItemClick}
@@ -195,7 +195,7 @@ const Emojis = ({ setStep }: Props) => {
                                     </div>
                                     <Selector
                                         open={open === item.index}
-                                        onClose={() => setOpen(null)}
+                                        onClose={() => console.log("clicked")}
                                         items={items}
                                         selected={item}
                                         onChange={onItemClick}
@@ -223,7 +223,7 @@ const Emojis = ({ setStep }: Props) => {
                                     </div>
                                     <Selector
                                         open={open === item.index}
-                                        onClose={() => setOpen(null)}
+                                        onClose={() => console.log("clicked")}
                                         items={items}
                                         selected={item}
                                         onChange={onItemClick}

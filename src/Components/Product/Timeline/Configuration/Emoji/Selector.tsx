@@ -42,7 +42,7 @@ const Backdrop = ({ open, onClose, items, onChange, selected, index }: Props) =>
     //Handler onItem click
     const onItemClick = (item: OnChangeItemTypes) => {
         onChange({ ...item, index: index });
-        onClose();
+        onClose()
     }
     const groupedArray: { [key: string]: GetBackdropData[] } = items.reduce((acc, item) => {
         const { Category, ...rest } = item;
