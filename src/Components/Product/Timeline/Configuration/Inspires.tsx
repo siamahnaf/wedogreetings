@@ -43,8 +43,8 @@ const Inspire = ({ open, onClose }: Props) => {
                 <h6 className="text-lg font-semibold">Example Letters</h6>
                 <hr className="mt-3" />
             </div>
-            <div className="max-h-[400px] overflow-auto">
-                <div className="grid grid-cols-5 gap-4 mt-5 pb-3">
+            <div className="aspect-[4/2] overflow-auto">
+                <div className="grid grid-cols-5 lg-max:grid-cols-5 lg:grid-cols-4 msm:grid-cols-3 xxs:grid-cols-2 gap-4 mt-5 pb-3">
                     {isPending ? (
                         <>
                             {Array.from({ length: 20 }, (_, index) => (

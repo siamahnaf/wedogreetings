@@ -61,7 +61,7 @@ const Customer = ({ setStep }: Props) => {
     return (
         <div>
             <div className="text-center mb-12">
-                <h5 className="text-3xl font-bold text-c-deep-sky">CUSTOMER INFORMATION</h5>
+                <h5 className="text-3xl sm:text-3xl xxs:text-2xl font-bold text-c-deep-sky">CUSTOMER INFORMATION</h5>
                 <p className="text-base text-c-novel mt-2">Please enter your information</p>
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -78,7 +78,7 @@ const Customer = ({ setStep }: Props) => {
                             }}
                         />
                     </div>
-                    <div>
+                    <div className="xxs:max-msm:col-span-2">
                         <Input
                             label="First Name"
                             color="cyan"
@@ -90,7 +90,7 @@ const Customer = ({ setStep }: Props) => {
                             }}
                         />
                     </div>
-                    <div>
+                    <div className="xxs:max-msm:col-span-2">
                         <Input
                             label="Last Name"
                             color="cyan"
@@ -102,7 +102,7 @@ const Customer = ({ setStep }: Props) => {
                             }}
                         />
                     </div>
-                    <div>
+                    <div className="xxs:max-msm:col-span-2">
                         <Input
                             label="Phone Number"
                             color="cyan"
@@ -114,7 +114,7 @@ const Customer = ({ setStep }: Props) => {
                             }}
                         />
                     </div>
-                    <div>
+                    <div className="xxs:max-msm:col-span-2">
                         <Input
                             label="Email"
                             color="cyan"
@@ -129,7 +129,7 @@ const Customer = ({ setStep }: Props) => {
                             }}
                         />
                     </div>
-                    <div>
+                    <div className="xxs:max-msm:col-span-2">
                         <Input
                             label="Post Code"
                             color="cyan"
@@ -141,7 +141,7 @@ const Customer = ({ setStep }: Props) => {
                             }}
                         />
                     </div>
-                    <div>
+                    <div className="xxs:max-msm:col-span-2">
                         <Controller
                             control={control}
                             name="Country"
@@ -175,7 +175,7 @@ const Customer = ({ setStep }: Props) => {
                                 e.target.value = e.target.value.replace(/\|/g, '');
                             }}
                         />
-                        <p className="text-xs opacity-40">*Please provide the installation address where we will set up the display. Note that this address should fall within the same postcode coverage area as the one you&apos;ve previously supplied for locating a local installer!</p>
+                        <p className="text-xs 4xl:text-[13px] opacity-40 mt-1.5">*Please provide the installation address where we will set up the display. Note that this address should fall within the same postcode coverage area as the one you&apos;ve previously supplied for locating a local installer!</p>
                     </div>
                 </div>
                 <div className="-ml-3 mt-6">

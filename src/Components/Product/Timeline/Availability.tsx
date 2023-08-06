@@ -219,10 +219,10 @@ const Availability = () => {
     return (
         <>
             {availability === null &&
-                <div className="mt-16 bg-white shadow-3xl py-12 px-8 rounded-lg">
+                <div className="mt-16 sm:mt-16 xxs:mt-5 bg-white shadow-3xl py-12 msm:py-12 xxs:py-5 px-8 msm:px-8 xxs:px-5 rounded-lg">
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <div className="grid grid-cols-3 gap-4">
-                            <div>
+                        <div className="grid grid-cols-12 gap-4">
+                            <div className="col-span-4 lg:col-span-4 md:col-span-6 xxs:col-span-12">
                                 <Controller
                                     control={control}
                                     name="event"
@@ -248,7 +248,7 @@ const Availability = () => {
                                     </p>
                                 }
                             </div>
-                            <div>
+                            <div className="col-span-4 lg:col-span-4 md:col-span-6 xxs:col-span-12">
                                 <Controller
                                     control={control}
                                     name="option"
@@ -274,7 +274,7 @@ const Availability = () => {
                                     </p>
                                 }
                             </div>
-                            <div>
+                            <div className="col-span-4 lg:col-span-4 md:col-span-6 xxs:col-span-12">
                                 <div>
                                     <Input
                                         label="Delivery postcode"
@@ -297,9 +297,7 @@ const Availability = () => {
                                     </p>
                                 }
                             </div>
-                        </div>
-                        <div className="grid grid-cols-4 gap-4 mt-5">
-                            <div>
+                            <div className="col-span-3 lg-max:col-span-3 lg:col-span-4 md:col-span-6 xxs:col-span-12">
                                 <Controller
                                     control={control}
                                     name="date"
@@ -331,7 +329,7 @@ const Availability = () => {
                                     </p>
                                 }
                             </div>
-                            <div>
+                            <div className="col-span-3 lg-max:col-span-3 lg:col-span-4 md:col-span-6 xxs:col-span-12">
                                 <Controller
                                     control={control}
                                     name="rental"
@@ -359,7 +357,7 @@ const Availability = () => {
                                     </p>
                                 }
                             </div>
-                            <div>
+                            <div className="col-span-3 lg-max:col-span-3 lg:col-span-4 md:col-span-6 xxs:col-span-12">
                                 <Controller
                                     control={control}
                                     name="setUpTime"
@@ -401,7 +399,7 @@ const Availability = () => {
                                     </p>
                                 }
                             </div>
-                            <div>
+                            <div className="col-span-3 lg-max:col-span-3 lg:col-span-4 md:col-span-6 xxs:col-span-12">
                                 <Controller
                                     control={control}
                                     name="removalTime"
@@ -444,7 +442,7 @@ const Availability = () => {
                                 }
                             </div>
                         </div>
-                        <div className="text-center mt-14">
+                        <div className="text-center mt-14 msm:mt-13 xxs:mt-6">
                             <button className="bg-c-deep-sky text-white py-2 px-7 font-medium text-base rounded-lg relative" type="submit" disabled={postalData.isFetching || unavailableData.isFetching || franchiseeData.isFetching || setUptimes.isFetching || removalTimes.isFetching}>
                                 <span className={`${(postalData.isFetching || unavailableData.isFetching || franchiseeData.isFetching || setUptimes.isFetching || removalTimes.isFetching) ? "opacity-30" : "opacity-100"}`}>CHECK AVAILABILITY</span>
                                 <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">

@@ -18,7 +18,7 @@ const Card = () => {
     const handleOpen = (value: number) => setOpen(open === value ? null : value);
 
     return (
-        <div className="grid grid-cols-2 gap-16 mt-12">
+        <div className="grid grid-cols-2 lg:grid-cols-2 xxs:grid-cols-1 gap-16 lg:gap-16 xxs:gap-0 mt-12">
             <div>
                 {data?.slice(0, Math.ceil(data.length / 2)).map((item, i) => (
                     <div key={i}>

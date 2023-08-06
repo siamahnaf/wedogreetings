@@ -86,20 +86,20 @@ const Configuration = () => {
 
     return (
         <>
-            <div className={`mt-16 bg-white shadow-3xl py-12 px-8 rounded-lg w-[60%] mx-auto ${step === "step0" ? "block" : "hidden"}`}>
-                <p className="text-c-novel text-base text-center w-[70%] mx-auto">
+            <div className={`mt-16 sm:mt-16 xxs:mt-5 bg-white shadow-3xl py-12 px-8 msm:px-8 xxs:px-5 msm:py-12 xxs:py-5 rounded-lg w-[60%] lg-max:w-[60%] xxs:w-full mx-auto ${step === "step0" ? "block" : "hidden"}`}>
+                <p className="text-c-novel text-base text-center w-[70%] msm:w-[70%] xxs:w-full mx-auto">
                     Enter <span className="text-black">the words</span> you want <span className="text-black">(uppercase only)</span> to be
                     displayed and <span className="text-black">choose a backdrop image.</span>
                 </p>
                 <form className="mt-10" onSubmit={handleSubmit(onSubmit)}>
                     <div className="grid grid-cols-1 gap-6">
-                        <div className="grid grid-cols-6 gap-5 items-center">
-                            <div className="col-span-1">
+                        <div className="grid grid-cols-6 gap-5 lg:gap-5 xxs:gap-2 items-center">
+                            <div className="col-span-1 lg:col-span-1 xxs:col-span-6">
                                 <label htmlFor="name">Display Text</label>
                             </div>
-                            <div className="col-span-5">
-                                <div className="flex gap-2 items-center">
-                                    <div className="flex-[0_0_70%] relative">
+                            <div className="col-span-5 lg:col-span-5 xxs:col-span-6">
+                                <div className="flex gap-2 items-center xxs:max-sm:flex-wrap">
+                                    <div className="flex-[0_0_70%] sm:flex-[0_0_70%] xxs:flex-[0_0_100%] relative">
                                         <input
                                             placeholder="Display Text"
                                             className="focus:outline-none bg-c-white-smoke w-full py-4 px-4 rounded-lg placeholder:text-sm"
@@ -116,8 +116,8 @@ const Configuration = () => {
                                         />
                                         <p className="absolute right-4 top-1/2 -translate-y-1/2 text-[#B3B3B3] text-sm">{watch().name?.length}/16</p>
                                     </div>
-                                    <div className="flex-[0_0_30%]">
-                                        <p className="text-center select-none cursor-pointer text-sm text-c-deep-sky font-semibold" onClick={() => setInspire(true)}>Inspire me with examples</p>
+                                    <div className="flex-[0_0_30%] sm:flex-[0_0_30%] xxs:flex-[0_0_100%]">
+                                        <p className="text-center sm:text-center xxs:text-left select-none cursor-pointer text-sm text-c-deep-sky font-semibold" onClick={() => setInspire(true)}>Inspire me with examples</p>
                                         <Inspire
                                             open={inspire}
                                             onClose={() => setInspire(false)}
@@ -125,7 +125,7 @@ const Configuration = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-span-5 col-start-2 -mt-4">
+                            <div className="col-span-5 col-start-2 -mt-4 lg:col-span-5 xxs:col-span-6 lg:col-start-2 xxs:col-start-1 lg:-mt-4 xxs:mt-0">
                                 {errors.name &&
                                     <p className="text-red-600 text-sm flex gap-1.5 items-start mt-1.5">
                                         <Icon className="text-base flex-[0_0_5%] mt-[3px]" icon="mdi:error" />
@@ -134,11 +134,11 @@ const Configuration = () => {
                                 }
                             </div>
                         </div>
-                        <div className="grid grid-cols-6 gap-5 items-center">
-                            <div className="col-span-1">
+                        <div className="grid grid-cols-6 gap-5 lg:gap-5 xxs:gap-2 items-center">
+                            <div className="col-span-1 lg:col-span-1 xxs:col-span-6">
                                 <label htmlFor="backdrop">Backdrop</label>
                             </div>
-                            <div className="col-span-5 relative group">
+                            <div className="col-span-5 lg:col-span-5 xxs:col-span-6 relative group">
                                 {!backdrop &&
                                     <div className="bg-c-white-smoke text-center rounded-lg cursor-pointer aspect-[7/2] justify-center items-center flex" onClick={() => setBackdrop(true)}>
                                         <div>
@@ -148,7 +148,7 @@ const Configuration = () => {
                                     </div>
                                 }
                                 {backdrop &&
-                                    <Image src={backdrop.url} alt="Preview Image" width={600} height={600} className="rounded-lg cursor-pointer aspect-[7/2]" onClick={() => setBackdrop(true)} />
+                                    <Image src={backdrop.url} alt="Preview Image" width={600} height={600} className="rounded-lg cursor-pointer aspect-[7/2] mx-auto" onClick={() => setBackdrop(true)} />
                                 }
                                 {backdrop &&
                                     <div className="absolute top-2 right-2 p-1.5 bg-red-50 rounded cursor-pointer select-none opacity-0 transition-all invisible group-hover:opacity-100 group-hover:visible" onClick={() => setValue("backdrop", null)}>
@@ -162,7 +162,7 @@ const Configuration = () => {
                                     onChange={(item) => onItemChange(item)}
                                 />
                             </div>
-                            <div className="col-span-5 col-start-2 -mt-4">
+                            <div className="col-span-5 col-start-2 -mt-4 lg:col-span-5 xxs:col-span-6 lg:col-start-2 xxs:col-start-1 lg:-mt-4 xxs:mt-0">
                                 {errors.backdrop &&
                                     <p className="text-red-600 text-sm flex gap-1.5 items-start mt-1.5">
                                         <Icon className="text-base flex-[0_0_5%] mt-[3px]" icon="mdi:error" />
@@ -171,11 +171,11 @@ const Configuration = () => {
                                 }
                             </div>
                         </div>
-                        <div className="grid grid-cols-6 gap-5 items-center">
-                            <div className="col-span-1">
+                        <div className="grid grid-cols-6 gap-5 lg:gap-5 xxs:gap-2 items-center">
+                            <div className="col-span-1 lg:col-span-1 xxs:col-span-6">
                                 <label htmlFor="location">Location</label>
                             </div>
-                            <div className="col-span-5">
+                            <div className="col-span-5 lg:col-span-5 xxs:col-span-6">
                                 <div>
                                     <Controller
                                         control={control}
@@ -195,7 +195,7 @@ const Configuration = () => {
                                     />
                                 </div>
                             </div>
-                            <div className="col-span-5 col-start-2 -mt-4">
+                            <div className="col-span-5 col-start-2 -mt-4 lg:col-span-5 xxs:col-span-6 lg:col-start-2 xxs:col-start-1 lg:-mt-4 xxs:mt-0">
                                 {errors.location &&
                                     <p className="text-red-600 text-sm flex gap-1.5 items-start mt-1.5">
                                         <Icon className="text-base flex-[0_0_5%] mt-[3px]" icon="mdi:error" />
@@ -204,11 +204,11 @@ const Configuration = () => {
                                 }
                             </div>
                         </div>
-                        <div className="grid grid-cols-6 gap-5 items-center">
-                            <div className="col-span-1">
+                        <div className="grid grid-cols-6 gap-5 lg:gap-5 xxs:gap-2 items-center">
+                            <div className="col-span-1 lg:col-span-1 xxs:col-span-6">
                                 <label htmlFor="base">Base</label>
                             </div>
-                            <div className="col-span-5">
+                            <div className="col-span-5 lg:col-span-5 xxs:col-span-6">
                                 <div>
                                     <Controller
                                         control={control}
@@ -231,7 +231,7 @@ const Configuration = () => {
                                     />
                                 </div>
                             </div>
-                            <div className="col-span-5 col-start-2 -mt-4">
+                            <div className="col-span-5 col-start-2 -mt-4 lg:col-span-5 xxs:col-span-6 lg:col-start-2 xxs:col-start-1 lg:-mt-4 xxs:mt-0">
                                 {errors.base &&
                                     <p className="text-red-600 text-sm flex gap-1.5 items-start mt-1.5">
                                         <Icon className="text-base flex-[0_0_5%] mt-[3px]" icon="mdi:error" />
@@ -253,10 +253,10 @@ const Configuration = () => {
                     </div>
                 </form>
             </div>
-            <div className={`mt-16 bg-white shadow-3xl py-12 px-8 rounded-lg w-[60%] mx-auto ${step === "step1" ? "block" : "hidden"}`}>
+            <div className={`mt-16 sm:mt-16 xxs:mt-5 bg-white shadow-3xl py-12 px-8 msm:px-8 xxs:px-5 msm:py-12 xxs:py-5 rounded-lg w-[60%] 4xl:w-[40%] 3xl:w-[50%] lg-max:w-[60%] lg:w-[80%] xxs:w-full mx-auto ${step === "step1" ? "block" : "hidden"}`}>
                 <Letters setStep={setStep} />
             </div>
-            <div className={`mt-16 bg-white shadow-3xl py-12 px-8 rounded-lg w-[90%] mx-auto ${step === "step2" ? "block" : "hidden"}`}>
+            <div className={`mt-16 sm:mt-16 xxs:mt-5 bg-white shadow-3xl py-12 px-8 msm:px-8 xxs:px-5 msm:py-12 xxs:py-5 rounded-lg w-[90%] lg-max:w-[90%] xxs:w-full mx-auto ${step === "step2" ? "block" : "hidden"}`}>
                 <Emojis setStep={setStep} />
             </div>
         </>

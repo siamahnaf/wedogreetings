@@ -79,8 +79,8 @@ const Backdrop = ({ open, onClose, selected, onChange }: Props) => {
                 <h6 className="text-lg font-semibold">Select Backdrop</h6>
                 <hr className="mt-3" />
             </div>
-            <div className="max-h-[400px] overflow-auto">
-                <div className="grid grid-cols-2 gap-4 mt-5 pb-3">
+            <div className="aspect-[4/2] overflow-auto">
+                <div className="grid grid-cols-2 lg:grid-cols-2 xxs:grid-cols-1 gap-4 mt-5 pb-3">
                     {backdrops?.map((item, i) => (
                         <div key={i} onClick={() => onItemClick((imageUrl(item["@row.id"], item.Image, 43480466)) || "/images/preview.png", item["@row.id"], item.Item)} className="cursor-pointer">
                             {item.Image ?

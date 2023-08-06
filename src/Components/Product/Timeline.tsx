@@ -43,7 +43,7 @@ const Timeline = () => {
 
     return (
         <div>
-            <div className="w-[60%] mx-auto">
+            <div className="w-[60%] md:w-[60%] xxs:w-[80%] mx-auto">
                 <Stepper
                     activeStep={activeStep}
                     isLastStep={(value) => setIsLastStep(value)}
@@ -52,7 +52,7 @@ const Timeline = () => {
                     activeLineClassName="border-transparent bg-c-deep-sky"
                 >
                     <Step className="h-4 w-4 !bg-c-novel" completedClassName="!bg-c-deep-sky" activeClassName="!bg-c-deep-sky">
-                        <div className="absolute -bottom-8 w-max text-center">
+                        <div className="absolute -bottom-8 w-max text-center xxs:max-sm:hidden">
                             <p
                                 className={`font-medium text-base ${activeStep >= 0 ? "text-c-deep-sky" : "text-black"}`}
                             >
@@ -61,7 +61,7 @@ const Timeline = () => {
                         </div>
                     </Step>
                     <Step className="h-4 w-4 !bg-c-novel" completedClassName="!bg-c-deep-sky" activeClassName="!bg-c-deep-sky">
-                        <div className="absolute -bottom-8 w-max text-center">
+                        <div className="absolute -bottom-8 w-max text-center xxs:max-sm:hidden">
                             <p
                                 className={`font-medium text-base ${activeStep >= 1 ? "text-c-deep-sky" : "text-black"}`}
                             >
@@ -70,7 +70,7 @@ const Timeline = () => {
                         </div>
                     </Step>
                     <Step className="h-4 w-4 !bg-c-novel" completedClassName="!bg-c-deep-sky" activeClassName="!bg-c-deep-sky">
-                        <div className="absolute -bottom-8 w-max text-center">
+                        <div className="absolute -bottom-8 w-max text-center xxs:max-sm:hidden">
                             <p
                                 className={`font-medium text-base ${activeStep >= 2 ? "text-c-deep-sky" : "text-black"}`}
                             >

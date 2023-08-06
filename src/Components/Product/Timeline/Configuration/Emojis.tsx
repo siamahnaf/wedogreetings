@@ -6,6 +6,8 @@ import { imageUrl } from "@/Helper/image-builder";
 
 //Component-
 import Letters from "./Emoji/Letters";
+import MobileBackdrop from "./Emoji/MobileBackdrop";
+import MobileLetters from "./Emoji/MobileLetters";
 import Selector from "./Emoji/Selector";
 
 //Context
@@ -95,8 +97,8 @@ const Emojis = ({ setStep }: Props) => {
 
     return (
         <div>
-            <p className="text-c-novel text-base text-center mb-12 w-[70%] mx-auto">Select a icons classes from the drop down then tap on the tiles to select your choice. <span className="text-black">If you are not sure which would look best the physical printed items on the day of installing.</span></p>
-            <div className="flex justify-center px-6">
+            <p className="text-c-novel text-base text-center mb-12 w-[70%] sm:w-[70%] xxs:w-full mx-auto">Select a icons classes from the drop down then tap on the tiles to select your choice. <span className="text-black">If you are not sure which would look best the physical printed items on the day of installing.</span></p>
+            <div className="flex justify-center px-6 lg-max:flex xxs:hidden">
                 <div className="grid grid-cols-12 gap-4 items-center justify-center">
                     <div className="col-span-2">
                         <div className="mb-3">
@@ -236,6 +238,82 @@ const Emojis = ({ setStep }: Props) => {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div className="lg-max:hidden xxs:block">
+                <div className="mb-3">
+                    <p className="font-semibold text-base">Top of display</p>
+                    <button className="text-xs font-medium text-c-deep-sky select-none" onClick={() => highlightHandler("top")}>{highlight === "top" ? "Click to Hide" : "Click to Select"}</button>
+                </div>
+                <MobileBackdrop highlight={highlight} />
+                <div className="mt-5 mb-3">
+                    <p className="font-semibold text-base">Left Side</p>
+                    <button className="text-xs font-medium text-c-deep-sky select-none" onClick={() => highlightHandler("left")}>{highlight === "left" ? "Click to Hide" : "Click to Select"}</button>
+                </div>
+                <div className="flex gap-5 lg:gap-5 md:gap-3 sm:gap-5 xxs:gap-3">
+                    {emoji.slice(0, 3).map((item) => (
+                        <Fragment key={item.index}>
+                            <div key={item.id} className={`w-[70px] h-[70px] sm:w-[70px] xxs:w-[60px] sm:h-[70px] xxs:h-[60px] rounded-md bg-c-gainsboro cursor-pointer p-2 border-2 border-solid ${highlight === "left" ? "border-black" : "border-transparent"}`} onClick={() => setOpen(item.index)}>
+                                <div className="flex justify-center items-center h-full">
+                                    {item.url === null &&
+                                        <div className="bg-c-white-smoke rounded-lg aspect-[1/1] text-center flex justify-center items-center">
+                                            <Image src="/images/preview.png" width={32} height={32} alt={item.name} className="mx-auto" />
+                                        </div>
+                                    }
+                                    {item.url &&
+                                        <div>
+                                            <Image src={imageUrl(Number(item.id), item.url, 43480466)} width={258} height={258} alt={item.name} className="w-[70px]" />
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <Selector
+                                open={open === item.index}
+                                onClose={() => setOpen(null)}
+                                items={items}
+                                selected={item}
+                                onChange={onItemClick}
+                                index={item.index}
+                            />
+                        </Fragment>
+                    ))}
+                </div>
+                <div className="mt-5 mb-3">
+                    <p className="font-semibold text-base">Right Side</p>
+                    <button className="text-xs font-medium text-c-deep-sky select-none" onClick={() => highlightHandler("right")}>{highlight === "right" ? "Click to Hide" : "Click to Select"}</button>
+                </div>
+                <div className="flex gap-5 lg:gap-5 md:gap-3 sm:gap-5 xxs:gap-3">
+                    {emoji.slice(3, 6).map((item) => (
+                        <Fragment key={item.index}>
+                            <div key={item.id} className={`w-[70px] h-[70px] sm:w-[70px] xxs:w-[60px] sm:h-[70px] xxs:h-[60px] rounded-md bg-c-gainsboro cursor-pointer p-2 border-2 border-solid ${highlight === "right" ? "border-black" : "border-transparent"}`} onClick={() => setOpen(item.index)}>
+                                <div className="flex justify-center items-center h-full">
+                                    {item.url === null &&
+                                        <div className="bg-c-white-smoke rounded-lg aspect-[1/1] text-center flex justify-center items-center">
+                                            <Image src="/images/preview.png" width={32} height={32} alt={item.name} className="mx-auto" />
+                                        </div>
+                                    }
+                                    {item.url &&
+                                        <div>
+                                            <Image src={imageUrl(Number(item.id), item.url, 43480466)} width={258} height={258} alt={item.name} className="w-[70px]" />
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <Selector
+                                open={open === item.index}
+                                onClose={() => setOpen(null)}
+                                items={items}
+                                selected={item}
+                                onChange={onItemClick}
+                                index={item.index}
+                            />
+                        </Fragment>
+                    ))}
+                </div>
+                <div className="mt-5 mb-3">
+                    <p className="font-semibold text-base">Forefront of display</p>
+                    <button className="text-xs font-medium text-c-deep-sky select-none" onClick={() => highlightHandler("bottom")}>{highlight === "bottom" ? "Click to Hide" : "Click to Select"}</button>
+                </div>
+                <MobileLetters highlight={highlight} />
             </div>
             <div className="mt-12">
                 <div className="flex gap-3 justify-center mt-8">

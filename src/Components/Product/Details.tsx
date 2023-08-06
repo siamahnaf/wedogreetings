@@ -18,9 +18,9 @@ const Details = () => {
     if (!dataObject) return null;
 
     return (
-        <div>
+        <div className="col-span-6 4xl:col-span-8 3xl:col-span-7 lg-max:col-span-6 xxs:col-span-12">
             <h3 className="text-3xl font-semibold mb-8">{dataObject["Product Name"]}</h3>
-            <div className="grid grid-cols-2 gap-5 mb-4">
+            <div className="grid grid-cols-2 msm:grid-cols-2 xxs:grid-cols-1 gap-5 mb-4">
                 <div className="border border-solid border-c-gainsboro py-3 px-5 rounded-xl">
                     <p className="text-base font-semibold"><span className="mr-1">From:</span> <span className="text-c-deep-sky">£{dataObject["Price From"]}</span></p>
                 </div>

@@ -61,13 +61,13 @@ const Review = () => {
                     ))}
                 </div>
             </div>
-            <div className="grid gap-5 mt-14 lg:hidden lg:grid-cols-2 xxs:grid-cols-1">
+            <div className="grid gap-5 mt-14 lg-max:hidden lg:grid-cols-2 xxs:grid-cols-1">
                 {data?.slice(0, 7).map((item, i) => (
-                    <div key={i} className="flex gap-5 items-center bg-white p-4 rounded-md">
-                        <div className="flex-[0_0_35%]">
-                            <Image src={imageUrl(item["@row.id"], item["Reviewee Image"], 43480102)} alt={item["Review Heading"]} width={174} height={200} className="aspect-[87/100] rounded-md" />
+                    <div key={i} className="flex gap-5 items-center bg-white p-4 rounded-md xxs:max-sm:flex-wrap">
+                        <div className="flex-[0_0_35%] sm:flex-[0_0_35%] xxs:flex-[0_0_100%]">
+                            <Image src={imageUrl(item["@row.id"], item["Reviewee Image"], 43480102)} alt={item["Review Heading"]} width={174} height={200} className="aspect-[87/100] xxs:max-sm:w-full rounded-md" />
                         </div>
-                        <div className="flex-[0_0_65%]">
+                        <div className="flex-[0_0_65%] sm:flex-[0_0_65%] xxs:flex-[0_0_100%]">
                             <h5 className="text-base 4xl:text-lg lg-max:text-base font-bold mb-1.5 w-[90%]">{item["Review Heading"]}</h5>
                             <Rating value={item["Star Rating"]} readonly />
                             <p className="text-sm 4xl:text-base lg-max:text-sm text-c-novel mt-2 w-[90%]">{item["Review Content"]}</p>

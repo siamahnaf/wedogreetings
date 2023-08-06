@@ -46,7 +46,7 @@ const Images = () => {
     }
 
     return (
-        <div>
+        <div className="col-span-6 4xl:col-span-4 3xl:col-span-5 lg-max:col-span-6 xxs:col-span-12">
             <div className="mb-5">
                 <Image src={selected} alt="Selected" width={1024} height={680} className="aspect-[128/85] rounded-lg" />
             </div>

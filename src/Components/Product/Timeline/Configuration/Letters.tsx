@@ -48,7 +48,14 @@ const Letters = ({ setStep }: Props) => {
             <p className="text-base text-c-novel text-center">
                 <span className="text-black">Tap/click letters</span> to adjust options. <span className="text-black">Only these color options</span> are available for <span className="text-black">rent on this day.</span>
             </p>
-            <div className="grid grid-cols-8 gap-4 mt-8">
+            <div className="lg:block xxs:hidden">
+                <div className="grid grid-cols-8 gap-4 mt-8">
+                    {names.map((item, i) => (
+                        <SingleLetters item={item} key={i} setSelected={setSelected} selected={selected} index={i} />
+                    ))}
+                </div>
+            </div>
+            <div className="flex gap-4 flex-wrap lg:hidden xxs:flex mt-8">
                 {names.map((item, i) => (
                     <SingleLetters item={item} key={i} setSelected={setSelected} selected={selected} index={i} />
                 ))}

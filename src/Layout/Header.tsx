@@ -13,7 +13,7 @@ interface Props {
 
 const Header = ({ active }: Props) => {
     return (
-        <Container className="py-1">
+        <Container className="py-1 bg-white shadow-3xl">
             <div className="flex gap-2 items-center">
                 <Logo />
                 <Navs active={active} />

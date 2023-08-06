@@ -30,7 +30,7 @@ const Card = () => {
                         <div className="text-center py-6 4xl:py-8 px-3">
                             <h5 className="text-lg uppercase font-bold mb-2">{item["Product Name"]}</h5>
                             <p className="text-sm 4xl:text-[17px] text-c-novel mt-3 mb-6 line-clamp-2">{item["Poduct Description Small"]}</p>
-                            <Link href={`/product/view/${item["@row.id"]}`} className="py-1.5 px-6 bg-c-deep-sky text-white rounded-md ">
+                            <Link href={`/product/view/${item["@row.id"]}`} className="py-1.5 px-6 3xl:px-8 bg-c-deep-sky text-white rounded-md ">
                                 Book Now
                             </Link>
                         </div>

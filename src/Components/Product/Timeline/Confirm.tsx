@@ -8,6 +8,8 @@ import { imageUrl } from "@/Helper/image-builder";
 
 //Component-
 import Letters from "./Configuration/Emoji/Letters";
+import MobileBackdrop from "./Configuration/Emoji/MobileBackdrop";
+import MobileLetters from "./Configuration/Emoji/MobileLetters";
 import Customer from "./Confirm/Customer";
 import Card from "./Confirm/Card";
 import Success from "./Confirm/Success";
@@ -64,15 +66,15 @@ const Confirm = () => {
 
     return (
         <>
-            <div className={`mt-16 bg-white shadow-3xl py-12 px-8 rounded-lg w-[90%] mx-auto ${step === "step0" ? "block" : "hidden"}`}>
+            <div className={`mt-16 sm:mt-16 xxs:mt-5 bg-white shadow-3xl py-12 px-8 msm:px-8 xxs:px-5 msm:py-12 xxs:py-5 rounded-lg w-[90%] lg:w-[90%] xxs:w-full mx-auto ${step === "step0" ? "block" : "hidden"}`}>
                 <div className="text-center mb-8">
-                    <h3 className="text-3xl font-bold text-c-deep-sky">ORDER CONFIRMATION!</h3>
+                    <h3 className="text-3xl sm:text-3xl xxs:text-2xl font-bold text-c-deep-sky">ORDER CONFIRMATION!</h3>
                     <p className="text-base text-c-novel mt-3">
                         Please check your order summary below
                     </p>
                 </div>
                 <hr className="mb-16" />
-                <div className="flex justify-center">
+                <div className="flex justify-center lg-max:flex xxs:hidden">
                     <div className="grid grid-cols-12 gap-4 items-center justify-center">
                         <div className="col-span-2">
                             <div className="mb-3">
@@ -169,14 +171,70 @@ const Confirm = () => {
                         </div>
                     </div>
                 </div>
-                <div className="mt-16 w-1/2 mx-auto">
-                    <p className="mb-1.5 text-c-novel flex"><span className="flex-1">Cost:</span> <span className="font-semibold text-black">£{getOnlyCost()}</span></p>
-                    <p className="mb-1.5 text-c-novel flex"><span className="flex-1">Surcharge:</span> <span className="font-semibold text-black">£{availableData?.surcharge || 0}</span></p>
-                    <p className="mb-1.5 text-c-novel flex"><span className="flex-1">Extended charge:</span> <span className="font-semibold text-black">{availableData?.formData.rental} × £25</span></p>
-                    <p className="mb-1.5 text-c-novel flex"><span className="flex-1">Selected option:</span> <span className="font-semibold text-black">{availableData?.formData.option}</span></p>
-                    <p className="mb-1.5 text-c-novel flex"><span className="flex-1">When:</span> <span className="text-black font-semibold">{moment(availableData?.formData.date?.endDate).format('Do MMMM YYYY')}</span></p>
-                    <p className="mb-1.5 text-c-novel flex"><span className="flex-1">Greeting Types:</span> <span className="font-semibold text-black">{dataObject?.["Product Name"]}</span></p>
-                    <p className="mb-1.5 text-c-novel flex"><span className="flex-1">Greeting Message:</span> <span className="text-black font-semibold">{configureData?.formData.name}</span></p>
+                <div className="lg-max:hidden xxs:block">
+                    <div className="mb-3">
+                        <p className="font-semibold text-base">Top of display</p>
+                    </div>
+                    <MobileBackdrop highlight="" />
+                    <div className="mt-5 mb-3">
+                        <p className="font-semibold text-base">Left Side</p>
+                    </div>
+                    <div className="flex gap-5 lg:gap-5 md:gap-3">
+                        {emojis?.slice(0, 3).map((item) => (
+                            <Fragment key={item.index}>
+                                <div key={item.id} className="w-[70px] h-[70px] rounded-md bg-c-gainsboro p-2 border-2 border-solid">
+                                    <div className="flex justify-center items-center h-full">
+                                        {item.url === null &&
+                                            <div className="bg-c-white-smoke rounded-lg aspect-[1/1] text-center flex justify-center items-center">
+                                                <Image src="/images/preview.png" width={32} height={32} alt={item.name} className="mx-auto" />
+                                            </div>
+                                        }
+                                        {item.url &&
+                                            <div>
+                                                <Image src={imageUrl(Number(item.id), item.url, 43480466)} width={258} height={258} alt={item.name} className="w-[70px]" />
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </Fragment>
+                        ))}
+                    </div>
+                    <div className="mt-5 mb-3">
+                        <p className="font-semibold text-base">Right Side</p>
+                    </div>
+                    <div className="flex gap-5 lg:gap-5 md:gap-3">
+                        {emojis?.slice(3, 6).map((item) => (
+                            <Fragment key={item.index}>
+                                <div key={item.id} className="w-[70px] h-[70px] rounded-md bg-c-gainsboro p-2 border-2 border-solid">
+                                    <div className="flex justify-center items-center h-full">
+                                        {item.url === null &&
+                                            <div className="bg-c-white-smoke rounded-lg aspect-[1/1] text-center flex justify-center items-center">
+                                                <Image src="/images/preview.png" width={32} height={32} alt={item.name} className="mx-auto" />
+                                            </div>
+                                        }
+                                        {item.url &&
+                                            <div>
+                                                <Image src={imageUrl(Number(item.id), item.url, 43480466)} width={258} height={258} alt={item.name} className="w-[70px]" />
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </Fragment>
+                        ))}
+                    </div>
+                    <div className="mt-5 mb-3">
+                        <p className="font-semibold text-base">Forefront of display</p>
+                    </div>
+                    <MobileLetters highlight="" />
+                </div>
+                <div className="mt-16 w-1/2 lg-max:w-1/2 xxs:w-full mx-auto">
+                    <p className="mb-1.5 text-c-novel flex xxs:max-sm:text-sm"><span className="flex-1">Cost:</span> <span className="font-semibold text-black">£{getOnlyCost()}</span></p>
+                    <p className="mb-1.5 text-c-novel flex xxs:max-sm:text-sm"><span className="flex-1">Surcharge:</span> <span className="font-semibold text-black">£{availableData?.surcharge || 0}</span></p>
+                    <p className="mb-1.5 text-c-novel flex xxs:max-sm:text-sm"><span className="flex-1">Extended charge:</span> <span className="font-semibold text-black">{availableData?.formData.rental} × £25</span></p>
+                    <p className="mb-1.5 text-c-novel flex xxs:max-sm:text-sm"><span className="flex-1">Selected option:</span> <span className="font-semibold text-black">{availableData?.formData.option}</span></p>
+                    <p className="mb-1.5 text-c-novel flex xxs:max-sm:text-sm"><span className="flex-1">When:</span> <span className="text-black font-semibold">{moment(availableData?.formData.date?.endDate).format('Do MMMM YYYY')}</span></p>
+                    <p className="mb-1.5 text-c-novel flex xxs:max-sm:text-sm"><span className="flex-1">Greeting Types:</span> <span className="font-semibold text-black">{dataObject?.["Product Name"]}</span></p>
+                    <p className="mb-1.5 text-c-novel flex xxs:max-sm:text-sm"><span className="flex-1">Greeting Message:</span> <span className="text-black font-semibold">{configureData?.formData.name}</span></p>
                     <hr className="border-c-deep-sky border-opacity-10 my-5" />
                     <p className="mb-1.5 text-c-novel flex"><span className="flex-1">Total:</span> <span className="text-black font-semibold">£{getTotalPrice()}</span></p>
                     <div className="flex gap-3 mt-12 justify-center">
@@ -189,13 +247,13 @@ const Confirm = () => {
                     </div>
                 </div>
             </div>
-            <div className={`mt-16 bg-white shadow-3xl py-12 px-8 rounded-lg w-[60%] mx-auto ${step === "step1" ? "block" : "hidden"}`}>
+            <div className={`mt-16 sm:mt-16 xxs:mt-5 bg-white shadow-3xl py-12 px-8 msm:px-8 xxs:px-5 msm:py-12 xxs:py-5 rounded-lg w-[60%] 4xl:w-[55%] lg-max:w-[60%] xxs:w-full mx-auto ${step === "step1" ? "block" : "hidden"}`}>
                 <Customer setStep={setStep} />
             </div>
-            <div className={`mt-16 bg-white shadow-3xl py-12 px-8 rounded-lg w-[60%] mx-auto ${step === "step2" ? "block" : "hidden"}`}>
+            <div className={`mt-16 sm:mt-16 xxs:mt-5 bg-white shadow-3xl py-12 px-8 msm:px-8 xxs:px-5 msm:py-12 xxs:py-5 rounded-lg w-[60%] lg-max:w-[60%] lg:w-[80%] xxs:w-full mx-auto ${step === "step2" ? "block" : "hidden"}`}>
                 <Card setStep={setStep} />
             </div>
-            <div className={`mt-16 bg-white shadow-3xl py-12 px-8 rounded-lg w-[45%] mx-auto ${step === "step3" ? "block" : "hidden"}`}>
+            <div className={`mt-16 sm:mt-16 xxs:mt-5 bg-white shadow-3xl py-12 px-8 msm:px-8 xxs:px-5 msm:py-12 xxs:py-5 rounded-lg w-[45%] lg-max:w-[45%] lg:w-[60%] md:w-[80%] xxs:w-full mx-auto ${step === "step3" ? "block" : "hidden"}`}>
                 <Success setStep={setStep} />
             </div>
         </>

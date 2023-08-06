@@ -16,8 +16,8 @@ const Available = ({ name, date, setAvailability }: Props) => {
     const { handleNext } = useContext(TimelineContext);
 
     return (
-        <div className="mt-16 bg-white shadow-3xl py-12 px-8 rounded-lg w-[550px] mx-auto text-center">
-            <h3 className="text-4xl font-bold text-c-deep-sky">FANTASTIC NEWS!</h3>
+        <div className="mt-16 sm:mt-16 xxs:mt-5 bg-white shadow-3xl py-12 px-8 msm:px-8 xxs:px-5 msm:py-12 xxs:py-5 rounded-lg w-[550px] lsm:w-[550px] xxs:w-full mx-auto text-center">
+            <h3 className="text-4xl sm:text-4xl xxs:text-2xl font-bold text-c-deep-sky">FANTASTIC NEWS!</h3>
             <p className="text-base text-c-novel mt-5">
                 We have availability on Sunday <span className="text-black font-medium">{moment(date).format("Do MMMM YYYY")}</span>. Your local installer and franchise owner would be <span className="text-black font-medium">{name}</span>.
             </p>

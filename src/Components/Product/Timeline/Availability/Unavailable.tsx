@@ -78,7 +78,7 @@ const Unavailable = ({ setAvailability }: Props) => {
     };
 
     return (
-        <div className="mt-16 bg-white shadow-3xl py-12 px-8 rounded-lg text-center w-[70%] mx-auto">
+        <div className="mt-16 sm:mt-16 xxs:mt-5 bg-white shadow-3xl py-12 px-8 msm:px-8 xxs:px-5 msm:py-12 xxs:py-5 rounded-lg text-center w-[70%] lg-max:w-[70%] xxs:w-full mx-auto">
             {(error || data?.[0].status === 201) &&
                 <Notification
                     open={notification}
@@ -88,7 +88,7 @@ const Unavailable = ({ setAvailability }: Props) => {
                     {error?.message ?? "Your request placed successfully!"}
                 </Notification>
             }
-            <h4 className="text-4xl font-bold text-c-deep-sky">REGRETTABLY</h4>
+            <h4 className="text-4xl sm:text-4xl xxs:text-2xl font-bold text-c-deep-sky">REGRETTABLY</h4>
             <p className="text-base text-c-novel mt-5"><span className="text-black">Oh no!</span> It looks like we don&apos;t currently have an installer in your area.</p>
             <form onSubmit={handleSubmit(onSubmit)} className="mt-10">
                 <div className="grid grid-cols-2 gap-4">
@@ -104,7 +104,7 @@ const Unavailable = ({ setAvailability }: Props) => {
                             }}
                         />
                     </div>
-                    <div>
+                    <div className="xxs:max-msm:col-span-2">
                         <Input
                             label="First Name"
                             color="cyan"
@@ -116,7 +116,7 @@ const Unavailable = ({ setAvailability }: Props) => {
                             }}
                         />
                     </div>
-                    <div>
+                    <div className="xxs:max-msm:col-span-2">
                         <Input
                             label="Last Name"
                             color="cyan"
@@ -128,7 +128,7 @@ const Unavailable = ({ setAvailability }: Props) => {
                             }}
                         />
                     </div>
-                    <div>
+                    <div className="xxs:max-msm:col-span-2">
                         <Input
                             label="Phone Number"
                             color="cyan"
@@ -140,7 +140,7 @@ const Unavailable = ({ setAvailability }: Props) => {
                             }}
                         />
                     </div>
-                    <div>
+                    <div className="xxs:max-msm:col-span-2">
                         <Input
                             label="Email"
                             color="cyan"
@@ -155,7 +155,7 @@ const Unavailable = ({ setAvailability }: Props) => {
                             }}
                         />
                     </div>
-                    <div>
+                    <div className="xxs:max-msm:col-span-2">
                         <Input
                             label="Post Code"
                             color="cyan"
@@ -167,7 +167,7 @@ const Unavailable = ({ setAvailability }: Props) => {
                             }}
                         />
                     </div>
-                    <div>
+                    <div className="xxs:max-msm:col-span-2">
                         <Input
                             label="Country"
                             color="cyan"

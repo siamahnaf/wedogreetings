@@ -176,8 +176,8 @@ const Card = ({ setStep }: Props) => {
                 <p className="text-base text-c-novel mt-2">Please select your preferred payment method from the options below</p>
             </div>
             <div>
-                <div className="bg-c-white-smoke w-[50%] mx-auto py-8 px-10 rounded relative border border-solid border-[#0AFFB1] cursor-pointer">
-                    <Image src="/images/pay.png" alt="World Pay" width={326} height={62} />
+                <div className="bg-c-white-smoke w-1/2 sm:w-1/2 xxs:w-full mx-auto py-8 px-10 rounded relative border border-solid border-[#0AFFB1] cursor-pointer">
+                    <Image src="/images/pay.png" alt="World Pay" width={326} height={62} className="mx-auto" />
                     <div className="w-[30px] h-[30px] bg-[#0AFFB1] absolute -top-3 -right-3 flex justify-center items-center text-white rounded-xl">
                         <Icon icon="mingcute:check-fill" />
                     </div>

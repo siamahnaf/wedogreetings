@@ -60,8 +60,8 @@ const Backdrop = ({ open, onClose, items, onChange, selected, index }: Props) =>
                 <h6 className="text-lg font-semibold">Select Letters</h6>
                 <hr className="mt-3" />
             </div>
-            <div className="max-h-[400px] overflow-auto">
-                <div className="grid grid-cols-5 gap-4 mt-5 pb-3">
+            <div className="aspect-[4/2] overflow-auto">
+                <div className="grid grid-cols-5 sm:grid-cols-5 xxs:grid-cols-4 gap-4 mt-5 pb-3">
                     {items?.map((item, i) => (
                         <div key={i} className={`cursor-pointer`} onClick={() => onItemClick({ url: item.Image, id: item["@row.id"].toString(), name: item.Item })}>
                             {item.Image ?

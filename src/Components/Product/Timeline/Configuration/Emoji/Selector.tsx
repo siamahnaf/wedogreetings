@@ -76,12 +76,12 @@ const Backdrop = ({ open, onClose, items, onChange, selected, index }: Props) =>
                 <h6 className="text-lg font-semibold">Select Accessories</h6>
                 <hr className="mt-3" />
             </div>
-            <div className="max-h-[400px] overflow-auto">
+            <div className="aspect-[4/2] overflow-auto">
                 <div className="mt-5 pb-3">
                     {Object.keys(groupedArray)?.map((category, i) => (
                         <div key={i}>
                             <h5 className={`text-lg font-bold mb-10 ${i > 0 && "mt-16"}`}>{category}</h5>
-                            <div className="grid grid-cols-5 gap-4">
+                            <div className="grid grid-cols-5 sm:grid-cols-5 xxs:grid-cols-3 gap-4">
                                 {groupedArray[category].map((item, it) => (
                                     <div key={it} className={`cursor-pointer ${item["@row.id"].toString() === selected.id && "bg-c-deep-sky p-3 rounded-lg"}`} onClick={() => onItemClick({ url: item.Image, id: item["@row.id"].toString(), name: item.Item })}>
                                         {item.Image ?

@@ -76,7 +76,7 @@ const SingleLetters = ({ item, selected, setSelected, index }: Props) => {
 
     return (
         <>
-            <div className={`w-[65px] h-[65px] rounded-md bg-c-white-smoke cursor-pointer ${(!item || item === " ") ? "pointer-events-none" : ""}`} onClick={() => setSelector(true)}>
+            <div className={`w-[65px] h-[65px] sm:w-[65px] xxs:w-[60px] sm:h-[65px] xxs:h-[60px] sm:p-2.5 xxs:p-2 rounded-md bg-c-white-smoke cursor-pointer ${(!item || item === " ") ? "pointer-events-none" : ""}`} onClick={() => setSelector(true)}>
                 <div className="flex justify-center items-center h-full">
                     {isPending && item &&
                         <div className="w-5 h-5 border-b-2 border-black rounded-full animate-spin"></div>

@@ -3,7 +3,7 @@ import Link from "next/link";
 //Data
 const data = [
     { name: "Home", id: "home", url: "/" },
-    { name: "About", id: "about", url: "/about-us" },
+    { name: "About Us", id: "about", url: "/about-us" },
     { name: "FAQ's", id: "faq", url: "/faq" }
 ]
 
@@ -14,7 +14,7 @@ interface Props {
 
 const Navs = ({ active }: Props) => {
     return (
-        <div className="flex-1 text-center xxs:max-lg:hidden">
+        <div className="flex-1 text-center xxs:max-lg-max:hidden">
             <ul className="flex gap-2 justify-center">
                 {data.map((item, i) => (
                     <li key={i} className="mx-px">

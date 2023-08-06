@@ -52,17 +52,17 @@ const Form = () => {
     }
 
     return (
-        <div className="col-span-8 bg-c-deep-sky bg-opacity-10 p-7 rounded-md">
+        <div className="col-span-8 3xl:col-span-9 lg:col-span-8 xxs:col-span-12 bg-c-deep-sky bg-opacity-10 p-7 sm:p-7 xxs:p-4 rounded-md">
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="grid grid-cols-2 gap-5">
-                    <div>
+                <div className="grid grid-cols-2 gap-5 sm:gap-5 xxs:gap-3">
+                    <div className="xxs:max-sm:col-span-2">
                         <input
                             className={`bg-white focus:outline-none py-3 px-4 rounded-md w-full border border-solid ${errors.firstName ? "border-red-600" : "border-transparent"}`}
                             placeholder="First Name"
                             {...register("firstName", { required: true })}
                         />
                     </div>
-                    <div>
+                    <div className="xxs:max-sm:col-span-2">
                         <input
                             className={`bg-white focus:outline-none py-3 px-4 rounded-md w-full border border-solid ${errors.lastName ? "border-red-600" : "border-transparent"}`}
                             placeholder="Last Name"
@@ -93,7 +93,7 @@ const Form = () => {
                     </div>
                 </div>
                 <div className="text-center mt-7">
-                    <button type="submit" className="bg-c-deep-sky py-2 px-16 rounded-md text-white font-semibold uppercase text-sm relative" disabled={loading}>
+                    <button type="submit" className="bg-c-deep-sky py-2 px-16 4xl:px-24 4xl:py-3.5 3xl:py-2.5 rounded-md text-white font-semibold uppercase text-sm relative" disabled={loading}>
                         <span className={`${loading ? "opacity-30" : "opacity-100"}`}>send</span>
                         <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
                             {loading &&

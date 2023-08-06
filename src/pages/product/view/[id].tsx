@@ -33,7 +33,7 @@ const ProductView = () => {
                 <Header />
             </Container>
             <Container className="bg-c-deep-sky bg-opacity-10 py-12">
-                <div className="grid grid-cols-2 gap-10">
+                <div className="grid grid-cols-12 gap-10 lsm:gap-10 xxs:gap-0 xxs:max-sm:gap-y-5">
                     <Images />
                     <Details />
                 </div>

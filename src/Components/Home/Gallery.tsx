@@ -31,7 +31,7 @@ const Gallery = () => {
                 <div className="embla__viewport" ref={emblaRef}>
                     <div className="embla__container flex">
                         {data?.map((item, i) => (
-                            <div className="embla__slide flex-[0_0_20%] lg-max:flex-[0_0_20%] lg:flex-[0_0_25%] md:flex-[0_0_30%] lsm:flex-[0_0_35%] msm:flex-[0_0_40%] sm:flex-[0_0_50%] mx-2" key={i}>
+                            <div className="embla__slide flex-[0_0_20%] lg-max:flex-[0_0_20%] lg:flex-[0_0_25%] md:flex-[0_0_30%] lsm:flex-[0_0_35%] msm:flex-[0_0_40%] sm:flex-[0_0_50%] xxs:flex-[0_0_60%] mx-2" key={i}>
                                 <Image src={imageUrl(item["@row.id"], item.image, 43481596)} alt={item["Alternative Text"]} width={385} height={280} className="aspect-[11/8] rounded-lg" />
                             </div>
                         ))}

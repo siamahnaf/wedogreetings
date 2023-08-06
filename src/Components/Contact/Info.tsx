@@ -12,9 +12,9 @@ const Socials = [
 
 const Info = () => {
     return (
-        <div className="col-span-4 bg-white shadow-3xl rounded-lg pb-7 px-7">
+        <div className="col-span-4 3xl:col-span-3 lg:col-span-4 xxs:col-span-12 bg-white shadow-3xl rounded-lg pb-7 px-7">
             <Image src="/images/contact/contact.png" alt="Contact us" width={688} height={608} className="mx-auto" />
-            <div className="block h-[60px] w-[250px]">
+            <div className="block h-[60px] w-[250px] xxs:max-lg:mt-8">
                 <Rive src="/rive/logo.riv" width="100%" height="100%" />
             </div>
             <p className="text-c-novel text-base mb-5">Wish to get a website or mobile app Developed. Let us handle everything for you. Palmspire is the one stop solution.</p>

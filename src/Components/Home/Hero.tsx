@@ -62,7 +62,7 @@ const Hero = () => {
                                         <p className="text-base 4xl:text-[17px] lg-max:text-base lg:text-[15px] lsm:text-sm xxs:text-sm font-medium opacity-80 mb-8 sm:mb-8 xxs:mb-5 xxs:max-lsm:line-clamp-2">{item.Copy}</p>
                                         <Link
                                             to="bookNow"
-                                            className="bg-c-deep-sky py-2 px-10 sm:px-10 xxs:px-5 rounded-md font-semibold uppercase text-sm cursor-pointer sm:text-sm xxs:text-[13px]"
+                                            className="bg-c-deep-sky py-2 3xl:py-2.5 px-10 3xl:px-14 sm:px-10 xxs:px-5 rounded-md font-semibold uppercase text-sm cursor-pointer sm:text-sm xxs:text-[13px]"
                                             smooth={true}
                                             offset={0}
                                             duration={300}
