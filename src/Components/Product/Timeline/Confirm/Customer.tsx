@@ -169,6 +169,7 @@ const Customer = ({ setStep }: Props) => {
                         />
                     </div>
                     <div className="col-span-2">
+                        <p className="text-blue-gray-300 text-sm mb-2">Where should we install your rental? Input the full street address and postcode.</p>
                         <Textarea
                             label="Installation address"
                             color="cyan"
