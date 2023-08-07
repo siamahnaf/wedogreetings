@@ -108,9 +108,8 @@ const Card = ({ setStep }: Props) => {
         const createMD5Signature = (data: string) => {
             return crypto.createHash('md5').update(data).digest('hex');
         };
-        const billing = `&name=${customer?.formData["First Name"]}&address1=${customer?.formData["Address line"]}&postcode=${customer?.formData["Post Code"]}&country=${customer?.formData.Country}&tel=${customer?.formData.Phone}&email=${customer?.formData.Email}`
+        const billing = `&name=${customer?.formData["First Name"]}&address1=${customer?.formData["Address line"]}&town=${customer?.formData.County}&postcode=${customer?.formData["Post Code"]}&country=UK&tel=${customer?.formData.Phone}&email=${customer?.formData.Email}`
         const url = `https://secure-test.worldpay.com/wcc/purchase?instId=1471088&cartId=${uniqueID}&amount=${getTotalPrice()}&currency=GBP&testMode=100&accId1=44606504&signature=${createMD5Signature(getTotalPrice()?.toString() as string)}${customer?.formData["Billing Address"] && billing}`;
-
         const newPopupWindow = window.open(url, 'mini-popup', `width=${width},height=${height},top=${top},left=${left}`);
         setPopupWindow(newPopupWindow)
     }
@@ -161,7 +160,8 @@ const Card = ({ setStep }: Props) => {
                 "Rentals String": rentalString,
                 "Customer String": customer?.customerString as string,
                 "Location": configureData?.formData.location,
-                "Base": configureData?.formData.base
+                "Base": configureData?.formData.base,
+                "Name of Recipient": customer?.formData.Recipient as string
             }
             mutate(formData)
             setHasRunEffect(true);

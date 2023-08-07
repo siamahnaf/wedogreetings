@@ -14,12 +14,8 @@ export const GET_SINGLE_PRODUCT = async (id: number): Promise<ProductData[]> => 
 //Get All Product List
 export const GET_ALL_PRODUCT = async (): Promise<ProductData[]> => await (await fetch("https://wdg.teamdesk.net/secure/api/v2/90582/Web%20Product%20Listing/Default%20View/select.json", { headers }).then(res => res.json()));
 
-
-
-
-
 //GET Postal Codes
-export const GET_POSTAL_CODE = async (code: string): Promise<FranchiseeAreaCodeData[]> => await (await fetch(`https://wdg.teamdesk.net/secure/api/v2/90582/Franchisee%20Area%20Code/select.json?filter=%5BArea%20Code%5D%3D%22${code.replace(/ /g, "%20")}%22`, { headers }).then(res => res.json()));
+export const GET_POSTAL_CODE = async (code: string): Promise<FranchiseeAreaCodeData[]> => await (await fetch(`https://wdg.teamdesk.net/secure/api/v2/90582/Franchisee%20Area%20Code/select.json?filter=%5BArea%20Code%20w%2Fo%20Spaces%5D%3D%22${code.replace(/\s/g, '')}%22`, { headers }).then(res => res.json()));
 
 //GET Unavailability Date
 export const GET_UNAVAILABLE_DATE = async (id: string): Promise<UnavailabilityData[]> => await (await fetch(`https://wdg.teamdesk.net/secure/api/v2/90582/Unavailable%20Date/select.json?filter=%5BReference%20to%20Admin%20-%20User%20Property%5D%3DToUser(%22${getOwner(id)}%22)`, { headers }).then(res => res.json()));
@@ -65,12 +61,7 @@ export const GET_LETTERS = async (letter: string): Promise<GetLettersData[]> => 
 //([Category]="Letters" or [Category]="Numbers" or [Category]="Characters") and [Status]="Active" and [Item]="2"
 
 //GET Emoji
-export const GET_EMOJIS = async (): Promise<GetBackdropData[]> => await (await fetch("https://wdg.teamdesk.net/secure/api/v2/90582/Web%20Inventory%20Master%20Vertical/List%20All/select.json?filter=(%5BCategory%5D%3D%22Accessories%22%20or%20%5BCategory%5D%3D%22Emojis%22)%20and%20%5BStatus%5D%3D%22Active%22&top=20", { headers }).then(res => res.json()));
-
-
-
-
-
+export const GET_EMOJIS = async (): Promise<GetBackdropData[]> => await (await fetch("https://wdg.teamdesk.net/secure/api/v2/90582/Web%20Inventory%20Master%20Vertical/Default%20View/select.json?filter=(%5BCategory%5D%3D%22Accessories%22%20or%20%5BCategory%5D%3D%22Emojis%22)%20and%20%5BStatus%5D%3D%22Active%22", { headers }).then(res => res.json()));
 
 
 

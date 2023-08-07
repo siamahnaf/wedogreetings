@@ -21,7 +21,8 @@ export interface Inputs {
     "Email": string;
     "Address line": string;
     "Post Code": string;
-    "Country": string;
+    "Recipient": "",
+    "County": string;
     "Opt-in Marketing": boolean;
     "Opt-in Terms": boolean;
     "Billing Address": boolean;
@@ -49,7 +50,7 @@ const Customer = ({ setStep }: Props) => {
 
     //Submit Handler
     const onSubmit: SubmitHandler<Inputs> = (value) => {
-        const customerString = Object.values(value).join("|");
+        const customerString = `${value.Title}|${value["First Name"]}|${value["Last Name"]}|${value.Phone}|${value.Email}|${value["Address line"]}|${value["Post Code"]}|${value.County}|${value["Opt-in Marketing"] ? new Date().toISOString() : ''}|${value["Opt-in Terms"] ? new Date().toISOString() : ''}`
         setCustomer?.({ formData: value, customerString })
         setStep("step2")
     }
@@ -61,7 +62,7 @@ const Customer = ({ setStep }: Props) => {
     return (
         <div>
             <div className="text-center mb-12">
-                <h5 className="text-3xl sm:text-3xl xxs:text-2xl font-bold text-c-deep-sky">CUSTOMER INFORMATION</h5>
+                <h5 className="text-3xl sm:text-3xl xxs:text-2xl font-bold text-c-deep-sky">Installation Information</h5>
                 <p className="text-base text-c-novel mt-2">Please enter your information</p>
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -80,7 +81,7 @@ const Customer = ({ setStep }: Props) => {
                     </div>
                     <div className="xxs:max-msm:col-span-2">
                         <Input
-                            label="First Name"
+                            label="First name"
                             color="cyan"
                             id="firstName"
                             {...register("First Name", { required: true })}
@@ -92,7 +93,7 @@ const Customer = ({ setStep }: Props) => {
                     </div>
                     <div className="xxs:max-msm:col-span-2">
                         <Input
-                            label="Last Name"
+                            label="Last name"
                             color="cyan"
                             id="lastName"
                             {...register("Last Name", { required: true })}
@@ -102,9 +103,22 @@ const Customer = ({ setStep }: Props) => {
                             }}
                         />
                     </div>
+                    <div className="col-span-2">
+                        <Input
+                            label="Name of recipient"
+                            color="cyan"
+                            id="Recipient"
+                            {...register("Recipient", { required: true })}
+                            error={errors.Recipient ? true : false}
+                            onInput={(e: ChangeEvent<HTMLInputElement>) => {
+                                e.target.value = e.target.value.replace(/\|/g, '')
+                            }}
+                        />
+                        <p className="text-[13px] 4xl:text-[13px] opacity-40 mt-1.5">*Name of the person who will oversee installation</p>
+                    </div>
                     <div className="xxs:max-msm:col-span-2">
                         <Input
-                            label="Phone Number"
+                            label="Phone number"
                             color="cyan"
                             id="phone"
                             {...register("Phone", { required: true })}
@@ -131,9 +145,10 @@ const Customer = ({ setStep }: Props) => {
                     </div>
                     <div className="xxs:max-msm:col-span-2">
                         <Input
-                            label="Post Code"
+                            label="Post code"
                             color="cyan"
                             id="postCode"
+                            readOnly
                             {...register("Post Code", { required: true })}
                             error={errors["Post Code"] ? true : false}
                             onInput={(e: ChangeEvent<HTMLInputElement>) => {
@@ -142,30 +157,20 @@ const Customer = ({ setStep }: Props) => {
                         />
                     </div>
                     <div className="xxs:max-msm:col-span-2">
-                        <Controller
-                            control={control}
-                            name="Country"
-                            rules={{ required: true }}
-                            render={({ field: { onChange, value } }) => (
-                                <Select
-                                    label="Country"
-                                    value={value}
-                                    color="cyan"
-                                    onChange={(e) => onChange(e as string)}
-                                    error={errors.Country ? true : false}
-                                >
-                                    {countryData.map((item, i) => (
-                                        <Option value={item.code} key={i}>
-                                            {item.name}
-                                        </Option>
-                                    ))}
-                                </Select>
-                            )}
+                        <Input
+                            label="County"
+                            color="cyan"
+                            id="county"
+                            {...register("County", { required: true })}
+                            error={errors["County"] ? true : false}
+                            onInput={(e: ChangeEvent<HTMLInputElement>) => {
+                                e.target.value = e.target.value.replace(/\|/g, '')
+                            }}
                         />
                     </div>
                     <div className="col-span-2">
                         <Textarea
-                            label="Customer Address"
+                            label="Installation address"
                             color="cyan"
                             id="address"
                             {...register("Address line", { required: true })}
@@ -175,7 +180,7 @@ const Customer = ({ setStep }: Props) => {
                                 e.target.value = e.target.value.replace(/\|/g, '');
                             }}
                         />
-                        <p className="text-xs 4xl:text-[13px] opacity-40 mt-1.5">*Please provide the installation address where we will set up the display. Note that this address should fall within the same postcode coverage area as the one you&apos;ve previously supplied for locating a local installer!</p>
+                        <p className="text-[13px] 4xl:text-[13px] opacity-40 mt-1.5">*Please provide the installation address where we will set up the display. Note that this address should fall within the same postcode coverage area as the one you&apos;ve previously supplied for locating a local installer!</p>
                     </div>
                 </div>
                 <div className="-ml-3 mt-6">
