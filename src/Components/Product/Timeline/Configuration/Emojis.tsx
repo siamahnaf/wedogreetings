@@ -1,5 +1,6 @@
 import { useContext, useState, Dispatch, SetStateAction, useMemo, Fragment } from "react";
 import Image from "next/image";
+import { Icon } from "@iconify/react";
 
 //Image Builder
 import { imageUrl } from "@/Helper/image-builder";
@@ -43,7 +44,7 @@ interface Props {
 
 const Emojis = ({ setStep }: Props) => {
     //Context
-    const { availableData, setEmojis, handleNext, letters } = useContext(TimelineContext);
+    const { availableData, setEmojis, handleNext } = useContext(TimelineContext);
 
     //State
     const [emoji, setEmoji] = useState<EmojiTypes[]>(initialData);
@@ -107,14 +108,15 @@ const Emojis = ({ setStep }: Props) => {
                                     <div key={item.id} className={`w-[70px] h-[70px] rounded-md bg-c-gainsboro cursor-pointer p-2 border-2 border-solid mx-auto ${highlight === "left" ? "border-black" : "border-transparent"}`} onClick={() => setOpen(item.index)}>
                                         <div className="flex justify-center items-center h-full">
                                             {item.url === null &&
-                                                <div className="bg-c-white-smoke rounded-lg aspect-[1/1] text-center flex justify-center items-center">
-                                                    <Image src="/images/preview.png" width={32} height={32} alt={item.name} className="mx-auto" />
-                                                </div>
+                                                <Image src="/images/preview.png" width={32} height={32} alt={item.name} className="mx-auto" />
                                             }
                                             {item.url &&
                                                 <div>
                                                     <Image src={imageUrl(Number(item.id), item.url, 43480466)} width={258} height={258} alt={item.name} className="w-[70px]" />
                                                 </div>
+                                            }
+                                            {!item.url && item.url !== null &&
+                                                <Icon className="text-xl text-c-novel" icon="majesticons:plus-line" />
                                             }
                                         </div>
                                     </div>
@@ -122,7 +124,7 @@ const Emojis = ({ setStep }: Props) => {
                                         open={open === item.index}
                                         onClose={() => console.log("clicked")}
                                         items={items}
-                                        selected={item}
+                                        selected={emoji}
                                         onChange={onItemClick}
                                         index={item.index}
                                     />
@@ -135,14 +137,15 @@ const Emojis = ({ setStep }: Props) => {
                                     <div key={item.id} className={`w-[70px] h-[70px] rounded-md bg-c-gainsboro cursor-pointer p-2 border-2 border-solid ${highlight === "left" ? "border-black" : "border-transparent"}`} onClick={() => setOpen(item.index)}>
                                         <div className="flex justify-center items-center h-full">
                                             {item.url === null &&
-                                                <div className="bg-c-gainsboro rounded-lg aspect-[1/1] text-center flex justify-center items-center">
-                                                    <Image src="/images/preview.png" width={32} height={32} alt={item.name} className="mx-auto" />
-                                                </div>
+                                                <Image src="/images/preview.png" width={32} height={32} alt={item.name} className="mx-auto" />
                                             }
                                             {item.url &&
                                                 <div>
                                                     <Image src={imageUrl(Number(item.id), item.url, 43480466)} width={258} height={258} alt={item.name} className="w-[70px]" />
                                                 </div>
+                                            }
+                                            {!item.url && item.url !== null &&
+                                                < Icon className="text-xl text-c-novel" icon="majesticons:plus-line" />
                                             }
                                         </div>
                                     </div>
@@ -150,7 +153,7 @@ const Emojis = ({ setStep }: Props) => {
                                         open={open === item.index}
                                         onClose={() => console.log("clicked")}
                                         items={items}
-                                        selected={item}
+                                        selected={emoji}
                                         onChange={onItemClick}
                                         index={item.index}
                                     />
@@ -182,14 +185,15 @@ const Emojis = ({ setStep }: Props) => {
                                     <div key={item.id} className={`w-[70px] h-[70px] rounded-md bg-c-gainsboro cursor-pointer p-2 border-2 border-solid mx-auto ${highlight === "right" ? "border-black" : "border-transparent"}`} onClick={() => setOpen(item.index)}>
                                         <div className="flex justify-center items-center h-full">
                                             {item.url === null &&
-                                                <div className="bg-c-white-smoke rounded-lg aspect-[1/1] text-center flex justify-center items-center">
-                                                    <Image src="/images/preview.png" width={32} height={32} alt={item.name} className="mx-auto" />
-                                                </div>
+                                                <Image src="/images/preview.png" width={32} height={32} alt={item.name} className="mx-auto" />
                                             }
                                             {item.url &&
                                                 <div>
                                                     <Image src={imageUrl(Number(item.id), item.url, 43480466)} width={258} height={258} alt={item.name} className="w-[70px]" />
                                                 </div>
+                                            }
+                                            {!item.url && item.url !== null &&
+                                                <Icon className="text-xl text-c-novel" icon="majesticons:plus-line" />
                                             }
                                         </div>
                                     </div>
@@ -197,7 +201,7 @@ const Emojis = ({ setStep }: Props) => {
                                         open={open === item.index}
                                         onClose={() => console.log("clicked")}
                                         items={items}
-                                        selected={item}
+                                        selected={emoji}
                                         onChange={onItemClick}
                                         index={item.index}
                                     />
@@ -210,14 +214,15 @@ const Emojis = ({ setStep }: Props) => {
                                     <div key={item.id} className={`w-[70px] h-[70px] rounded-md bg-c-gainsboro cursor-pointer p-2 border-2 border-solid ${highlight === "right" ? "border-black" : "border-transparent"}`} onClick={() => setOpen(item.index)}>
                                         <div className="flex justify-center items-center h-full">
                                             {item.url === null &&
-                                                <div className="bg-c-white-smoke rounded-lg aspect-[1/1] text-center flex justify-center items-center">
-                                                    <Image src="/images/preview.png" width={32} height={32} alt={item.name} className="mx-auto" />
-                                                </div>
+                                                <Image src="/images/preview.png" width={32} height={32} alt={item.name} className="mx-auto" />
                                             }
                                             {item.url &&
                                                 <div>
                                                     <Image src={imageUrl(Number(item.id), item.url, 43480466)} width={258} height={258} alt={item.name} className="w-[70px]" />
                                                 </div>
+                                            }
+                                            {!item.url && item.url !== null &&
+                                                <Icon className="text-xl text-c-novel" icon="majesticons:plus-line" />
                                             }
                                         </div>
                                     </div>
@@ -225,7 +230,7 @@ const Emojis = ({ setStep }: Props) => {
                                         open={open === item.index}
                                         onClose={() => console.log("clicked")}
                                         items={items}
-                                        selected={item}
+                                        selected={emoji}
                                         onChange={onItemClick}
                                         index={item.index}
                                     />
@@ -255,14 +260,15 @@ const Emojis = ({ setStep }: Props) => {
                             <div key={item.id} className={`w-[70px] h-[70px] sm:w-[70px] xxs:w-[60px] sm:h-[70px] xxs:h-[60px] rounded-md bg-c-gainsboro cursor-pointer p-2 border-2 border-solid ${highlight === "left" ? "border-black" : "border-transparent"}`} onClick={() => setOpen(item.index)}>
                                 <div className="flex justify-center items-center h-full">
                                     {item.url === null &&
-                                        <div className="bg-c-white-smoke rounded-lg aspect-[1/1] text-center flex justify-center items-center">
-                                            <Image src="/images/preview.png" width={32} height={32} alt={item.name} className="mx-auto" />
-                                        </div>
+                                        <Image src="/images/preview.png" width={32} height={32} alt={item.name} className="mx-auto" />
                                     }
                                     {item.url &&
                                         <div>
                                             <Image src={imageUrl(Number(item.id), item.url, 43480466)} width={258} height={258} alt={item.name} className="w-[70px]" />
                                         </div>
+                                    }
+                                    {!item.url && item.url !== null &&
+                                        <Icon className="text-xl text-c-novel" icon="majesticons:plus-line" />
                                     }
                                 </div>
                             </div>
@@ -270,7 +276,7 @@ const Emojis = ({ setStep }: Props) => {
                                 open={open === item.index}
                                 onClose={() => setOpen(null)}
                                 items={items}
-                                selected={item}
+                                selected={emoji}
                                 onChange={onItemClick}
                                 index={item.index}
                             />
@@ -287,14 +293,15 @@ const Emojis = ({ setStep }: Props) => {
                             <div key={item.id} className={`w-[70px] h-[70px] sm:w-[70px] xxs:w-[60px] sm:h-[70px] xxs:h-[60px] rounded-md bg-c-gainsboro cursor-pointer p-2 border-2 border-solid ${highlight === "right" ? "border-black" : "border-transparent"}`} onClick={() => setOpen(item.index)}>
                                 <div className="flex justify-center items-center h-full">
                                     {item.url === null &&
-                                        <div className="bg-c-white-smoke rounded-lg aspect-[1/1] text-center flex justify-center items-center">
-                                            <Image src="/images/preview.png" width={32} height={32} alt={item.name} className="mx-auto" />
-                                        </div>
+                                        <Image src="/images/preview.png" width={32} height={32} alt={item.name} className="mx-auto" />
                                     }
                                     {item.url &&
                                         <div>
                                             <Image src={imageUrl(Number(item.id), item.url, 43480466)} width={258} height={258} alt={item.name} className="w-[70px]" />
                                         </div>
+                                    }
+                                    {!item.url && item.url !== null &&
+                                        <Icon className="text-xl text-c-novel" icon="majesticons:plus-line" />
                                     }
                                 </div>
                             </div>
@@ -302,7 +309,7 @@ const Emojis = ({ setStep }: Props) => {
                                 open={open === item.index}
                                 onClose={() => setOpen(null)}
                                 items={items}
-                                selected={item}
+                                selected={emoji}
                                 onChange={onItemClick}
                                 index={item.index}
                             />

@@ -44,7 +44,7 @@ const Inspire = ({ open, onClose }: Props) => {
                 <hr className="mt-3" />
             </div>
             <div className="aspect-[4/2] overflow-auto">
-                <div className="grid grid-cols-5 lg-max:grid-cols-5 lg:grid-cols-4 msm:grid-cols-3 xxs:grid-cols-2 gap-4 mt-5 pb-3">
+                <div className="grid grid-cols-4 lg-max:grid-cols-4 lg:grid-cols-3 msm:grid-cols-2 xxs:grid-cols-1 gap-4 mt-5 pb-3">
                     {isPending ? (
                         <>
                             {Array.from({ length: 20 }, (_, index) => (

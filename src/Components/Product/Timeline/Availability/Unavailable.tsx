@@ -169,7 +169,7 @@ const Unavailable = ({ setAvailability }: Props) => {
                     </div>
                     <div className="xxs:max-msm:col-span-2">
                         <Input
-                            label="Country"
+                            label="County"
                             color="cyan"
                             id="country"
                             {...register("County", { required: true })}
