@@ -69,6 +69,7 @@ const Backdrop = ({ open, onClose, selected, onChange }: Props) => {
             }
             setBackdrops(newData)
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data]);
 
     return (
