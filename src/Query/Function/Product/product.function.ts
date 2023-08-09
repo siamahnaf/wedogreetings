@@ -4,7 +4,7 @@ import { headers } from "../../Client";
 import { getOwner } from "@/Helper/record-owner";
 
 //Types
-import { ProductData, FranchiseeAreaCodeData, UnavailabilityData, FranchiseeDetailsData, OrderDetailsForTiming, AddCustomRequestData, AddCustomRequestResponse, GetBackdropData, GetBackdropStock, GetLettersData, GetResponseData, AddOrderPlaceData, GetExamLettersData } from "@/Query/Types/Product/product.types";
+import { ProductData, FranchiseeAreaCodeData, UnavailabilityData, FranchiseeDetailsData, OrderDetailsForTiming, AddCustomRequestData, AddCustomRequestResponse, GetProductData, GetResponseData, AddOrderPlaceData, GetExamLettersData } from "@/Query/Types/Product/product.types";
 
 
 
@@ -35,13 +35,8 @@ export const GET_REMOVAL_TIMES = async (date: string, id: string): Promise<Order
 
 
 
-
-
-
 //Add Custom Request
 export const ADD_CUSTOM_REQUEST = async (data: AddCustomRequestData): Promise<AddCustomRequestResponse[]> => await (await fetch("https://wdg.teamdesk.net/secure/api/v2/90582/Customer/create.json", { method: "POST", headers, body: JSON.stringify(data) }).then(res => res.json()));
-
-
 
 
 
@@ -49,24 +44,20 @@ export const ADD_CUSTOM_REQUEST = async (data: AddCustomRequestData): Promise<Ad
 export const GET_EXAMPLE_LETTERS = async (): Promise<GetExamLettersData[]> => await (await fetch("https://wdg.teamdesk.net/secure/api/v2/90582/Web%20Inspire%20%252F%20Show%20Me/Default%20View/select.json?filter=%5BType%5D%3D%22Inspire-Me%22", { headers }).then(res => res.json()));
 
 //GET Backdrop
-export const GET_BACKDROP = async (): Promise<GetBackdropData[]> => await (await fetch("https://wdg.teamdesk.net/secure/api/v2/90582/Web%20Inventory%20Master%20Vertical/List%20All/select.json?filter=%5BCategory%5D%3D%22Foldable%20Background%22%20and%20%5BStatus%5D%3D%22Active%22", { headers }).then(res => res.json()));
-
-//Get Backdrop Stock
-export const GET_INVENTORY_STOCK = async (franchise: string): Promise<GetBackdropStock[]> => await (await fetch(`https://wdg.teamdesk.net/secure/api/v2/90582/Customer%20Rental/select.json?filter=%5BRecord%20Owner%5D%3DToUser(%22${getOwner(franchise)}%22)`, { headers }).then(res => res.json()));
+export const GET_BACKDROP = async (id: string): Promise<GetProductData[]> => await (await fetch(`https://wdg.teamdesk.net/secure/api/v2/90582/Item%20in%20Stock/Default%20View/select.json?filter=%5BCategory%5D%3D%22Foldable%20Background%22%20and%20%5BStatus%5D%3D%22Active%22%20and%20%5BEmail%5D%3D%22${getOwner(id)}%22`, { headers }).then(res => res.json()));
 
 
 //Get Letters
-export const GET_LETTERS = async (letter: string): Promise<GetLettersData[]> => await (await fetch(`https://wdg.teamdesk.net/secure/api/v2/90582/Web%20Inventory%20Master%20Vertical/Default%20View/select.json?filter=(%5BCategory%5D%3D%22Letters%22%20or%20%5BCategory%5D%3D%22Numbers%22%20or%20%5BCategory%5D%3D%22Characters%22)%20and%20%5BStatus%5D%3D%22Active%22%20and%20%5BItem%5D%3D%22${letter}%22`, { headers }).then(res => res.json()));
-
-//([Category]="Letters" or [Category]="Numbers" or [Category]="Characters") and [Status]="Active" and [Item]="2"
+export const GET_LETTERS = async (letter: string, id: string): Promise<GetProductData[]> => await (await fetch(`https://wdg.teamdesk.net/secure/api/v2/90582/Item%20in%20Stock/Default%20View/select.json?filter=%5BCategory%5D%3D%22Characters%22%20and%20%5BStatus%5D%3D%22Active%22%20and%20%5BEmail%5D%3D%22${getOwner(id)}%22%20and%20%5BItem%5D%3D%22${letter}%22`, { headers }).then(res => res.json()));
 
 //GET Emoji
-export const GET_EMOJIS = async (): Promise<GetBackdropData[]> => await (await fetch("https://wdg.teamdesk.net/secure/api/v2/90582/Web%20Inventory%20Master%20Vertical/Default%20View/select.json?filter=(%5BCategory%5D%3D%22Accessories%22%20or%20%5BCategory%5D%3D%22Emojis%22)%20and%20%5BStatus%5D%3D%22Active%22", { headers }).then(res => res.json()));
+export const GET_EMOJIS = async (id: string): Promise<GetProductData[]> => await (await fetch(`https://wdg.teamdesk.net/secure/api/v2/90582/Item%20in%20Stock/Default%20View/select.json?filter=(%5BCategory%5D%3D%22Accessories%22%20or%20%5BCategory%5D%3D%22Emojis%22)%20and%20%5BStatus%5D%3D%22Active%22%20and%20%5BEmail%5D%3D%22${getOwner(id)}%22`, { headers }).then(res => res.json()));
 
 
 
 //Get The Response
 export const GET_PAYMENT_RESPONSE = async (id: string): Promise<GetResponseData[]> => await (await fetch(`https://wdg.teamdesk.net/secure/api/v2/90582/WorldPay%20Webhook/select.json?filter=%5BcartId%5D%3D%22${id}%22`, { headers }).then(res => res.json()));
+
 
 //Place the order
 export const PLACE_ORDER = async (data: AddOrderPlaceData): Promise<AddCustomRequestResponse[]> => await (await fetch("https://wdg.teamdesk.net/secure/api/v2/90582/Order/create.json", { method: "POST", headers, body: JSON.stringify(data) }).then(res => res.json()));

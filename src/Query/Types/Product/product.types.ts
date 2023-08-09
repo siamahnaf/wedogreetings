@@ -104,42 +104,18 @@ export interface AddCustomRequestResponse {
     key: string;
 }
 
-export interface GetBackdropData {
-    "@row.id": number;
-    Id: string;
-    Category: string;
-    "Sub-Category": string;
-    Item: string;
-    Colour: string;
-    Qty: number;
-    Image: string;
-    Status: string;
-    Item_selector: string;
-}
-
-
-export interface GetBackdropStock {
-    "@row.id": number;
-    Position: string;
-    "Index Number": number;
-    Id: string;
-    "Record Owner": string;
-    "Reference to Inventory Name": string;
-    "Reference to Customer Transaction": string;
-    "Position Abbreviation": string;
-}
-
-
-export interface GetLettersData {
+export interface GetProductData {
     "@row.id": number;
     Category: string;
     "Sub-Category": string;
     Item: string;
-    Colour: string;
-    Qty: number;
     Image: string;
+    "Quantity in Stock": number;
+    Franchisee: string;
+    Email: string;
     Status: string;
-    Item_selector: string;
+    "Dates Rented Out": string;
+    "Image Address": string;
 }
 
 export interface GetResponseData {

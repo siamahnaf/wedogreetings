@@ -2,14 +2,11 @@ import { Dialog } from "@material-tailwind/react";
 import { Icon } from "@iconify/react";
 import Image from "next/image";
 
-//Image Builder
-import { imageUrl } from "@/Helper/image-builder";
-
 //Fonts
 import { poppins } from "@/Fonts";
 
 //Query
-import { GetBackdropData } from "@/Query/Types/Product/product.types";
+import { GetProductData } from "@/Query/Types/Product/product.types";
 
 //Interface
 export interface LetterTypes {
@@ -27,7 +24,7 @@ export interface OnChangeItemTypes {
 interface Props {
     open: boolean;
     onClose: () => void;
-    items: GetBackdropData[];
+    items: GetProductData[];
     onChange: (item: OnChangeItemTypes) => void;
     selected: LetterTypes[];
     index: number;
@@ -63,9 +60,9 @@ const Backdrop = ({ open, onClose, items, onChange, selected, index }: Props) =>
             <div className="aspect-[4/2] overflow-auto">
                 <div className="grid grid-cols-5 sm:grid-cols-5 xxs:grid-cols-4 gap-4 mt-5 pb-3">
                     {items?.map((item, i) => (
-                        <div key={i} className={`cursor-pointer p-4 rounded-lg ${selected.find(sec => sec.id === item["@row.id"].toString() && sec.index === index) ? "bg-c-deep-sky bg-opacity-40" : ""}`} onClick={() => onItemClick({ url: item.Image, id: item["@row.id"].toString(), name: item.Item })}>
+                        <div key={i} className={`cursor-pointer p-4 rounded-lg ${selected.find(sec => sec.id === item["@row.id"].toString() && sec.index === index) ? "bg-c-deep-sky bg-opacity-40" : ""}`} onClick={() => onItemClick({ url: item["Image Address"], id: item["@row.id"].toString(), name: item.Item })}>
                             {item.Image ?
-                                <Image src={imageUrl(item["@row.id"], item.Image, 43480466)} width={258} height={258} alt={item.Item} className="rounded-lg aspect-[1/1]" /> :
+                                <Image src={item["Image Address"]} width={258} height={258} alt={item.Item} className="rounded-lg aspect-[1/1]" /> :
                                 <div className="bg-c-white-smoke rounded-lg aspect-[1/1] text-center flex justify-center items-center">
                                     <Image src="/images/preview.png" width={32} height={32} alt={item.Item} className="mx-auto" />
                                 </div>}

@@ -2,9 +2,7 @@ import { useContext, useState, useMemo } from "react";
 import { Dialog } from "@material-tailwind/react";
 import { Icon } from "@iconify/react";
 import Image from "next/image";
-
-//Image Builder
-import { imageUrl } from "@/Helper/image-builder";
+import moment from "moment";
 
 //Fonts
 import { poppins } from "@/Fonts";
@@ -14,8 +12,8 @@ import { TimelineContext } from "@/Context/timeline.context";
 
 //Query
 import { useQuery } from "@tanstack/react-query";
-import { GET_BACKDROP, GET_INVENTORY_STOCK } from "@/Query/Function/Product/product.function";
-import { GetBackdropData } from "@/Query/Types/Product/product.types";
+import { GET_BACKDROP } from "@/Query/Function/Product/product.function";
+import { GetProductData } from "@/Query/Types/Product/product.types";
 
 //Interface
 export interface Items {
@@ -33,30 +31,45 @@ interface Props {
 
 const Backdrop = ({ open, onClose, selected, onChange }: Props) => {
     //State
-    const [backdrops, setBackdrops] = useState<GetBackdropData[]>([]);
+    const [backdrops, setBackdrops] = useState<GetProductData[]>([]);
 
     //Context
     const { availableData } = useContext(TimelineContext);
 
     //Query
-    const { data } = useQuery({ queryKey: ["backdrop"], queryFn: GET_BACKDROP });
-    const stock = useQuery({ queryKey: ["stock", { franchise: availableData?.franchiseeName }], queryFn: () => GET_INVENTORY_STOCK(availableData?.franchiseeName as string) });
+    const { data } = useQuery({ queryKey: ["backdrop", availableData?.franchiseeId], queryFn: () => GET_BACKDROP(availableData?.franchiseeId as string) });
 
     //Handler onChange
     const onItemClick = async (url: string, id: number, name: string) => {
         onChange({ url, id: id.toString(), name })
         onClose()
     }
-
     useMemo(() => {
-        if (data && stock.data) {
-            const results = data.map((item) => {
-                const hasStock = stock.data.filter((f) => f["Reference to Inventory Name"] === item["@row.id"].toString());
-                return item.Qty > hasStock.length ? item : undefined;
-            }).filter(Boolean);
-            setBackdrops(results as GetBackdropData[])
+        if (data) {
+            const newData: GetProductData[] = [];
+            for (const backdrop of data) {
+                const dates: { start: string, end: string }[] | null = JSON.parse(backdrop["Dates Rented Out"]);
+                const startDate = moment(availableData?.formData.date?.endDate);
+                const endDate = moment(availableData?.formData.date?.endDate).add(availableData?.formData.rental, "days");
+                let count = 0;
+                if (dates) {
+                    for (const dateRange of dates) {
+                        const rangeStart = moment(dateRange.start, "DD/MM/YYYY");
+                        const rangeEnd = moment(dateRange.end, "DD/MM/YYYY");
+
+                        if (startDate.isSameOrBefore(rangeEnd) && endDate.isSameOrAfter(rangeStart)) {
+                            count++;
+                        }
+                    }
+                }
+                const quantityInStock = backdrop["Quantity in Stock"] - count;
+                if (quantityInStock > 0) {
+                    newData.push(backdrop);
+                }
+            }
+            setBackdrops(newData)
         }
-    }, [data, stock.data]);
+    }, [data]);
 
     return (
         <Dialog
@@ -82,9 +95,9 @@ const Backdrop = ({ open, onClose, selected, onChange }: Props) => {
             <div className="aspect-[4/2] overflow-auto">
                 <div className="grid grid-cols-2 lg:grid-cols-2 xxs:grid-cols-1 gap-4 mt-5 pb-3">
                     {backdrops?.map((item, i) => (
-                        <div key={i} onClick={() => onItemClick((imageUrl(item["@row.id"], item.Image, 43480466)) || "/images/preview.png", item["@row.id"], item.Item)} className="cursor-pointer">
+                        <div key={i} onClick={() => onItemClick(item["Image Address"] || "/images/preview.png", item["@row.id"], item.Item)} className="cursor-pointer">
                             {item.Image ?
-                                <Image src={imageUrl(item["@row.id"], item.Image, 43480466)} width={600} height={600} alt={item.Item} className="rounded-lg aspect-[7/2]" /> :
+                                <Image src={item["Image Address"]} width={600} height={600} alt={item.Item} className="rounded-lg aspect-[7/2]" /> :
                                 <div className="bg-c-white-smoke rounded-lg aspect-[7/2] text-center flex justify-center items-center">
                                     <Image src="/images/preview.png" width={32} height={32} alt={item.Item} className="mx-auto" />
                                 </div>}

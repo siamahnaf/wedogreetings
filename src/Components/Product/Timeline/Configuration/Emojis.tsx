@@ -1,9 +1,7 @@
 import { useContext, useState, Dispatch, SetStateAction, useMemo, Fragment } from "react";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
-
-//Image Builder
-import { imageUrl } from "@/Helper/image-builder";
+import moment from "moment";
 
 //Component-
 import Letters from "./Emoji/Letters";
@@ -16,8 +14,8 @@ import { TimelineContext } from "@/Context/timeline.context";
 
 //Query
 import { useQuery } from "@tanstack/react-query";
-import { GET_EMOJIS, GET_INVENTORY_STOCK } from "@/Query/Function/Product/product.function";
-import { GetBackdropData } from "@/Query/Types/Product/product.types";
+import { GET_EMOJIS } from "@/Query/Function/Product/product.function";
+import { GetProductData } from "@/Query/Types/Product/product.types";
 
 //Interface Import
 import { OnChangeUpdateTypes } from "./Emoji/Selector";
@@ -48,13 +46,12 @@ const Emojis = ({ setStep }: Props) => {
 
     //State
     const [emoji, setEmoji] = useState<EmojiTypes[]>(initialData);
-    const [items, setItems] = useState<GetBackdropData[]>([]);
+    const [items, setItems] = useState<GetProductData[]>([]);
     const [open, setOpen] = useState<number | null>(null);
     const [highlight, setHighlight] = useState<string>("");
 
     //Query
-    const { data } = useQuery({ queryKey: ["emojis"], queryFn: GET_EMOJIS });
-    const stock = useQuery({ queryKey: ["stock", { franchise: availableData?.franchiseeName }], queryFn: () => GET_INVENTORY_STOCK(availableData?.franchiseeName as string) });
+    const { data } = useQuery({ queryKey: ["emojis", availableData?.franchiseeId], queryFn: () => GET_EMOJIS(availableData?.franchiseeId as string) });
 
     //Handler onItemClick
     const onItemClick = (item: OnChangeUpdateTypes) => {
@@ -87,14 +84,31 @@ const Emojis = ({ setStep }: Props) => {
 
     //Lifecycle Hook
     useMemo(() => {
-        if (data && stock.data) {
-            const results = data.map((item) => {
-                const hasStock = stock.data.filter((f) => f["Reference to Inventory Name"] === item["@row.id"].toString());
-                return item.Qty > hasStock.length ? item : undefined;
-            }).filter(Boolean);
-            setItems(results as GetBackdropData[])
+        if (data) {
+            const newData: GetProductData[] = [];
+            for (const backdrop of data) {
+                const dates: { start: string, end: string }[] | null = JSON.parse(backdrop["Dates Rented Out"]);
+                const startDate = moment(availableData?.formData.date?.endDate);
+                const endDate = moment(availableData?.formData.date?.endDate).add(availableData?.formData.rental, "days");
+                let count = 0;
+                if (dates) {
+                    for (const dateRange of dates) {
+                        const rangeStart = moment(dateRange.start, "DD/MM/YYYY");
+                        const rangeEnd = moment(dateRange.end, "DD/MM/YYYY");
+
+                        if (startDate.isSameOrBefore(rangeEnd) && endDate.isSameOrAfter(rangeStart)) {
+                            count++;
+                        }
+                    }
+                }
+                const quantityInStock = backdrop["Quantity in Stock"] - count;
+                if (quantityInStock > 0) {
+                    newData.push(backdrop);
+                }
+            }
+            setItems(newData)
         }
-    }, [data, stock.data]);
+    }, [data]);
 
     return (
         <div>
@@ -112,7 +126,7 @@ const Emojis = ({ setStep }: Props) => {
                                             }
                                             {item.url &&
                                                 <div>
-                                                    <Image src={imageUrl(Number(item.id), item.url, 43480466)} width={258} height={258} alt={item.name} className="w-[70px]" />
+                                                    <Image src={item.url} width={258} height={258} alt={item.name} className="w-[70px]" />
                                                 </div>
                                             }
                                             {!item.url && item.url !== null &&
@@ -141,7 +155,7 @@ const Emojis = ({ setStep }: Props) => {
                                             }
                                             {item.url &&
                                                 <div>
-                                                    <Image src={imageUrl(Number(item.id), item.url, 43480466)} width={258} height={258} alt={item.name} className="w-[70px]" />
+                                                    <Image src={item.url} width={258} height={258} alt={item.name} className="w-[70px]" />
                                                 </div>
                                             }
                                             {!item.url && item.url !== null &&
@@ -189,7 +203,7 @@ const Emojis = ({ setStep }: Props) => {
                                             }
                                             {item.url &&
                                                 <div>
-                                                    <Image src={imageUrl(Number(item.id), item.url, 43480466)} width={258} height={258} alt={item.name} className="w-[70px]" />
+                                                    <Image src={item.url} width={258} height={258} alt={item.name} className="w-[70px]" />
                                                 </div>
                                             }
                                             {!item.url && item.url !== null &&
@@ -218,7 +232,7 @@ const Emojis = ({ setStep }: Props) => {
                                             }
                                             {item.url &&
                                                 <div>
-                                                    <Image src={imageUrl(Number(item.id), item.url, 43480466)} width={258} height={258} alt={item.name} className="w-[70px]" />
+                                                    <Image src={item.url} width={258} height={258} alt={item.name} className="w-[70px]" />
                                                 </div>
                                             }
                                             {!item.url && item.url !== null &&
@@ -264,7 +278,7 @@ const Emojis = ({ setStep }: Props) => {
                                     }
                                     {item.url &&
                                         <div>
-                                            <Image src={imageUrl(Number(item.id), item.url, 43480466)} width={258} height={258} alt={item.name} className="w-[70px]" />
+                                            <Image src={item.url} width={258} height={258} alt={item.name} className="w-[70px]" />
                                         </div>
                                     }
                                     {!item.url && item.url !== null &&
@@ -297,7 +311,7 @@ const Emojis = ({ setStep }: Props) => {
                                     }
                                     {item.url &&
                                         <div>
-                                            <Image src={imageUrl(Number(item.id), item.url, 43480466)} width={258} height={258} alt={item.name} className="w-[70px]" />
+                                            <Image src={item.url} width={258} height={258} alt={item.name} className="w-[70px]" />
                                         </div>
                                     }
                                     {!item.url && item.url !== null &&

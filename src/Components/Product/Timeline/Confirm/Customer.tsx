@@ -1,10 +1,7 @@
 import { Dispatch, SetStateAction, ChangeEvent, useContext, useEffect } from "react";
-import { Input, Textarea, Checkbox, Select, Option } from "@material-tailwind/react";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { Input, Textarea, Checkbox } from "@material-tailwind/react";
+import { useForm, SubmitHandler } from "react-hook-form";
 import Link from "next/link";
-
-//Data
-import { countryData } from "@/Data/CountryData";
 
 //Context
 import { TimelineContext } from "@/Context/timeline.context";
@@ -13,6 +10,7 @@ import { TimelineContext } from "@/Context/timeline.context";
 interface Props {
     setStep: Dispatch<SetStateAction<string>>;
 }
+
 export interface Inputs {
     "Title": string;
     "First Name": string;
@@ -59,6 +57,7 @@ const Customer = ({ setStep }: Props) => {
         reset({ "Post Code": availableData?.formData.postalCode })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [availableData])
+
     return (
         <div>
             <div className="text-center mb-12">

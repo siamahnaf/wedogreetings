@@ -2,14 +2,11 @@ import { Dialog } from "@material-tailwind/react";
 import { Icon } from "@iconify/react";
 import Image from "next/image";
 
-//Image Builder
-import { imageUrl } from "@/Helper/image-builder";
-
 //Fonts
 import { poppins } from "@/Fonts";
 
 //Query
-import { GetBackdropData } from "@/Query/Types/Product/product.types";
+import { GetProductData } from "@/Query/Types/Product/product.types";
 
 //Interface
 interface EmojiTypes {
@@ -32,7 +29,7 @@ export interface OnChangeUpdateTypes {
 interface Props {
     open: boolean;
     onClose: () => void;
-    items: GetBackdropData[];
+    items: GetProductData[];
     onChange: (item: OnChangeUpdateTypes) => void;
     selected: EmojiTypes[];
     index: number;
@@ -44,14 +41,16 @@ const Backdrop = ({ open, onClose, items, onChange, selected, index }: Props) =>
         onChange({ ...item, index: index });
         onClose()
     }
-    const groupedArray: { [key: string]: GetBackdropData[] } = items.reduce((acc, item) => {
-        const { Category, ...rest } = item;
-        if (!acc[Category]) {
-            acc[Category] = [];
+    const groupedArray: { [category: string]: { [subCategory: string]: GetProductData[] } } = items.reduce((acc, item) => {
+        if (!acc[item.Category]) {
+            acc[item.Category] = {};
         }
-        acc[Category].push(item);
+        if (!acc[item.Category][item["Sub-Category"]]) {
+            acc[item.Category][item["Sub-Category"]] = [];
+        }
+        acc[item.Category][item["Sub-Category"]].push(item);
         return acc;
-    }, {} as { [key: string]: GetBackdropData[] });
+    }, {} as { [category: string]: { [subCategory: string]: GetProductData[] } });
 
 
 
@@ -80,23 +79,27 @@ const Backdrop = ({ open, onClose, items, onChange, selected, index }: Props) =>
                 <div className="mt-5 pb-3">
                     {Object.keys(groupedArray)?.map((category, i) => (
                         <div key={i}>
-                            <h5 className={`text-lg font-bold mb-10 ${i > 0 && "mt-16"}`}>{category}</h5>
-                            <div className="grid grid-cols-5 sm:grid-cols-5 xxs:grid-cols-3 gap-4">
-                                {groupedArray[category].filter(inc => !selected.some(exc => exc.id === inc["@row.id"].toString())).map((item, it) => (
-                                    <div key={it} className="cursor-pointer" onClick={() => onItemClick({ url: item.Image, id: item["@row.id"].toString(), name: item.Item })}>
-                                        {item.Image ?
-                                            <Image src={imageUrl(item["@row.id"], item.Image, 43480466)} width={258} height={258} alt={item.Item} className="aspect-[1/1]" /> :
-                                            <div className="bg-c-white-smoke rounded-lg aspect-[1/1] text-center flex justify-center items-center">
-                                                <Image src="/images/preview.png" width={32} height={32} alt={item.Item} className="mx-auto" />
-                                            </div>}
+                            {Object.keys(groupedArray[category]).map((sub, si) => (
+                                <div key={si}>
+                                    <h5 className={`text-lg font-bold mb-10 ${si > 0 && "mt-16"}`}>{category} - {sub}</h5>
+                                    <div className="grid grid-cols-5 sm:grid-cols-5 xxs:grid-cols-3 gap-4">
+                                        {groupedArray[category][sub].filter(inc => !selected.some(exc => exc.id === inc["@row.id"].toString())).map((main, mi) => (
+                                            <div key={mi} className="cursor-pointer" onClick={() => onItemClick({ url: main["Image Address"], id: main["@row.id"].toString(), name: main.Item })}>
+                                                {main.Image ?
+                                                    <Image src={main["Image Address"]} width={258} height={258} alt={main.Item} className="aspect-[1/1]" /> :
+                                                    <div className="bg-c-white-smoke rounded-lg aspect-[1/1] text-center flex justify-center items-center">
+                                                        <Image src="/images/preview.png" width={32} height={32} alt={main.Item} className="mx-auto" />
+                                                    </div>}
+                                            </div>
+                                        ))}
                                     </div>
-                                ))}
-                            </div>
+                                </div>
+                            ))}
                         </div>
                     ))}
                 </div>
             </div>
-        </Dialog>
+        </Dialog >
     );
 };
 

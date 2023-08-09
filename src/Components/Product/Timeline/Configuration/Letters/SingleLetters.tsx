@@ -1,8 +1,6 @@
 import { useContext, useState, Dispatch, SetStateAction, useEffect } from "react";
 import Image from "next/image";
-
-//Image Builder
-import { imageUrl } from "@/Helper/image-builder";
+import moment from "moment";
 
 //Context
 import { TimelineContext } from "@/Context/timeline.context";
@@ -12,8 +10,8 @@ import Selector from "./SingleLetters/Selector";
 
 //Query
 import { useQuery } from "@tanstack/react-query";
-import { GET_LETTERS, GET_INVENTORY_STOCK } from "@/Query/Function/Product/product.function";
-import { GetBackdropData } from "@/Query/Types/Product/product.types";
+import { GET_LETTERS } from "@/Query/Function/Product/product.function";
+import { GetProductData } from "@/Query/Types/Product/product.types";
 
 //Interface Import
 import { LetterTypes, OnChangeItemTypes } from "./SingleLetters/Selector";
@@ -28,15 +26,14 @@ interface Props {
 
 const SingleLetters = ({ item, selected, setSelected, index }: Props) => {
     //State
-    const [options, setOptions] = useState<GetBackdropData[]>([]);
+    const [options, setOptions] = useState<GetProductData[]>([]);
     const [selector, setSelector] = useState<boolean>(false);
 
     //Context
     const { availableData, configureData } = useContext(TimelineContext);
 
     //Query
-    const { data, isPending } = useQuery({ queryKey: ["letters", item], queryFn: () => GET_LETTERS(item), enabled: !!item });
-    const stock = useQuery({ queryKey: ["stock", { franchise: availableData?.franchiseeName }], queryFn: () => GET_INVENTORY_STOCK(availableData?.franchiseeId as string) });
+    const { data, isPending } = useQuery({ queryKey: ["letters", item, availableData?.franchiseeId], queryFn: () => GET_LETTERS(item, availableData?.franchiseeId as string), enabled: !!item });
 
     //Handler
     const onItemClick = (item: OnChangeItemTypes) => {
@@ -50,12 +47,29 @@ const SingleLetters = ({ item, selected, setSelected, index }: Props) => {
 
     //Lifecycle Hook
     useEffect(() => {
-        if (data && stock.data) {
-            const results = data.map((item) => {
-                const hasStock = stock.data.filter((f) => f["Reference to Inventory Name"] === item["@row.id"].toString());
-                return item.Qty > hasStock.length ? item : undefined;
-            }).filter(Boolean);
-            setOptions(results as GetBackdropData[]);
+        if (data) {
+            const newData: GetProductData[] = [];
+            for (const backdrop of data) {
+                const dates: { start: string, end: string }[] | null = JSON.parse(backdrop["Dates Rented Out"]);
+                const startDate = moment(availableData?.formData.date?.endDate);
+                const endDate = moment(availableData?.formData.date?.endDate).add(availableData?.formData.rental, "days");
+                let count = 0;
+                if (dates) {
+                    for (const dateRange of dates) {
+                        const rangeStart = moment(dateRange.start, "DD/MM/YYYY");
+                        const rangeEnd = moment(dateRange.end, "DD/MM/YYYY");
+
+                        if (startDate.isSameOrBefore(rangeEnd) && endDate.isSameOrAfter(rangeStart)) {
+                            count++;
+                        }
+                    }
+                }
+                const quantityInStock = backdrop["Quantity in Stock"] - count;
+                if (quantityInStock > 0) {
+                    newData.push(backdrop);
+                }
+            }
+            setOptions(newData)
             setSelected((prevSelected) => {
                 const updatedSelected = [...prevSelected];
                 if (index >= 0 && index < updatedSelected.length) {
@@ -63,7 +77,7 @@ const SingleLetters = ({ item, selected, setSelected, index }: Props) => {
                     updatedSelected[index] = {
                         index: prevIndex,
                         letter,
-                        ...{ url: results[0]?.Image as string, id: results[0]?.["@row.id"].toString() as string, name: results[0]?.Item as string }
+                        ...{ url: newData[0]?.["Image Address"] as string, id: newData[0]?.["@row.id"].toString() as string, name: newData[0]?.Item as string }
                     };
                 } else {
                     return prevSelected;
@@ -72,7 +86,7 @@ const SingleLetters = ({ item, selected, setSelected, index }: Props) => {
             });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data, stock.data, configureData?.formData.name]);
+    }, [data, configureData?.formData.name]);
 
     return (
         <>
@@ -89,7 +103,7 @@ const SingleLetters = ({ item, selected, setSelected, index }: Props) => {
                                 </div>
                             }
                             {selected[index]?.url &&
-                                < Image src={imageUrl(Number(selected[index].id), selected[index].url, 43480466)} alt="Selected Letter" width={258} height={258} className="w-[50px]" />
+                                < Image src={selected[index].url} alt="Selected Letter" width={258} height={258} className="w-[50px]" />
                             }
                         </>
                     }

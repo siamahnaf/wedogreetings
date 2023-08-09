@@ -3,9 +3,6 @@ import moment from "moment";
 import { useRouter } from "next/router";
 import Image from "next/image";
 
-//Image Builder
-import { imageUrl } from "@/Helper/image-builder";
-
 //Component-
 import Letters from "./Configuration/Emoji/Letters";
 import MobileBackdrop from "./Configuration/Emoji/MobileBackdrop";
@@ -89,7 +86,7 @@ const Confirm = () => {
                                                 }
                                                 {item.url &&
                                                     <div>
-                                                        <Image src={imageUrl(Number(item.id), item.url, 43480466)} width={258} height={258} alt={item.name} className="w-[70px]" />
+                                                        <Image src={item.url} width={258} height={258} alt={item.name} className="w-[70px]" />
                                                     </div>
                                                 }
                                             </div>
@@ -109,7 +106,7 @@ const Confirm = () => {
                                                 }
                                                 {item.url &&
                                                     <div>
-                                                        <Image src={imageUrl(Number(item.id), item.url, 43480466)} width={258} height={258} alt={item.name} className="w-[70px]" />
+                                                        <Image src={item.url} width={258} height={258} alt={item.name} className="w-[70px]" />
                                                     </div>
                                                 }
                                             </div>
@@ -139,7 +136,7 @@ const Confirm = () => {
                                                 }
                                                 {item.url &&
                                                     <div>
-                                                        <Image src={imageUrl(Number(item.id), item.url, 43480466)} width={258} height={258} alt={item.name} className="w-[70px]" />
+                                                        <Image src={item.url} width={258} height={258} alt={item.name} className="w-[70px]" />
                                                     </div>
                                                 }
                                             </div>
@@ -159,7 +156,7 @@ const Confirm = () => {
                                                 }
                                                 {item.url &&
                                                     <div>
-                                                        <Image src={imageUrl(Number(item.id), item.url, 43480466)} width={258} height={258} alt={item.name} className="w-[70px]" />
+                                                        <Image src={item.url} width={258} height={258} alt={item.name} className="w-[70px]" />
                                                     </div>
                                                 }
                                             </div>
@@ -191,7 +188,7 @@ const Confirm = () => {
                                         }
                                         {item.url &&
                                             <div>
-                                                <Image src={imageUrl(Number(item.id), item.url, 43480466)} width={258} height={258} alt={item.name} className="w-[70px]" />
+                                                <Image src={item.url} width={258} height={258} alt={item.name} className="w-[70px]" />
                                             </div>
                                         }
                                     </div>
@@ -214,7 +211,7 @@ const Confirm = () => {
                                         }
                                         {item.url &&
                                             <div>
-                                                <Image src={imageUrl(Number(item.id), item.url, 43480466)} width={258} height={258} alt={item.name} className="w-[70px]" />
+                                                <Image src={item.url} width={258} height={258} alt={item.name} className="w-[70px]" />
                                             </div>
                                         }
                                     </div>
