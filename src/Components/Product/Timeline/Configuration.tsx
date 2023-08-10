@@ -15,6 +15,34 @@ import Emojis from "./Configuration/Emojis";
 //Context
 import { TimelineContext } from "@/Context/timeline.context";
 
+
+const IndoorBase = [
+    { value: "Hardwood & Engineered Wood", label: "Hardwood & Engineered Wood" },
+    { value: "Laminate", label: "Laminate" },
+    { value: "Tile (ceramic, porcelain, stone)", label: "Tile (ceramic, porcelain, stone)" },
+    { value: "Vinyl (sheet & luxury)", label: "Vinyl (sheet & luxury)" },
+    { value: "Bamboo & Cork", label: "Bamboo & Cork" },
+    { value: "Carpet", label: "Carpet" },
+    { value: "Linoleum", label: "Linoleum" },
+    { value: "Concrete", label: "Concrete" },
+    { value: "Other", label: "Other" }
+]
+
+const OutdoorBase = [
+    { value: "Grass", label: "Grass" },
+    { value: "Concrete", label: "Concrete" },
+    { value: "Stone Pavers", label: "Stone Pavers" },
+    { value: "Brick", label: "Brick" },
+    { value: "Wood Decking", label: "Wood Decking" },
+    { value: "Composite Decking", label: "Composite Decking" },
+    { value: "Outdoor Tiles (ceramic, porcelain)", label: "Outdoor Tiles (ceramic, porcelain)" },
+    { value: "Gravel & Pebbles", label: "Gravel & Pebbles" },
+    { value: "Artificial Grass", label: "Artificial Grass" },
+    { value: "Natural Stone (e.g., slate, flagstone)", label: "Natural Stone (e.g., slate, flagstone)" },
+    { value: "Rubber Tiles", label: "Rubber Tiles" },
+    { value: "Other", label: "Other" }
+]
+
 //Interface
 export interface Inputs {
     name: string;
@@ -41,11 +69,13 @@ const Configuration = () => {
         control,
         watch,
         setValue,
-        trigger
+        trigger,
+        reset
     } = useForm<Inputs>();
 
     //FormData
-    const backdrop = watch().backdrop
+    const backdrop = watch().backdrop;
+    const location = watch().location;
 
     //Context
     const { handlePrev, setConfigureData } = useContext(TimelineContext);
@@ -83,6 +113,11 @@ const Configuration = () => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [displayText])
+
+    useEffect(() => {
+        setValue("base", "")
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [location])
 
     return (
         <>
@@ -218,13 +253,7 @@ const Configuration = () => {
                                             <Dropdown
                                                 value={value}
                                                 onChange={onChange}
-                                                options={[
-                                                    { label: "Grass", value: "grass" },
-                                                    { label: "Concrete", value: "concrete" },
-                                                    { label: "Tile", value: "tile" },
-                                                    { label: "Sand", value: "sand" },
-                                                    { label: "Artificial grass", value: "artificial-grass" }
-                                                ]}
+                                                options={watch("location") === "indoor" ? IndoorBase : OutdoorBase}
                                                 placeholder="Select your base"
                                             />
                                         )}

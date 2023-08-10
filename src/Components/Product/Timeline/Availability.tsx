@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState, useContext } from "react";
 import { Input, Select, Option } from "@material-tailwind/react";
-import { useForm, SubmitHandler, Controller, set } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { Datepicker, DateValueType } from "react-custom-datepicker-tailwind";
 import { Icon } from "@iconify/react";
 import { useRouter } from "next/router";
@@ -278,17 +278,17 @@ const Availability = () => {
                                 <div>
                                     <Input
                                         label="Delivery & installation postcode"
+                                        crossOrigin="anonymous"
                                         color="cyan"
                                         onInput={handleInput}
                                         {...register("postalCode", {
                                             required: "Postal code is required!",
                                             pattern: {
-                                                value: /^(GIR 0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]([0-9ABEHMNPRV-Y])?)|[0-9][A-HJKPS-UW]) ?[0-9][ABD-HJLNP-UW-Z]{2})$/,
+                                                value: /^(GIR 0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]([0-9ABEHMNPRV-Y])?)|[0-9][A-HJKPS-UW]) ?[0-9]( ?[ABD-HJLNP-UW-Z]{2})?)$/,
                                                 message: "Invalid UK postcode. Please enter a postcode in the format 'AA9A 9AA', 'A9 9AA', 'A9A 9AA', 'A99 9AA', or 'AA99 9AA'."
                                             }
                                         })}
-                                        error={errors.postalCode ? true : false}
-                                    />
+                                        error={errors.postalCode ? true : false} />
                                 </div>
                                 {errors.postalCode &&
                                     <p className="text-red-600 text-sm flex gap-1.5 items-start mt-1.5">
@@ -313,11 +313,10 @@ const Availability = () => {
                                             disabledDates={unavailableData.data?.map((item) => ({ startDate: new Date(item.From), endDate: new Date(item.To) }))}
                                             customInput={
                                                 <Input
-                                                    label="Rental Date(s)"
+                                                    label="Rental date(s)"
                                                     color="cyan"
                                                     error={errors.date ? true : false}
-                                                    icon={<Icon icon="uis:calender" />}
-                                                />
+                                                    icon={<Icon icon="uis:calender" />} crossOrigin={undefined} />
                                             }
                                         />
                                     )}
@@ -363,7 +362,7 @@ const Availability = () => {
                                     name="setUpTime"
                                     rules={{ required: "Set-up time is required field!" }}
                                     render={({ field: { onChange, value } }) => {
-                                        if (!watch("date") || !franchiseeData.data || franchiseeData.data.length === 0 || !franchiseeData.data[0]["Allow Hours Between Installations"] || !franchiseeData.data[0]["Available Till"]) return (
+                                        if (!franchiseeData.data || franchiseeData.data.length === 0 || !franchiseeData.data[0]["Allow Hours Between Installations"] || !franchiseeData.data[0]["Available Till"]) return (
                                             <Select
                                                 label="Set-up time"
                                                 color="cyan"
@@ -405,7 +404,7 @@ const Availability = () => {
                                     name="removalTime"
                                     rules={{ required: "Removal time is required field!" }}
                                     render={({ field: { onChange, value } }) => {
-                                        if (!watch("date") || !franchiseeData.data || franchiseeData.data.length === 0 || !franchiseeData.data[0]["Allow Hours Between Installations"] || !franchiseeData.data[0]["Available Till"]) return (
+                                        if (!franchiseeData.data || franchiseeData.data.length === 0 || !franchiseeData.data[0]["Allow Hours Between Installations"] || !franchiseeData.data[0]["Available Till"]) return (
                                             <Select
                                                 label="Removal time"
                                                 color="cyan"

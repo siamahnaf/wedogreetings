@@ -65,9 +65,10 @@ const Customer = ({ setStep }: Props) => {
                 <p className="text-base text-c-novel mt-2">Please enter your information</p>
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-5">
                     <div className="col-span-2">
                         <Input
+                            crossOrigin="anonymous"
                             label="Title"
                             color="cyan"
                             id="title"
@@ -80,6 +81,7 @@ const Customer = ({ setStep }: Props) => {
                     </div>
                     <div className="xxs:max-msm:col-span-2">
                         <Input
+                            crossOrigin="anonymous"
                             label="First name"
                             color="cyan"
                             id="firstName"
@@ -92,6 +94,7 @@ const Customer = ({ setStep }: Props) => {
                     </div>
                     <div className="xxs:max-msm:col-span-2">
                         <Input
+                            crossOrigin="anonymous"
                             label="Last name"
                             color="cyan"
                             id="lastName"
@@ -104,6 +107,7 @@ const Customer = ({ setStep }: Props) => {
                     </div>
                     <div className="col-span-2">
                         <Input
+                            crossOrigin="anonymous"
                             label="Name of recipient"
                             color="cyan"
                             id="Recipient"
@@ -115,20 +119,40 @@ const Customer = ({ setStep }: Props) => {
                         />
                         <p className="text-[13px] 4xl:text-[13px] opacity-40 mt-1.5">*Name of the person who will oversee installation</p>
                     </div>
-                    <div className="xxs:max-msm:col-span-2">
+                    <div className="xxs:max-msm:col-span-2 flex">
+                        <div
+                            className="flex h-10 items-center justify-center px-5 rounded-r-none rounded-lg border border-r-0 border-blue-gray-200 bg-blue-gray-500/10 pl-3"
+                        >
+                            <span className="opacity-60"> +44</span>
+                        </div>
                         <Input
-                            label="Phone number"
+                            type="tel"
+                            placeholder="Phone Number"
+                            className="rounded-l-none !border-t-blue-gray-200 focus:!border-c-deep-sky"
+                            labelProps={{
+                                className: "before:content-none after:content-none",
+                            }}
+                            containerProps={{
+                                className: "min-w-0",
+                            }}
+                            crossOrigin="anonymous"
                             color="cyan"
                             id="phone"
                             {...register("Phone", { required: true })}
                             error={errors["Phone"] ? true : false}
                             onInput={(e: ChangeEvent<HTMLInputElement>) => {
-                                e.target.value = e.target.value.replace(/\|/g, '')
+                                e.target.value = e.target.value.replace(/[^0-9]/g, '')
+                                e.target.value = e.target.value.replace(/[^0-9]/g, '');
+                                if (e.target.value.startsWith("44")) {
+                                    const formattedNumber = `+${e.target.value.slice(0, 2)} ${e.target.value.slice(2, 6)} ${e.target.value.slice(6)}`;
+                                    e.target.value = formattedNumber;
+                                }
                             }}
                         />
                     </div>
                     <div className="xxs:max-msm:col-span-2">
                         <Input
+                            crossOrigin="anonymous"
                             label="Email"
                             color="cyan"
                             id="email"
@@ -144,6 +168,7 @@ const Customer = ({ setStep }: Props) => {
                     </div>
                     <div className="xxs:max-msm:col-span-2">
                         <Input
+                            crossOrigin="anonymous"
                             label="Post code"
                             color="cyan"
                             id="postCode"
@@ -157,6 +182,7 @@ const Customer = ({ setStep }: Props) => {
                     </div>
                     <div className="xxs:max-msm:col-span-2">
                         <Input
+                            crossOrigin="anonymous"
                             label="County"
                             color="cyan"
                             id="county"
@@ -180,45 +206,59 @@ const Customer = ({ setStep }: Props) => {
                                 e.target.value = e.target.value.replace(/\|/g, '');
                             }}
                         />
-                        <p className="text-[13px] 4xl:text-[13px] opacity-40 mt-1.5">*Please provide the installation address where we will set up the display. Note that this address should fall within the same postcode coverage area as the one you&apos;ve previously supplied for locating a local installer!</p>
+                        <p className="text-[13px] 4xl:text-[13px] opacity-40 mt-1.5">*Note that this address should fall within the same postcode coverage area as the one you supplied for locating a local installer e.g. {availableData?.formData.postalCode}</p>
                     </div>
                 </div>
-                <div className="-ml-3 mt-6">
-                    <div className="text-left">
-                        <Checkbox
-                            label="Tick here if the installation address is the same as the billing address"
-                            id="billingAddress"
-                            className="w-4 h-4 rounded"
-                            color="cyan"
-                            labelProps={{
-                                className: "text-[15px] text-c-novel"
-                            }}
-                            {...register("Billing Address")}
-                        />
+                <div className="mt-6">
+                    <div className="flex gap-x-3 md:gap-x-3 xxs:gap-x-4 items-center md:items-center xxs:items-start mb-3">
+                        <div className="relative">
+                            <input
+                                type="checkbox"
+                                id="billingAddress"
+                                className="peer appearance-none border border-blue-gray-200 w-4 h-4 rounded align-middle block checked:bg-c-deep-sky checked:border-c-deep-sky cursor-pointer"
+                                {...register("Billing Address")}
+                            />
+                            <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white p-px pointer-events-none opacity-0 invisible peer-checked:opacity-100 peer-checked:visible">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" stroke="currentColor" stroke-width="1"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                            </span>
+                        </div>
+                        <div className="text-left xxs:max-lg:-mt-[7px]">
+                            <label htmlFor="billingAddress" className="text-[15px] text-c-novel cursor-pointer select-none">Tick here if the installation address is the same as the billing address</label>
+                        </div>
                     </div>
-                    <div className="text-left">
-                        <Checkbox
-                            label="I would like to opt in to receive marketing materials."
-                            id="cpromotional"
-                            className="w-4 h-4 rounded"
-                            color="cyan"
-                            labelProps={{
-                                className: "text-[15px] text-c-novel"
-                            }}
-                            {...register("Opt-in Marketing")}
-                        />
+                    <div className="flex gap-x-3 md:gap-x-3 xxs:gap-x-4 items-center md:items-center xxs:items-start mb-3">
+                        <div className="relative">
+                            <input
+                                type="checkbox"
+                                id="promotional"
+                                className="peer appearance-none border border-blue-gray-200 w-4 h-4 rounded align-middle block checked:bg-c-deep-sky checked:border-c-deep-sky cursor-pointer"
+                                {...register("Opt-in Marketing")}
+                            />
+                            <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white p-px pointer-events-none opacity-0 invisible peer-checked:opacity-100 peer-checked:visible">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" stroke="currentColor" stroke-width="1"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                            </span>
+                        </div>
+                        <div className="text-left xxs:max-lg:-mt-[7px]">
+                            <label htmlFor="promotional" className="text-[15px] text-c-novel cursor-pointer select-none">I would like to opt in to receive marketing materials.</label>
+                        </div>
                     </div>
-                    <div className="text-left">
-                        <Checkbox
-                            label={<p>I’ve read the <Link href="/site-terms-and-conditions" className="text-c-deep-sky" target="_blank">Site Terms & Conditions</Link>, <Link href="/rental-terms-and-conditions" className="text-c-deep-sky" target="_blank">Rental Terms & Conditions</Link> and <Link href="/privacy-and-cookie-policy" className="text-c-deep-sky" target="_blank">Privacy & Cookie Policy</Link></p>}
-                            id="cprivacy"
-                            className="w-4 h-4 rounded"
-                            color="cyan"
-                            labelProps={{
-                                className: "text-[15px] text-c-novel"
-                            }}
-                            {...register("Opt-in Terms", { required: true })}
-                        />
+                    <div className="flex gap-x-3 md:gap-x-3 xxs:gap-x-4 items-center md:items-center xxs:items-start mb-3">
+                        <div className="relative">
+                            <input
+                                type="checkbox"
+                                id="privacy"
+                                className="peer appearance-none border border-blue-gray-200 w-4 h-4 rounded align-middle block checked:bg-c-deep-sky checked:border-c-deep-sky cursor-pointer"
+                                {...register("Opt-in Terms", { required: true })}
+                            />
+                            <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white p-px pointer-events-none opacity-0 invisible peer-checked:opacity-100 peer-checked:visible">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" stroke="currentColor" stroke-width="1"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                            </span>
+                        </div>
+                        <div className="text-left xxs:max-lg:-mt-[7px]">
+                            <label htmlFor="privacy" className="text-[15px] text-c-novel cursor-pointer select-none">
+                                I’ve read the <Link href="/site-terms-and-conditions" className="text-c-deep-sky" target="_blank">Site Terms & Conditions</Link>, <Link href="/rental-terms-and-conditions" className="text-c-deep-sky" target="_blank">Rental Terms & Conditions</Link> and <Link href="/privacy-and-cookie-policy" className="text-c-deep-sky" target="_blank">Privacy & Cookie Policy</Link>
+                            </label>
+                        </div>
                     </div>
                 </div>
                 <div>

@@ -94,6 +94,7 @@ const Unavailable = ({ setAvailability }: Props) => {
                 <div className="grid grid-cols-2 gap-4">
                     <div className="col-span-2">
                         <Input
+                            crossOrigin="anonymous"
                             label="Title"
                             color="cyan"
                             id="title"
@@ -106,6 +107,7 @@ const Unavailable = ({ setAvailability }: Props) => {
                     </div>
                     <div className="xxs:max-msm:col-span-2">
                         <Input
+                            crossOrigin="anonymous"
                             label="First Name"
                             color="cyan"
                             id="firstName"
@@ -118,6 +120,7 @@ const Unavailable = ({ setAvailability }: Props) => {
                     </div>
                     <div className="xxs:max-msm:col-span-2">
                         <Input
+                            crossOrigin="anonymous"
                             label="Last Name"
                             color="cyan"
                             id="lastName"
@@ -130,6 +133,7 @@ const Unavailable = ({ setAvailability }: Props) => {
                     </div>
                     <div className="xxs:max-msm:col-span-2">
                         <Input
+                            crossOrigin="anonymous"
                             label="Phone Number"
                             color="cyan"
                             id="phone"
@@ -142,6 +146,7 @@ const Unavailable = ({ setAvailability }: Props) => {
                     </div>
                     <div className="xxs:max-msm:col-span-2">
                         <Input
+                            crossOrigin="anonymous"
                             label="Email"
                             color="cyan"
                             id="email"
@@ -157,6 +162,7 @@ const Unavailable = ({ setAvailability }: Props) => {
                     </div>
                     <div className="xxs:max-msm:col-span-2">
                         <Input
+                            crossOrigin="anonymous"
                             label="Post Code"
                             color="cyan"
                             id="postCode"
@@ -169,6 +175,7 @@ const Unavailable = ({ setAvailability }: Props) => {
                     </div>
                     <div className="xxs:max-msm:col-span-2">
                         <Input
+                            crossOrigin="anonymous"
                             label="County"
                             color="cyan"
                             id="country"
@@ -193,54 +200,72 @@ const Unavailable = ({ setAvailability }: Props) => {
                         />
                     </div>
                 </div>
-                <div className="mt-2 -ml-3">
-                    <div className="text-left">
-                        <Checkbox
-                            label="I allow the processing of my date to talk more about the franchisee opportunity."
-                            id="franchisee"
-                            className="w-4 h-4 rounded"
-                            color="cyan"
-                            labelProps={{
-                                className: "text-[15px] text-c-novel"
-                            }}
-                            {...register("Opt-in Franchise Op")}
-                        />
+                <div className="mt-4 md:mt-4 xxs:mt-7">
+                    <div className="flex gap-x-3 md:gap-x-3 xxs:gap-x-4 items-center md:items-center xxs:items-start mb-3">
+                        <div className="relative">
+                            <input
+                                type="checkbox"
+                                id="franchisee"
+                                className="peer appearance-none border border-blue-gray-200 w-4 h-4 rounded align-middle block checked:bg-c-deep-sky checked:border-c-deep-sky cursor-pointer"
+                                {...register("Opt-in Franchise Op")}
+                            />
+                            <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white p-px pointer-events-none opacity-0 invisible peer-checked:opacity-100 peer-checked:visible">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" stroke="currentColor" stroke-width="1"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                            </span>
+                        </div>
+                        <div className="text-left xxs:max-lg:-mt-[7px]">
+                            <label htmlFor="franchisee" className="text-[15px] text-c-novel cursor-pointer select-none">I allow the processing of my date to talk more about the franchisee opportunity.</label>
+                        </div>
                     </div>
-                    <div className="text-left">
-                        <Checkbox
-                            label="I am seeking any installer in my area!"
-                            id="installer"
-                            className="w-4 h-4 rounded"
-                            color="cyan"
-                            labelProps={{
-                                className: "text-[15px] text-c-novel"
-                            }}
-                            {...register("Opt-in Seek Installer")}
-                        />
+                    <div className="flex gap-x-3 md:gap-x-3 xxs:gap-x-4 items-center md:items-center xxs:items-start mb-3">
+                        <div className="relative">
+                            <input
+                                type="checkbox"
+                                id="installer"
+                                className="peer appearance-none border border-blue-gray-200 w-4 h-4 rounded align-middle block checked:bg-c-deep-sky checked:border-c-deep-sky cursor-pointer"
+                                {...register("Opt-in Seek Installer")}
+                            />
+                            <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white p-px pointer-events-none opacity-0 invisible peer-checked:opacity-100 peer-checked:visible">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" stroke="currentColor" stroke-width="1"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                            </span>
+                        </div>
+                        <div className="text-left xxs:max-lg:-mt-[7px]">
+                            <label htmlFor="installer" className="text-[15px] text-c-novel cursor-pointer select-none">I am seeking any installer in my area!</label>
+                        </div>
                     </div>
-                    <div className="text-left">
-                        <Checkbox
-                            label="Option me into promotional materials."
-                            id="promotional"
-                            className="w-4 h-4 rounded"
-                            color="cyan"
-                            labelProps={{
-                                className: "text-[15px] text-c-novel"
-                            }}
-                            {...register("Opt-in Marketing")}
-                        />
+                    <div className="flex gap-x-3 md:gap-x-3 xxs:gap-x-4 items-center md:items-center xxs:items-start mb-3">
+                        <div className="relative">
+                            <input
+                                type="checkbox"
+                                id="promotional"
+                                className="peer appearance-none border border-blue-gray-200 w-4 h-4 rounded align-middle block checked:bg-c-deep-sky checked:border-c-deep-sky cursor-pointer"
+                                {...register("Opt-in Marketing")}
+                            />
+                            <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white p-px pointer-events-none opacity-0 invisible peer-checked:opacity-100 peer-checked:visible">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" stroke="currentColor" stroke-width="1"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                            </span>
+                        </div>
+                        <div className="text-left xxs:max-lg:-mt-[7px]">
+                            <label htmlFor="promotional" className="text-[15px] text-c-novel cursor-pointer select-none">Option me into promotional materials.</label>
+                        </div>
                     </div>
-                    <div className="text-left">
-                        <Checkbox
-                            label={<p>I’ve read the <Link href="/site-terms-and-conditions" className="text-c-deep-sky" target="_blank">Site Terms & Conditions</Link>, <Link href="/rental-terms-and-conditions" className="text-c-deep-sky" target="_blank">Rental Terms & Conditions</Link> and <Link href="/privacy-and-cookie-policy" className="text-c-deep-sky" target="_blank">Privacy & Cookie Policy</Link></p>}
-                            id="privacy"
-                            className="w-4 h-4 rounded"
-                            color="cyan"
-                            labelProps={{
-                                className: "text-[15px] text-c-novel"
-                            }}
-                            {...register("Opt-in Terms", { required: true })}
-                        />
+                    <div className="flex gap-x-3 md:gap-x-3 xxs:gap-x-4 items-center md:items-center xxs:items-start mb-3">
+                        <div className="relative">
+                            <input
+                                type="checkbox"
+                                id="privacy"
+                                className="peer appearance-none border border-blue-gray-200 w-4 h-4 rounded align-middle block checked:bg-c-deep-sky checked:border-c-deep-sky cursor-pointer"
+                                {...register("Opt-in Terms", { required: true })}
+                            />
+                            <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white p-px pointer-events-none opacity-0 invisible peer-checked:opacity-100 peer-checked:visible">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" stroke="currentColor" stroke-width="1"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                            </span>
+                        </div>
+                        <div className="text-left xxs:max-lg:-mt-[7px]">
+                            <label htmlFor="privacy" className="text-[15px] text-c-novel cursor-pointer select-none">
+                                I’ve read the <Link href="/site-terms-and-conditions" className="text-c-deep-sky" target="_blank">Site Terms & Conditions</Link>, <Link href="/rental-terms-and-conditions" className="text-c-deep-sky" target="_blank">Rental Terms & Conditions</Link> and <Link href="/privacy-and-cookie-policy" className="text-c-deep-sky" target="_blank">Privacy & Cookie Policy</Link>
+                            </label>
+                        </div>
                     </div>
                 </div>
                 <div className="flex gap-5 justify-center mt-6">
