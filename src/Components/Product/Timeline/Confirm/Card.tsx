@@ -61,7 +61,7 @@ const Card = ({ setStep }: Props) => {
 
     //Query
     const products = useQuery({ queryKey: ["product", router.query.id], queryFn: () => GET_SINGLE_PRODUCT(Number(router.query.id)) });
-    const responseData = useQuery({ queryKey: ["paymentResponse", uniqueId], queryFn: () => GET_PAYMENT_RESPONSE(uniqueId), refetchInterval: 500 });
+    const responseData = useQuery({ queryKey: ["paymentResponse", uniqueId], queryFn: () => GET_PAYMENT_RESPONSE(uniqueId), refetchInterval: 1500 });
     const { mutate } = useMutation({
         mutationKey: ["placeOrder"], mutationFn: (formData: AddOrderPlaceData) => PLACE_ORDER(formData),
         async onSuccess(data) {
@@ -93,8 +93,6 @@ const Card = ({ setStep }: Props) => {
         onError() {
         }
     });
-
-
 
     //Payment Submit Window    
     const onPaymentSubmit = () => {
@@ -140,6 +138,21 @@ const Card = ({ setStep }: Props) => {
     }, [responseData])
 
     useEffect(() => {
+        if (popupWindow && (!responseData.data || responseData.error)) {
+            const checkPopupStatus = () => {
+                if (popupWindow.closed) {
+                    setFetching(false);
+                    clearInterval(pollingInterval);
+                }
+            };
+            const pollingInterval = setInterval(checkPopupStatus, 500);
+            return () => {
+                clearInterval(pollingInterval);
+            };
+        }
+    }, [popupWindow]);
+
+    useEffect(() => {
         if (responseData.data?.[0]?.cartId === uniqueId && hasRunEffect === false) {
             const result: { id: string, position: string }[] = [];
             if (configureData?.formData.backdrop?.id) {
@@ -174,7 +187,8 @@ const Card = ({ setStep }: Props) => {
                 "Customer String": customer?.customerString as string,
                 "Location": configureData?.formData.location,
                 "Base": configureData?.formData.base,
-                "Name of Recipient": customer?.formData.Recipient as string
+                "Name of Recipient": customer?.formData.Recipient as string,
+                "Transaction Failed": responseData.data[0].Status === "Success" ? false : true
             }
             mutate(formData)
             setHasRunEffect(true);

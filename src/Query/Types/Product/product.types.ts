@@ -119,12 +119,13 @@ export interface GetProductData {
 }
 
 export interface GetResponseData {
-    "@row.id": number
-    transId: string
-    cartId: string
-    name: string
-    Id: string
-    "Record Owner": string
+    "@row.id": number;
+    transId: string;
+    cartId: string;
+    name: string;
+    Id: string;
+    "Record Owner": string;
+    Status: "Cancelled" | "Success";
 }
 
 export interface AddOrderPlaceData {
