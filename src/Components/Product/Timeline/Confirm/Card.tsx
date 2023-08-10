@@ -150,6 +150,7 @@ const Card = ({ setStep }: Props) => {
                 clearInterval(pollingInterval);
             };
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [popupWindow]);
 
     useEffect(() => {
