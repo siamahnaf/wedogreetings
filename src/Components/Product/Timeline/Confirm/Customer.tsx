@@ -51,6 +51,18 @@ const Customer = ({ setStep }: Props) => {
         const customerString = `${value.Title}|${value["First Name"]}|${value["Last Name"]}|${value.Phone}|${value.Email}|${value["Address line"]}|${value["Post Code"]}|${value.County}|${value["Opt-in Marketing"] ? new Date().toISOString() : ''}|${value["Opt-in Terms"] ? new Date().toISOString() : ''}`
         setCustomer?.({ formData: value, customerString })
         setStep("step2")
+        const nextStepElement = document.getElementById("timeline-container");
+        if (nextStepElement) {
+            nextStepElement.scrollIntoView({ block: "start" });
+        }
+    }
+    //Handler
+    const onBackHandler = () => {
+        setStep("step0");
+        const nextStepElement = document.getElementById("timeline-container");
+        if (nextStepElement) {
+            nextStepElement.scrollIntoView({ block: "start" });
+        }
     }
 
     useEffect(() => {
@@ -263,7 +275,7 @@ const Customer = ({ setStep }: Props) => {
                 </div>
                 <div>
                     <div className="flex gap-3 justify-center mt-8">
-                        <button className="bg-c-gainsboro text-white py-1.5 px-10 rounded-md" type="button" onClick={() => setStep("step0")}>
+                        <button className="bg-c-gainsboro text-white py-1.5 px-10 rounded-md" type="button" onClick={onBackHandler}>
                             Back
                         </button>
                         <button className={`bg-c-deep-sky py-1.5 px-12 text-white rounded-md ${watch()["Opt-in Terms"] !== true && "opacity-50"}`} type="submit" disabled={watch("Opt-in Terms") !== true}>

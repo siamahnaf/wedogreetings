@@ -90,8 +90,16 @@ const Availability = () => {
         }
         if (!postalData.data || franchiseeData.data?.[0]?.Status !== "Active") {
             setAvailability(false)
+            const nextStepElement = document.getElementById("timeline-container");
+            if (nextStepElement) {
+                nextStepElement.scrollIntoView({ block: "start" });
+            }
         } else {
             setAvailability(true)
+            const nextStepElement = document.getElementById("timeline-container");
+            if (nextStepElement) {
+                nextStepElement.scrollIntoView({ block: "start" });
+            }
             setAvailableData?.({
                 formData: value,
                 franchiseeId: postalData.data?.[0]?.["Reference to Admin - User Property"],

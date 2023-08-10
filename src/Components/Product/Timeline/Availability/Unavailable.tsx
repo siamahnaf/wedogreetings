@@ -77,6 +77,15 @@ const Unavailable = ({ setAvailability }: Props) => {
         setNotification(false);
     };
 
+    //Handler
+    const onBackHandler = () => {
+        setAvailability(null);
+        const nextStepElement = document.getElementById("timeline-container");
+        if (nextStepElement) {
+            nextStepElement.scrollIntoView({ block: "start" });
+        }
+    }
+
     return (
         <div className="mt-16 sm:mt-16 xxs:mt-5 bg-white shadow-3xl py-12 px-8 msm:px-8 xxs:px-5 msm:py-12 xxs:py-5 rounded-lg text-center w-[70%] lg-max:w-[70%] xxs:w-full mx-auto">
             {(error || data?.[0].status === 201) &&
@@ -269,7 +278,7 @@ const Unavailable = ({ setAvailability }: Props) => {
                     </div>
                 </div>
                 <div className="flex gap-5 justify-center mt-6">
-                    <button className="bg-c-gainsboro text-white py-1.5 px-10 rounded-md" onClick={() => setAvailability(null)} type="button">
+                    <button className="bg-c-gainsboro text-white py-1.5 px-10 rounded-md" onClick={onBackHandler} type="button">
                         Back
                     </button>
                     <button className={`bg-c-deep-sky py-1.5 px-12 text-white rounded-md relative ${watch()["Opt-in Terms"] !== true && "opacity-50"}`} type="submit" disabled={isPending || watch("Opt-in Terms") !== true}>

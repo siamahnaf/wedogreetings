@@ -84,6 +84,10 @@ const Configuration = () => {
     const onSubmit: SubmitHandler<Inputs> = (value) => {
         setConfigureData?.({ formData: value })
         setStep("step1")
+        const nextStepElement = document.getElementById("timeline-container");
+        if (nextStepElement) {
+            nextStepElement.scrollIntoView({ block: "start" });
+        }
     }
 
     //On Item Click Change

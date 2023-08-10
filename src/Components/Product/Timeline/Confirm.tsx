@@ -26,7 +26,7 @@ const Confirm = () => {
     const router = useRouter();
 
     //Context
-    const { availableData, configureData, emojis, handlePrev, letters } = useContext(TimelineContext);
+    const { availableData, configureData, emojis, handlePrev } = useContext(TimelineContext);
 
     //Query
     const { data } = useQuery({ queryKey: ["product", router.query.id], queryFn: () => GET_SINGLE_PRODUCT(Number(router.query.id)) });
@@ -58,6 +58,15 @@ const Confirm = () => {
             return totalPrice + wekndPrice
         } else if (availableData?.formData.option === "public-holiday") {
             return totalPrice + publicHolidayPrice;
+        }
+    }
+
+    //Handler
+    const onNextHandler = () => {
+        setStep("step1");
+        const nextStepElement = document.getElementById("timeline-container");
+        if (nextStepElement) {
+            nextStepElement.scrollIntoView({ block: "start" });
         }
     }
 
@@ -238,7 +247,7 @@ const Confirm = () => {
                         <button className="bg-c-gainsboro text-white py-1.5 px-10 rounded-md" type="button" onClick={handlePrev}>
                             Back
                         </button>
-                        <button className="bg-c-deep-sky py-1.5 px-12 text-white rounded-md" type="button" onClick={() => setStep("step1")}>
+                        <button className="bg-c-deep-sky py-1.5 px-12 text-white rounded-md" type="button" onClick={onNextHandler}>
                             Confirm
                         </button>
                     </div>

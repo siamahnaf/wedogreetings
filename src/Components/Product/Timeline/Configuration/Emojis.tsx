@@ -82,6 +82,15 @@ const Emojis = ({ setStep }: Props) => {
         }
     }
 
+    //Handler
+    const onBackHandler = () => {
+        setStep("step1");
+        const nextStepElement = document.getElementById("timeline-container");
+        if (nextStepElement) {
+            nextStepElement.scrollIntoView({ block: "start" });
+        }
+    }
+
     //Lifecycle Hook
     useMemo(() => {
         if (data) {
@@ -339,7 +348,7 @@ const Emojis = ({ setStep }: Props) => {
             </div>
             <div className="mt-12">
                 <div className="flex gap-3 justify-center mt-8">
-                    <button className="bg-c-gainsboro text-white py-1.5 px-10 rounded-md" type="button" onClick={() => setStep("step1")}>
+                    <button className="bg-c-gainsboro text-white py-1.5 px-10 rounded-md" type="button" onClick={onBackHandler}>
                         Back
                     </button>
                     <button className="bg-c-deep-sky py-1.5 px-12 text-white rounded-md" type="button" onClick={onSubmit}>

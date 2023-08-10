@@ -67,6 +67,10 @@ const Card = ({ setStep }: Props) => {
         async onSuccess(data) {
             if (data[0].status === 201) {
                 setStep("step3")
+                const nextStepElement = document.getElementById("timeline-container");
+                if (nextStepElement) {
+                    nextStepElement.scrollIntoView({ block: "start" });
+                }
                 const emailData = {
                     customerName: `${customer?.formData["First Name"]} ${customer?.formData["Last Name"]}` as string,
                     event: products.data?.[0]["Product Name"] as string,
@@ -112,6 +116,15 @@ const Card = ({ setStep }: Props) => {
         const url = `https://secure-test.worldpay.com/wcc/purchase?instId=1471088&cartId=${uniqueID}&amount=${getTotalPrice()}&currency=GBP&testMode=100&accId1=44606504&signature=${createMD5Signature(getTotalPrice()?.toString() as string)}${customer?.formData["Billing Address"] && billing}`;
         const newPopupWindow = window.open(url, 'mini-popup', `width=${width},height=${height},top=${top},left=${left}`);
         setPopupWindow(newPopupWindow)
+    }
+
+    //Handler
+    const onBackHandler = () => {
+        setStep("step1");
+        const nextStepElement = document.getElementById("timeline-container");
+        if (nextStepElement) {
+            nextStepElement.scrollIntoView({ block: "start" });
+        }
     }
 
     useEffect(() => {
@@ -184,7 +197,7 @@ const Card = ({ setStep }: Props) => {
                 </div>
             </div>
             <div className="flex gap-3 justify-center mt-8">
-                <button className="bg-c-gainsboro text-white py-1.5 px-10 rounded-md" type="button" onClick={() => setStep("step1")} disabled={fetching}>
+                <button className="bg-c-gainsboro text-white py-1.5 px-10 rounded-md" type="button" onClick={onBackHandler} disabled={fetching}>
                     Back
                 </button>
                 <button className="bg-c-deep-sky py-1.5 px-12 text-white rounded-md relative" onClick={onPaymentSubmit}>

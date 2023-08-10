@@ -38,11 +38,23 @@ const Timeline = () => {
     const [customer, setCustomer] = useState<CustomerDataTypes>();
 
     //Handler
-    const handleNext = () => !isLastStep && setActiveStep((cur) => cur + 1);
-    const handlePrev = () => !isFirstStep && setActiveStep((cur) => cur - 1);
+    const handleNext = () => {
+        if (!isLastStep) setActiveStep((cur) => cur + 1)
+        const nextStepElement = document.getElementById("timeline-container");
+        if (nextStepElement) {
+            nextStepElement.scrollIntoView({ block: "start" });
+        }
+    };
+    const handlePrev = () => {
+        if (!isFirstStep) setActiveStep((cur) => cur - 1)
+        const nextStepElement = document.getElementById("timeline-container");
+        if (nextStepElement) {
+            nextStepElement.scrollIntoView({ block: "start" });
+        }
+    };
 
     return (
-        <div>
+        <div id="timeline-container">
             <div className="w-[60%] md:w-[60%] xxs:w-[80%] mx-auto">
                 <Stepper
                     activeStep={activeStep}

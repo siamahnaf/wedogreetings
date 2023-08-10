@@ -26,6 +26,10 @@ const Letters = ({ setStep }: Props) => {
     const onSubmit = () => {
         setLetters?.(selected);
         setStep("step2");
+        const nextStepElement = document.getElementById("timeline-container");
+        if (nextStepElement) {
+            nextStepElement.scrollIntoView({ block: "start" });
+        }
     }
 
     //Lifecycle Hook
@@ -42,6 +46,14 @@ const Letters = ({ setStep }: Props) => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [configureData?.formData.name]);
+
+    const onBackHandler = () => {
+        setStep("step0");
+        const nextStepElement = document.getElementById("timeline-container");
+        if (nextStepElement) {
+            nextStepElement.scrollIntoView({ block: "start" });
+        }
+    }
 
     return (
         <div>
@@ -62,7 +74,7 @@ const Letters = ({ setStep }: Props) => {
             </div>
             <div>
                 <div className="flex gap-3 justify-center mt-8">
-                    <button className="bg-c-gainsboro text-white py-1.5 px-10 rounded-md" type="button" onClick={() => setStep("step0")}>
+                    <button className="bg-c-gainsboro text-white py-1.5 px-10 rounded-md" type="button" onClick={onBackHandler}>
                         Back
                     </button>
                     <button className="bg-c-deep-sky py-1.5 px-12 text-white rounded-md" type="button" onClick={onSubmit}>
