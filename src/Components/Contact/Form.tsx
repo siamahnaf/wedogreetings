@@ -38,12 +38,14 @@ const Form = () => {
     const onSubmit: SubmitHandler<Inputs> = async (value) => {
         await setLoading(true)
         const emailHtml = render(<Template {...value} />);
-        await sentEmail({ html: emailHtml, from: "simon@wedogreetings.co.uk", to: ["simon@wedogreetings.co.uk"], subject: `New contact message arrived from ${value.firstName}` }).then(() => {
+        await sentEmail({ html: emailHtml, to: ["siamahnaf198@gmail.com"], subject: `New contact message arrived from ${value.firstName}` }).then((data) => {
+            console.log(data)
             setOpen(true)
             setMessage({ text: "We will contact your soon!", severity: true })
             setLoading(false)
             reset()
         }).catch((err) => {
+            console.log(err)
             setOpen(true)
             setMessage({ text: "Something went wrong!", severity: false })
             setLoading(false)

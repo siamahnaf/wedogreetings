@@ -1,41 +1,20 @@
-import { SES } from "@aws-sdk/client-ses";
+import { Resend } from "resend";
 
 //Interface
 interface Props {
     html: string;
     to: string[];
-    from: string;
     cc?: string[];
     subject: string;
 }
 
-const ses = new SES({
-    region: process.env.NEXT_PUBLIC_API_AWS_REGION,
-    credentials: {
-        accessKeyId: process.env.NEXT_PUBLIC_API_AWS_KEY_ID as string,
-        secretAccessKey: process.env.NEXT_PUBLIC_API_AWS_ACCESS_KEY as string
-    }
-});
+const resend = new Resend("re_F3HD81FF_JrZk3wkX1C6LCGzQqzQq7aa7");
 
-export const sentEmail = async ({ html, to, from, subject, cc }: Props) => {
-    const params = {
-        Source: from,
-        Destination: {
-            ToAddresses: to,
-            CcAddresses: cc
-        },
-        Message: {
-            Body: {
-                Html: {
-                    Charset: 'UTF-8',
-                    Data: html,
-                },
-            },
-            Subject: {
-                Charset: 'UTF-8',
-                Data: subject,
-            },
-        },
-    };
-    return ses.sendEmail(params);
+export const sentEmail = async ({ html, to, subject, cc }: Props) => {
+    return resend.emails.send({
+        from: 'onboarding@resend.dev',
+        to: 'siamahnaf198@gmail.com',
+        subject: 'Hello World',
+        html: '<p>Congrats on sending your <strong>first email</strong>!</p>'
+    });
 }

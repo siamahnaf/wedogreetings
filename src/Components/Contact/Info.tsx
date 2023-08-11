@@ -17,7 +17,7 @@ const Info = () => {
             <div className="block h-[60px] w-[250px] xxs:max-lg:mt-8">
                 <Rive src="/rive/logo.riv" width="100%" height="100%" />
             </div>
-            <p className="text-c-novel text-base mb-5">Wish to get a website or mobile app Developed. Let us handle everything for you. Palmspire is the one stop solution.</p>
+            <p className="text-c-novel text-base mb-5">We're always here to help and answer any questions you might have. Please use the form to get in touch with us.</p>
             <ul className="flex gap-2">
                 {Socials.map((item, i) => (
                     <li key={i}>

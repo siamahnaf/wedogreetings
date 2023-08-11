@@ -10,6 +10,7 @@ import MobileLetters from "./Configuration/Emoji/MobileLetters";
 import Customer from "./Confirm/Customer";
 import Card from "./Confirm/Card";
 import Success from "./Confirm/Success";
+import Failed from "./Confirm/Failed";
 
 //Timeline
 import { TimelineContext } from "@/Context/timeline.context";
@@ -260,7 +261,10 @@ const Confirm = () => {
                 <Card setStep={setStep} />
             </div>
             <div className={`mt-16 sm:mt-16 xxs:mt-5 bg-white shadow-3xl py-12 px-8 msm:px-8 xxs:px-5 msm:py-12 xxs:py-5 rounded-lg w-[45%] lg-max:w-[45%] lg:w-[60%] md:w-[80%] xxs:w-full mx-auto ${step === "step3" ? "block" : "hidden"}`}>
-                <Success setStep={setStep} />
+                <Success />
+            </div>
+            <div className={`mt-16 sm:mt-16 xxs:mt-5 bg-white shadow-3xl py-12 px-8 msm:px-8 xxs:px-5 msm:py-12 xxs:py-5 rounded-lg w-[45%] lg-max:w-[45%] lg:w-[60%] md:w-[80%] xxs:w-full mx-auto ${step === "step4" ? "block" : "hidden"}`}>
+                <Failed />
             </div>
         </>
     );

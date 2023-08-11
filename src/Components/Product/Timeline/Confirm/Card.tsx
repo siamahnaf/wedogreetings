@@ -66,28 +66,36 @@ const Card = ({ setStep }: Props) => {
         mutationKey: ["placeOrder"], mutationFn: (formData: AddOrderPlaceData) => PLACE_ORDER(formData),
         async onSuccess(data) {
             if (data[0].status === 201) {
-                setStep("step3")
-                const nextStepElement = document.getElementById("timeline-container");
-                if (nextStepElement) {
-                    nextStepElement.scrollIntoView({ block: "start" });
+                if (responseData.data && responseData.data[0].Status === "Success") {
+                    setStep("step3")
+                    const nextStepElement = document.getElementById("timeline-container");
+                    if (nextStepElement) {
+                        nextStepElement.scrollIntoView({ block: "start" });
+                    }
+                    const emailData = {
+                        customerName: `${customer?.formData["First Name"]} ${customer?.formData["Last Name"]}` as string,
+                        event: products.data?.[0]["Product Name"] as string,
+                        franchiseName: availableData?.details["Public Name"] as string,
+                        cost: getTotalPrice() as number,
+                        rental: availableData?.formData.rental as string,
+                        date: availableData?.formData.rental as string,
+                        time: availableData?.formData.setUpTime as string,
+                        location: configureData?.formData.location as string,
+                        base: configureData?.formData.base as string,
+                        removalTime: availableData?.formData.removalTime as string,
+                        number: availableData?.details.Phone as string,
+                        email: availableData?.details["Email for Orders"] as string,
+                        transId: responseData.data?.[0].transId as string
+                    }
+                    const emailHtml = render(<Template {...emailData} />);
+                    await sentEmail({ html: emailHtml, to: [`${customer?.formData.Email}`], cc: [`${availableData?.details["Email Opt-Out"]}`, "simon@wedogreetings.co.uk"], subject: "Your order is confirmed!" })
+                } else {
+                    setStep("step4")
+                    const nextStepElement = document.getElementById("timeline-container");
+                    if (nextStepElement) {
+                        nextStepElement.scrollIntoView({ block: "start" });
+                    }
                 }
-                const emailData = {
-                    customerName: `${customer?.formData["First Name"]} ${customer?.formData["Last Name"]}` as string,
-                    event: products.data?.[0]["Product Name"] as string,
-                    franchiseName: availableData?.details["Public Name"] as string,
-                    cost: getTotalPrice() as number,
-                    rental: availableData?.formData.rental as string,
-                    date: availableData?.formData.rental as string,
-                    time: availableData?.formData.setUpTime as string,
-                    location: configureData?.formData.location as string,
-                    base: configureData?.formData.base as string,
-                    removalTime: availableData?.formData.removalTime as string,
-                    number: availableData?.details.Phone as string,
-                    email: availableData?.details["Email for Orders"] as string,
-                    transId: responseData.data?.[0].transId as string
-                }
-                const emailHtml = render(<Template {...emailData} />);
-                await sentEmail({ html: emailHtml, from: "info@wedogreetings.co.uk", to: [`${customer?.formData.Email}`], cc: [`${availableData?.details["Email Opt-Out"]}`, "simon@wedogreetings.co.uk"], subject: "Your order is confirmed!" })
             }
         },
         onError() {

@@ -20,7 +20,7 @@ const ContactUs = () => {
                     <Form />
                 </div>
                 <div className="fixed bottom-[6%] right-[2%]">
-                    <Link href="/">
+                    <Link href="/contact-us">
                         <Image src="/images/contact/whatsapp.png" width={117} height={123} alt="Whatsapp" className="w-[70px]" />
                     </Link>
                 </div>

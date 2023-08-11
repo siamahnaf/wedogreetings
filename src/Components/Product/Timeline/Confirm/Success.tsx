@@ -1,13 +1,7 @@
-import { Dispatch, SetStateAction } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-//Interface
-interface Props {
-    setStep: Dispatch<SetStateAction<string>>;
-}
-
-const Success = ({ setStep }: Props) => {
+const Success = () => {
     return (
         <div>
             <Image src="/images/success.png" alt="Success" width={276} height={276} className="w-[45%] 4xl:w-[35%] mx-auto" />
