@@ -88,7 +88,7 @@ const Card = ({ setStep }: Props) => {
                         transId: responseData.data?.[0].transId as string
                     }
                     const emailHtml = render(<Template {...emailData} />);
-                    await sentEmail({ html: emailHtml, to: [`${customer?.formData.Email}`], cc: [`${availableData?.details["Email Opt-Out"]}`, "simon@wedogreetings.co.uk"], subject: "Your order is confirmed!" })
+                    await sentEmail({ html: emailHtml, to: [`${customer?.formData.Email}`, `${availableData?.details["Email Opt-Out"]}`, "simon@wedogreetings.co.uk"], subject: "Your order is confirmed!" })
                 } else {
                     setStep("step4")
                     const nextStepElement = document.getElementById("timeline-container");
@@ -119,7 +119,7 @@ const Card = ({ setStep }: Props) => {
             return crypto.createHash('md5').update(data).digest('hex');
         };
         const billing = `&name=${customer?.formData["First Name"]}&address1=${customer?.formData["Address line"]}&town=${customer?.formData.County}&postcode=${customer?.formData["Post Code"]}&country=UK&tel=${customer?.formData.Phone}&email=${customer?.formData.Email}`
-        const url = `https://secure-test.worldpay.com/wcc/purchase?instId=1471088&cartId=${uniqueID}&amount=${getTotalPrice()}&currency=GBP&testMode=100&accId1=44606504&signature=${createMD5Signature(getTotalPrice()?.toString() as string)}${customer?.formData["Billing Address"] && billing}`;
+        const url = `https://secure-test.worldpay.com/wcc/purchase?instId=1471088&cartId=${uniqueID}&amount=${getTotalPrice()}&currency=GBP&testMode=100&accId1=${availableData?.details["WP-M#"] || 44606504}&signature=${createMD5Signature(getTotalPrice()?.toString() as string)}${customer?.formData["Billing Address"] && billing}`;
         const newPopupWindow = window.open(url, 'mini-popup', `width=${width},height=${height},top=${top},left=${left}`);
         setPopupWindow(newPopupWindow)
     }
@@ -223,7 +223,7 @@ const Card = ({ setStep }: Props) => {
                 <button className="bg-c-gainsboro text-white py-1.5 px-10 rounded-md" type="button" onClick={onBackHandler} disabled={fetching}>
                     Back
                 </button>
-                <button className="bg-c-deep-sky py-1.5 px-12 text-white rounded-md relative" onClick={onPaymentSubmit}>
+                <button className="bg-c-deep-sky py-1.5 px-12 text-white rounded-md relative" onClick={onPaymentSubmit} disabled={fetching}>
                     <span className={`${fetching ? "opacity-30" : "opacity-100"}`}>Pay £{getTotalPrice()}</span>
                     <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
                         {fetching &&

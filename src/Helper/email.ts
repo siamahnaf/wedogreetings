@@ -1,20 +1,20 @@
-import { Resend } from "resend";
+import Plunk from "@plunk/node";
 
 //Interface
 interface Props {
     html: string;
     to: string[];
-    cc?: string[];
     subject: string;
 }
 
-const resend = new Resend("re_F3HD81FF_JrZk3wkX1C6LCGzQqzQq7aa7");
+const plunk = new Plunk("sk_32b01bee7174310b533c6903fc10ff58b5c56e078c455037");
 
-export const sentEmail = async ({ html, to, subject, cc }: Props) => {
-    return resend.emails.send({
-        from: 'onboarding@resend.dev',
-        to: 'siamahnaf198@gmail.com',
-        subject: 'Hello World',
-        html: '<p>Congrats on sending your <strong>first email</strong>!</p>'
+export const sentEmail = async ({ html, to, subject }: Props) => {
+    return plunk.emails.send({
+        to: to,
+        name: "We do greetings",
+        type: "html",
+        subject: subject,
+        body: html
     });
 }

@@ -46,13 +46,15 @@ export interface FranchiseeDetailsData {
     "Delivery Address": string;
     "MidWk Price": number;
     "Wknd Price": number;
-    WID: string;
+    "WP-Install-ID": number;
     "Record Owner": string;
     Title: string;
     "Available for Installations From": string;
     "Available Till": string;
     "Allow Hours Between Installations": number;
     "Email Opt-Out": boolean;
+    "Post Code": string;
+    "WP-M#": string;
 }
 
 export interface OrderDetailsForTiming {
