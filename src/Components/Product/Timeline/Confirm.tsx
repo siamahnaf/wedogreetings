@@ -57,7 +57,7 @@ const Confirm = () => {
             return totalPrice + midWeekPrice
         } else if (availableData?.formData.option === "weekend") {
             return totalPrice + wekndPrice
-        } else if (availableData?.formData.option === "public-holiday") {
+        } else if (availableData?.formData.option === "bank-holiday") {
             return totalPrice + publicHolidayPrice;
         }
     }

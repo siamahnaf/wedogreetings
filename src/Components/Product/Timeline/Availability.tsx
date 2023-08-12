@@ -180,11 +180,22 @@ const Availability = () => {
     useEffect(() => {
         if (setUptimes.data) {
             const times = setUptimes?.data.map((item) => {
-                const time = moment(item["Rental Date"]);
-                return {
-                    start: time.format("HH:mm"),
-                    end: time.clone().add(franchiseeData.data?.[0]["Allow Hours Between Installations"], 'hours').format('HH:mm')
+                const rentalTime = moment(item["Rental Date"]);
+                const returnTime = moment(item["Return Date"]);
+                const selectedDate = moment(date?.endDate);
+                let start, end;
+                if (rentalTime.isSame(selectedDate, "date")) {
+                    start = rentalTime.format("HH:mm");
+                    end = rentalTime.clone().add(franchiseeData.data?.[0]["Allow Hours Between Installations"], 'hours').format('HH:mm');
                 }
+                if (returnTime.isSame(selectedDate, 'date')) {
+                    start = returnTime.clone().subtract(franchiseeData.data?.[0]["Allow Hours Between Installations"], 'hours').format('HH:mm');
+                    end = returnTime.format("HH:mm");
+                }
+                return {
+                    start: start,
+                    end: end
+                };
             });
             const result: string[] = [];
             times.forEach(({ start, end }) => {
@@ -204,11 +215,22 @@ const Availability = () => {
     useEffect(() => {
         if (removalTimes.data) {
             const times = removalTimes?.data.map((item) => {
-                const time = moment(item["Return Date"]);
-                return {
-                    start: time.clone().subtract(franchiseeData.data?.[0]["Allow Hours Between Installations"], 'hours').format('HH:mm'),
-                    end: time.format("HH:mm")
+                const rentalTime = moment(item["Rental Date"]);
+                const returnTime = moment(item["Return Date"]);
+                const selectedDate = moment(returnDate);
+                let start, end;
+                if (rentalTime.isSame(selectedDate, "date")) {
+                    start = rentalTime.format("HH:mm");
+                    end = rentalTime.clone().add(franchiseeData.data?.[0]["Allow Hours Between Installations"], 'hours').format('HH:mm');
                 }
+                if (returnTime.isSame(selectedDate, 'date')) {
+                    start = returnTime.clone().subtract(franchiseeData.data?.[0]["Allow Hours Between Installations"], 'hours').format('HH:mm');
+                    end = returnTime.format("HH:mm");
+                }
+                return {
+                    start: start,
+                    end: end
+                };
             });
             const result: string[] = [];
             times.forEach(({ start, end }) => {
@@ -271,7 +293,7 @@ const Availability = () => {
                                         >
                                             <Option value="mid-week">Mid-week</Option>
                                             <Option value="weekend">Weekend</Option>
-                                            <Option value="public-holiday">Public Holiday</Option>
+                                            <Option value="bank-holiday">Bank Holiday</Option>
                                         </Select>
                                     )}
                                 />
@@ -479,3 +501,15 @@ const Availability = () => {
 };
 
 export default Availability;
+
+
+const array = [
+    {
+        "Rental Date": "2023-08-13T16:00:00+01:00",
+        "Return Date": "2023-08-14T16:00:00+01:00",
+    },
+    {
+        "Rental Date": "2023-08-13T16:00:00+01:00",
+        "Return Date": "2023-08-13T16:00:00+01:00",
+    }
+]

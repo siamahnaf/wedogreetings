@@ -5,7 +5,7 @@ import { Icon } from "@iconify/react";
 
 const Navs = [
     { name: "Home", url: "/" },
-    { name: "About", url: "/about-us" },
+    // { name: "About", url: "/about-us" },
     { name: "FAQ's", url: "/faq" },
     { name: "Contact Us", url: "/contact-us" },
 ]

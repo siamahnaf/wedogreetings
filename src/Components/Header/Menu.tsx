@@ -10,7 +10,7 @@ import Logo from "./Logo";
 //Data
 const data = [
     { name: "Home", id: "home", url: "/" },
-    { name: "About", id: "about", url: "/about-us" },
+    // { name: "About", id: "about", url: "/about-us" },
     { name: "FAQ's", id: "faq", url: "/faq" }
 ]
 

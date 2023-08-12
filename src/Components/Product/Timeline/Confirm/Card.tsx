@@ -54,7 +54,7 @@ const Card = ({ setStep }: Props) => {
             return totalPrice + midWeekPrice
         } else if (availableData?.formData.option === "weekend") {
             return totalPrice + wekndPrice
-        } else if (availableData?.formData.option === "public-holiday") {
+        } else if (availableData?.formData.option === "bank-holiday") {
             return totalPrice + publicHolidayPrice;
         }
     };
@@ -62,7 +62,7 @@ const Card = ({ setStep }: Props) => {
     //Query
     const products = useQuery({ queryKey: ["product", router.query.id], queryFn: () => GET_SINGLE_PRODUCT(Number(router.query.id)) });
     const responseData = useQuery({ queryKey: ["paymentResponse", uniqueId], queryFn: () => GET_PAYMENT_RESPONSE(uniqueId), refetchInterval: 1500 });
-    const { mutate } = useMutation({
+    const { isPending, mutate } = useMutation({
         mutationKey: ["placeOrder"], mutationFn: (formData: AddOrderPlaceData) => PLACE_ORDER(formData),
         async onSuccess(data) {
             if (data[0].status === 201) {
@@ -146,7 +146,7 @@ const Card = ({ setStep }: Props) => {
     }, [responseData])
 
     useEffect(() => {
-        if (popupWindow && (!responseData.data || responseData.error)) {
+        if (popupWindow) {
             const checkPopupStatus = () => {
                 if (popupWindow.closed) {
                     setFetching(false);
@@ -220,13 +220,13 @@ const Card = ({ setStep }: Props) => {
                 </div>
             </div>
             <div className="flex gap-3 justify-center mt-8">
-                <button className="bg-c-gainsboro text-white py-1.5 px-10 rounded-md" type="button" onClick={onBackHandler} disabled={fetching}>
+                <button className="bg-c-gainsboro text-white py-1.5 px-10 rounded-md" type="button" onClick={onBackHandler} disabled={(fetching || isPending || responseData.isFetching)}>
                     Back
                 </button>
-                <button className="bg-c-deep-sky py-1.5 px-12 text-white rounded-md relative" onClick={onPaymentSubmit} disabled={fetching}>
-                    <span className={`${fetching ? "opacity-30" : "opacity-100"}`}>Pay £{getTotalPrice()}</span>
+                <button className="bg-c-deep-sky py-1.5 px-12 text-white rounded-md relative" onClick={onPaymentSubmit} disabled={(fetching || isPending || responseData.isFetching)}>
+                    <span className={`${(fetching || isPending || responseData.isFetching) ? "opacity-30" : "opacity-100"}`}>Pay £{getTotalPrice()}</span>
                     <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
-                        {fetching &&
+                        {(fetching || isPending || responseData.isFetching) &&
                             <div className="w-5 h-5 border-b-2 border-white rounded-full animate-spin ml-auto"></div>
                         }
                     </div>

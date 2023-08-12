@@ -25,7 +25,9 @@ const Card = () => {
                         <Accordion open={open === item["@row.id"]} icon={open === item["@row.id"] ? <Icon icon="majesticons:minus-line" className="text-[#FF5274] text-xl" /> : <Icon icon="majesticons:plus" className="text-c-deep-sky text-xl" />}>
                             <AccordionHeader onClick={() => handleOpen(item["@row.id"])} className="text-base text-black border-b-c-deep-sky border-opacity-20">{item["FAQ Question"]}</AccordionHeader>
                             <AccordionBody>
-                                {item["FAQ Answer"]}
+                                <div className="prose">
+                                    <div dangerouslySetInnerHTML={{ __html: item["FAQ Answer"] }} />
+                                </div>
                             </AccordionBody>
                         </Accordion>
                     </div>
@@ -37,7 +39,9 @@ const Card = () => {
                         <Accordion open={open === item["@row.id"]} icon={open === item["@row.id"] ? <Icon icon="majesticons:minus-line" className="text-[#FF5274] text-xl" /> : <Icon icon="majesticons:plus" className="text-c-deep-sky text-xl" />}>
                             <AccordionHeader onClick={() => handleOpen(item["@row.id"])} className="text-base text-black border-b-c-deep-sky border-opacity-20">{item["FAQ Question"]}</AccordionHeader>
                             <AccordionBody>
-                                {item["FAQ Answer"]}
+                                <div className="prose">
+                                    <div dangerouslySetInnerHTML={{ __html: item["FAQ Answer"] }} />
+                                </div>
                             </AccordionBody>
                         </Accordion>
                     </div>

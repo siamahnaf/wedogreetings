@@ -32,7 +32,7 @@ const Review = () => {
                     {data && data.length > 0 &&
                         <div className="flex gap-5 items-center bg-white p-5  rounded-md">
                             <div className="flex-[0_0_25%]">
-                                <Image src={imageUrl(data[0]["@row.id"], data[0]["Reviewee Image"], 43480102)} alt={data[0]["Review Heading"]} width={174} height={200} className="w-full rounded-md aspect-[87/100] object-cover object-center" />
+                                <Image src={imageUrl(data[0]["@row.id"], data[0]["Reviewee Image"], 43480102)} alt={data[0]["Alt tag"] || data[0]["Review Heading"]} width={174} height={200} className="w-full rounded-md aspect-[87/100] object-cover object-center" />
                             </div>
                             <div className="flex-[0_0_75%]">
                                 <h5 className="text-2xl font-bold mb-3">{data[0]["Review Heading"]}</h5>
@@ -50,7 +50,7 @@ const Review = () => {
                     {data?.slice(1, 7).map((item, i) => (
                         <div key={i} className="flex gap-5 items-center bg-white p-4 rounded-md">
                             <div className="flex-[0_0_35%]">
-                                <Image src={imageUrl(item["@row.id"], item["Reviewee Image"], 43480102)} alt={item["Review Heading"]} width={174} height={200} className="aspect-[87/100] rounded-md" />
+                                <Image src={imageUrl(item["@row.id"], item["Reviewee Image"], 43480102)} alt={item["Alt tag"] || item["Review Heading"]} width={174} height={200} className="aspect-[87/100] rounded-md" />
                             </div>
                             <div className="flex-[0_0_65%]">
                                 <h5 className="text-base 4xl:text-lg lg-max:text-base font-bold mb-1.5 w-[90%]">{item["Review Heading"]}</h5>
@@ -65,7 +65,7 @@ const Review = () => {
                 {data?.slice(0, 7).map((item, i) => (
                     <div key={i} className="flex gap-5 items-center bg-white p-4 rounded-md xxs:max-sm:flex-wrap">
                         <div className="flex-[0_0_35%] sm:flex-[0_0_35%] xxs:flex-[0_0_100%]">
-                            <Image src={imageUrl(item["@row.id"], item["Reviewee Image"], 43480102)} alt={item["Review Heading"]} width={174} height={200} className="aspect-[87/100] xxs:max-sm:w-full rounded-md" />
+                            <Image src={imageUrl(item["@row.id"], item["Reviewee Image"], 43480102)} alt={item["Alt tag"] || item["Review Heading"]} width={174} height={200} className="aspect-[87/100] xxs:max-sm:w-full rounded-md" />
                         </div>
                         <div className="flex-[0_0_65%] sm:flex-[0_0_65%] xxs:flex-[0_0_100%]">
                             <h5 className="text-base 4xl:text-lg lg-max:text-base font-bold mb-1.5 w-[90%]">{item["Review Heading"]}</h5>

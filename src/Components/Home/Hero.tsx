@@ -10,7 +10,6 @@ import { imageUrl } from "@/Helper/image-builder";
 //Container
 import Container from "../Common/Container";
 
-
 //Query
 import { useQuery } from "@tanstack/react-query";
 import { GET_WEB_HERO } from "@/Query/Function/Home/hero.function";
@@ -55,7 +54,7 @@ const Hero = () => {
                     <div className="embla__container flex">
                         {data?.map((item, i) => (
                             <div className="embla__slide flex-[0_0_100%] aspect-[9/5] relative" key={i}>
-                                <Image src={imageUrl(item["@row.id"], item.Image, 43480146)} alt={item.Header} width={1400} height={800} className="w-full h-full" />
+                                <Image src={imageUrl(item["@row.id"], item.Image, 43480146)} alt={item["Alt tag"] || item.Header} width={1400} height={800} className="w-full h-full" />
                                 <div className="absolute z-20 bottom-[26%] 4xl:bottom-[24%] 3xl:bottom-[25%] lg-max:bottom-[26%] lg:bottom-[15%] md:bottom-[10%] xxs:bottom-[8%] left-0 w-full px-16 lg-max:px-16 lg:px-12 md:px-8 lsm:px-6 xxs:px-4">
                                     <div className="w-1/2 lg-max:w-1/2 lg:w-[60%] xxs:w-full text-white">
                                         <h4 className="text-6xl lg-max:text-6xl md:text-4xl sm:text-3xl xs:text-2xl xxs:text-xl  font-bold mb-5 sm:mb-5 xxs:mb-1.5">{item.Header}</h4>

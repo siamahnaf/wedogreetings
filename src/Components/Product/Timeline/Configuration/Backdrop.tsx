@@ -2,6 +2,7 @@ import { useContext, useState, useMemo } from "react";
 import { Dialog } from "@material-tailwind/react";
 import { Icon } from "@iconify/react";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import moment from "moment";
 
 //Fonts
@@ -12,7 +13,7 @@ import { TimelineContext } from "@/Context/timeline.context";
 
 //Query
 import { useQuery } from "@tanstack/react-query";
-import { GET_BACKDROP } from "@/Query/Function/Product/product.function";
+import { GET_BACKDROP, GET_ALL_PRODUCT } from "@/Query/Function/Product/product.function";
 import { GetProductData } from "@/Query/Types/Product/product.types";
 
 //Interface
@@ -36,12 +37,16 @@ const Backdrop = ({ open, onClose, selected, onChange }: Props) => {
     //Context
     const { availableData } = useContext(TimelineContext);
 
+    //Initialize Hook
+    const router = useRouter();
+
     //Query
-    const { data } = useQuery({ queryKey: ["backdrop", availableData?.franchiseeId], queryFn: () => GET_BACKDROP(availableData?.franchiseeId as string) });
+    const { data: productData } = useQuery({ queryKey: ["allProduct"], queryFn: GET_ALL_PRODUCT });
+    const { data } = useQuery({ queryKey: ["backdrop", availableData?.franchiseeId, productData?.find((item) => item["@row.id"].toString() === availableData?.formData.event)?.["Product Name"]], queryFn: () => GET_BACKDROP(availableData?.franchiseeId as string, productData?.find((item) => item["@row.id"].toString() === availableData?.formData.event)?.["Product Name"] as string) });
 
     //Handler onChange
-    const onItemClick = async (url: string, id: number, name: string) => {
-        onChange({ url, id: id.toString(), name })
+    const onItemClick = async (url: string, id: string, name: string) => {
+        onChange({ url, id: id, name })
         onClose()
     }
     useMemo(() => {
@@ -96,7 +101,7 @@ const Backdrop = ({ open, onClose, selected, onChange }: Props) => {
             <div className="aspect-[4/2] overflow-auto">
                 <div className="grid grid-cols-2 lg:grid-cols-2 xxs:grid-cols-1 gap-4 mt-5 pb-3">
                     {backdrops?.map((item, i) => (
-                        <div key={i} onClick={() => onItemClick(item["Image Address"] || "/images/preview.png", item["@row.id"], item.Item)} className="cursor-pointer">
+                        <div key={i} onClick={() => onItemClick(item["Image Address"] || "/images/preview.png", item["Item Id"], item.Item)} className="cursor-pointer">
                             {item.Image ?
                                 <Image src={item["Image Address"]} width={600} height={600} alt={item.Item} className="rounded-lg aspect-[7/2]" /> :
                                 <div className="bg-c-white-smoke rounded-lg aspect-[7/2] text-center flex justify-center items-center">

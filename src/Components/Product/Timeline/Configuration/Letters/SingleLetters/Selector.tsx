@@ -60,7 +60,7 @@ const Backdrop = ({ open, onClose, items, onChange, selected, index }: Props) =>
             <div className="aspect-[4/2] overflow-auto">
                 <div className="grid grid-cols-5 sm:grid-cols-5 xxs:grid-cols-4 gap-4 mt-5 pb-3">
                     {items?.map((item, i) => (
-                        <div key={i} className={`cursor-pointer p-4 rounded-lg ${selected.find(sec => sec.id === item["@row.id"].toString() && sec.index === index) ? "bg-c-deep-sky bg-opacity-40" : ""}`} onClick={() => onItemClick({ url: item["Image Address"], id: item["@row.id"].toString(), name: item.Item })}>
+                        <div key={i} className={`cursor-pointer p-4 rounded-lg ${selected.find(sec => sec.id === item["Item Id"] && sec.index === index) ? "bg-c-deep-sky bg-opacity-40" : ""}`} onClick={() => onItemClick({ url: item["Image Address"], id: item["Item Id"], name: item.Item })}>
                             {item.Image ?
                                 <Image src={item["Image Address"]} width={258} height={258} alt={item.Item} className="rounded-lg aspect-[1/1]" /> :
                                 <div className="bg-c-white-smoke rounded-lg aspect-[1/1] text-center flex justify-center items-center">

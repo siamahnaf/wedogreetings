@@ -146,10 +146,13 @@ const Unavailable = ({ setAvailability }: Props) => {
                             label="Phone Number"
                             color="cyan"
                             id="phone"
-                            {...register("Phone", { required: true })}
+                            {...register("Phone", {
+                                required: true,
+                                pattern: /^(((\+44\s?\d{4}|\(?0\d{4}\)?)\s?\d{3}\s?\d{3})|((\+44\s?\d{3}|\(?0\d{3}\)?)\s?\d{3}\s?\d{4})|((\+44\s?\d{2}|\(?0\d{2}\)?)\s?\d{4}\s?\d{4}))(\s?\#(\d{4}|\d{3}))?$/
+                            })}
                             error={errors["Phone"] ? true : false}
                             onInput={(e: ChangeEvent<HTMLInputElement>) => {
-                                e.target.value = e.target.value.replace(/\|/g, '')
+                                e.target.value = e.target.value.replace(/[^0-9+]/g, '')
                             }}
                         />
                     </div>

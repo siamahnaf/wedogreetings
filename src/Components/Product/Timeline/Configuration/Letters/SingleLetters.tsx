@@ -77,7 +77,7 @@ const SingleLetters = ({ item, selected, setSelected, index }: Props) => {
                     updatedSelected[index] = {
                         index: prevIndex,
                         letter,
-                        ...{ url: newData[0]?.["Image Address"] as string, id: newData[0]?.["@row.id"].toString() as string, name: newData[0]?.Item as string }
+                        ...{ url: newData[0]?.["Image Address"] as string, id: newData[0]?.["Item Id"] as string, name: newData[0]?.Item as string }
                     };
                 } else {
                     return prevSelected;

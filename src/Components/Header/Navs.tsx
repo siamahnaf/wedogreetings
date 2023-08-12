@@ -3,7 +3,7 @@ import Link from "next/link";
 //Data
 const data = [
     { name: "Home", id: "home", url: "/" },
-    { name: "About Us", id: "about", url: "/about-us" },
+    // { name: "About Us", id: "about", url: "/about-us" },
     { name: "FAQ's", id: "faq", url: "/faq" }
 ]
 

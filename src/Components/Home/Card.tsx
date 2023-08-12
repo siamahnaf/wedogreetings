@@ -26,7 +26,7 @@ const Card = () => {
             <div className="grid grid-cols-4 4xl:grid-cols-5 lg-max:grid-cols-4 lg:grid-cols-3 lsm:grid-cols-2 sm:grid-cols-2 xxs:grid-cols-1 gap-6 mt-12">
                 {data?.slice(0, 8).map((item, i) => (
                     <div className="bg-white shadow-3xl rounded-lg overflow-hidden" key={i}>
-                        <Image src={imageUrl(item["@row.id"], item["Prod Img Small"], 43477765)} alt={item["Product Name"]} width={682} height={456} className="aspect-[281/211]" />
+                        <Image src={imageUrl(item["@row.id"], item["Prod Img Small"], 43477765)} alt={item["Alt tag"] || item["Product Name"]} width={682} height={456} className="aspect-[281/211]" />
                         <div className="text-center py-6 4xl:py-8 px-3">
                             <h5 className="text-lg uppercase font-bold mb-2">{item["Product Name"]}</h5>
                             <p className="text-sm 4xl:text-[17px] text-c-novel mt-3 mb-6 line-clamp-2">{item["Poduct Description Small"]}</p>

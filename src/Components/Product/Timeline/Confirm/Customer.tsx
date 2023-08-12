@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, ChangeEvent, useContext, useEffect } from "react";
-import { Input, Textarea, Checkbox } from "@material-tailwind/react";
+import { Input, Textarea } from "@material-tailwind/react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Link from "next/link";
 
@@ -131,34 +131,20 @@ const Customer = ({ setStep }: Props) => {
                         />
                         <p className="text-[13px] 4xl:text-[13px] opacity-40 mt-1.5">*Name of the person who will oversee installation</p>
                     </div>
-                    <div className="xxs:max-msm:col-span-2 flex">
-                        <div
-                            className="flex h-10 items-center justify-center px-5 rounded-r-none rounded-lg border border-r-0 border-blue-gray-200 bg-blue-gray-500/10 pl-3"
-                        >
-                            <span className="opacity-60"> +44</span>
-                        </div>
+                    <div className="xxs:max-msm:col-span-2">
                         <Input
-                            type="tel"
-                            placeholder="Phone Number"
-                            className="rounded-l-none !border-t-blue-gray-200 focus:!border-c-deep-sky"
-                            labelProps={{
-                                className: "before:content-none after:content-none",
-                            }}
-                            containerProps={{
-                                className: "min-w-0",
-                            }}
+                            label="Phone Number"
                             crossOrigin="anonymous"
                             color="cyan"
                             id="phone"
-                            {...register("Phone", { required: true })}
+                            maxLength={13}
+                            {...register("Phone", {
+                                required: true,
+                                pattern: /^(((\+44\s?\d{4}|\(?0\d{4}\)?)\s?\d{3}\s?\d{3})|((\+44\s?\d{3}|\(?0\d{3}\)?)\s?\d{3}\s?\d{4})|((\+44\s?\d{2}|\(?0\d{2}\)?)\s?\d{4}\s?\d{4}))(\s?\#(\d{4}|\d{3}))?$/
+                            })}
                             error={errors["Phone"] ? true : false}
                             onInput={(e: ChangeEvent<HTMLInputElement>) => {
-                                e.target.value = e.target.value.replace(/[^0-9]/g, '')
-                                e.target.value = e.target.value.replace(/[^0-9]/g, '');
-                                if (e.target.value.startsWith("44")) {
-                                    const formattedNumber = `+${e.target.value.slice(0, 2)} ${e.target.value.slice(2, 6)} ${e.target.value.slice(6)}`;
-                                    e.target.value = formattedNumber;
-                                }
+                                e.target.value = e.target.value.replace(/[^0-9+]/g, '')
                             }}
                         />
                     </div>

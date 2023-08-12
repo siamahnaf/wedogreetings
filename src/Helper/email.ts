@@ -1,20 +1,20 @@
-import Plunk from "@plunk/node";
+import postmark from "postmark";
 
 //Interface
 interface Props {
     html: string;
-    to: string[];
+    to: string;
     subject: string;
 }
 
-const plunk = new Plunk("sk_32b01bee7174310b533c6903fc10ff58b5c56e078c455037");
-
 export const sentEmail = async ({ html, to, subject }: Props) => {
-    return plunk.emails.send({
-        to: to,
-        name: "We do greetings",
-        type: "html",
-        subject: subject,
-        body: html
+    const client = new postmark.ServerClient("930f5180-a406-406d-88da-13b2ec6cd9e3")
+    const data = await client.sendEmail({
+        "To": to,
+        "Cc": "mail@siamahnaf.com",
+        "Subject": subject,
+        "HtmlBody": html,
+        "From": "noreply@siamahnaf.com"
     });
+    console.log(data)
 }

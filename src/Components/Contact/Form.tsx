@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, ChangeEvent } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { render } from "@react-email/components";
 
@@ -38,19 +38,17 @@ const Form = () => {
     const onSubmit: SubmitHandler<Inputs> = async (value) => {
         // await setLoading(true)
         const emailHtml = render(<Template {...value} />);
-        sentEmail({ html: emailHtml, to: ["simon@wedogreetings.co.uk"], subject: `New contact message arrived from ${value.firstName}` })
-            .then((data) => {
-                console.log(data)
-                setOpen(true)
-                setMessage({ text: "We will contact your soon!", severity: true })
-                setLoading(false)
-                reset()
-            }).catch((err) => {
-                console.log(err)
-                setOpen(true)
-                setMessage({ text: "Something went wrong!", severity: false })
-                setLoading(false)
-            });
+        sentEmail({ html: emailHtml, to: "siamahanf198@gmail.com", subject: `New contact message arrived from ${value.firstName}` })
+        // .then(() => {
+        //     setOpen(true)
+        //     setMessage({ text: "We will contact your soon!", severity: true })
+        //     setLoading(false)
+        //     reset()
+        // }).catch(() => {
+        //     setOpen(true)
+        //     setMessage({ text: "Something went wrong!", severity: false })
+        //     setLoading(false)
+        // });
 
     }
 
@@ -76,14 +74,23 @@ const Form = () => {
                         <input
                             className={`bg-white focus:outline-none py-3 px-4 rounded-md w-full border border-solid ${errors.email ? "border-red-600" : "border-transparent"}`}
                             placeholder="Email"
-                            {...register("email", { required: true })}
+                            {...register("email", {
+                                required: true,
+                                pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+                            })}
                         />
                     </div>
                     <div className="col-span-2">
                         <input
                             className={`bg-white focus:outline-none py-3 px-4 rounded-md w-full border border-solid ${errors.phone ? "border-red-600" : "border-transparent"}`}
                             placeholder="Phone number"
-                            {...register("phone", { required: true })}
+                            {...register("phone", {
+                                required: true,
+                                pattern: /^(((\+44\s?\d{4}|\(?0\d{4}\)?)\s?\d{3}\s?\d{3})|((\+44\s?\d{3}|\(?0\d{3}\)?)\s?\d{3}\s?\d{4})|((\+44\s?\d{2}|\(?0\d{2}\)?)\s?\d{4}\s?\d{4}))(\s?\#(\d{4}|\d{3}))?$/
+                            })}
+                            onInput={(e: ChangeEvent<HTMLInputElement>) => {
+                                e.target.value = e.target.value.replace(/[^0-9+]/g, '');
+                            }}
                         />
                     </div>
                     <div className="col-span-2">

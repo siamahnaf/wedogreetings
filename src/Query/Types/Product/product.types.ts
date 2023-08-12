@@ -11,6 +11,7 @@ export interface ProductData {
     "Prod Img Large 3": string;
     "Prod Img Large 4": string;
     "Expire Product Date": Date;
+    "Alt tag": string;
 }
 export interface FranchiseeAreaCodeData {
     "@row.id": number;
@@ -118,6 +119,7 @@ export interface GetProductData {
     Status: string;
     "Dates Rented Out": string;
     "Image Address": string;
+    "Item Id": string;
 }
 
 export interface GetResponseData {

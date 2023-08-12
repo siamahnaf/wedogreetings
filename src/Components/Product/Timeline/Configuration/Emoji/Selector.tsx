@@ -84,7 +84,7 @@ const Backdrop = ({ open, onClose, items, onChange, selected, index }: Props) =>
                                     <h5 className={`text-lg font-bold mb-10 ${si > 0 && "mt-16"}`}>{category} - {sub}</h5>
                                     <div className="grid grid-cols-5 sm:grid-cols-5 xxs:grid-cols-3 gap-4">
                                         {groupedArray[category][sub].filter(inc => !selected.some(exc => exc.id === inc["@row.id"].toString())).map((main, mi) => (
-                                            <div key={mi} className="cursor-pointer" onClick={() => onItemClick({ url: main["Image Address"], id: main["@row.id"].toString(), name: main.Item })}>
+                                            <div key={mi} className="cursor-pointer" onClick={() => onItemClick({ url: main["Image Address"], id: main["Item Id"], name: main.Item })}>
                                                 {main.Image ?
                                                     <Image src={main["Image Address"]} width={258} height={258} alt={main.Item} className="aspect-[1/1]" /> :
                                                     <div className="bg-c-white-smoke rounded-lg aspect-[1/1] text-center flex justify-center items-center">
