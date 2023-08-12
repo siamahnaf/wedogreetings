@@ -24,6 +24,7 @@ export interface ConfigureDataTypes {
 export interface CustomerDataTypes {
     formData: CustomerTypes;
     customerString: string;
+    town: string;
 }
 interface Context {
     activeStep: number;

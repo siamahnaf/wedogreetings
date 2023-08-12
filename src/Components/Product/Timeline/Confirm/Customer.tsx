@@ -6,6 +6,12 @@ import Link from "next/link";
 //Context
 import { TimelineContext } from "@/Context/timeline.context";
 
+
+//Query
+import { useQuery } from "@tanstack/react-query";
+import { GET_POSTCODER_DETAILS } from "@/Query/Function/Postcoder/post.function";
+
+
 //Interface
 interface Props {
     setStep: Dispatch<SetStateAction<string>>;
@@ -17,6 +23,7 @@ export interface Inputs {
     "Last Name": string;
     "Phone": string;
     "Email": string;
+    "House no": string;
     "Address line": string;
     "Post Code": string;
     "Recipient": "",
@@ -30,6 +37,8 @@ const Customer = ({ setStep }: Props) => {
     //Context
     const { setCustomer, availableData } = useContext(TimelineContext);
 
+    //Query
+    const { data, refetch } = useQuery({ queryKey: ["coderPostal", availableData?.formData.postalCode], queryFn: () => GET_POSTCODER_DETAILS(availableData?.formData.postalCode as string) })
 
     //Form Initializing
     const {
@@ -37,19 +46,20 @@ const Customer = ({ setStep }: Props) => {
         handleSubmit,
         formState: { errors },
         watch,
-        reset,
-        control
+        reset
     } = useForm<Inputs>({
         defaultValues: {
-            "Post Code": availableData?.formData.postalCode
+            "Post Code": availableData?.formData.postalCode,
+            "Address line": data?.[0].summaryline,
+            County: data?.[0].county
         }
     });
 
 
     //Submit Handler
     const onSubmit: SubmitHandler<Inputs> = (value) => {
-        const customerString = `${value.Title}|${value["First Name"]}|${value["Last Name"]}|${value.Phone}|${value.Email}|${value["Address line"]}|${value["Post Code"]}|${value.County}|${value["Opt-in Marketing"] ? new Date().toISOString() : ''}|${value["Opt-in Terms"] ? new Date().toISOString() : ''}`
-        setCustomer?.({ formData: value, customerString })
+        const customerString = `${value.Title}|${value["First Name"]}|${value["Last Name"]}|${value.Phone}|${value.Email}|${value["House no"]}, ${value["Address line"]}|${value["Post Code"]}|${value.County}|${value["Opt-in Marketing"] ? new Date().toISOString() : ''}|${value["Opt-in Terms"] ? new Date().toISOString() : ''}`
+        setCustomer?.({ formData: value, customerString, town: data?.[0].posttown as string })
         setStep("step2")
         const nextStepElement = document.getElementById("timeline-container");
         if (nextStepElement) {
@@ -66,10 +76,18 @@ const Customer = ({ setStep }: Props) => {
     }
 
     useEffect(() => {
-        reset({ "Post Code": availableData?.formData.postalCode })
+        reset({
+            "Post Code": availableData?.formData.postalCode,
+            "Address line": data?.[0].summaryline,
+            County: data?.[0].county
+        })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [availableData, data])
+
+    useEffect(() => {
+        refetch()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [availableData])
-
     return (
         <div>
             <div className="text-center mb-12">
@@ -184,6 +202,7 @@ const Customer = ({ setStep }: Props) => {
                             label="County"
                             color="cyan"
                             id="county"
+                            readOnly
                             {...register("County", { required: true })}
                             error={errors["County"] ? true : false}
                             onInput={(e: ChangeEvent<HTMLInputElement>) => {
@@ -193,6 +212,16 @@ const Customer = ({ setStep }: Props) => {
                     </div>
                     <div className="col-span-2">
                         <p className="text-blue-gray-300 text-sm mb-2">Where should we install your rental? Input the full street address and postcode.</p>
+                        <Input
+                            crossOrigin="anonymous"
+                            label="House no."
+                            color="cyan"
+                            id="house"
+                            {...register("House no", { required: true })}
+                            error={errors["House no"] ? true : false}
+                        />
+                    </div>
+                    <div className="col-span-2">
                         <Textarea
                             label="Installation address"
                             color="cyan"

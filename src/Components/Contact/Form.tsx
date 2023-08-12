@@ -2,14 +2,16 @@ import { useState, ChangeEvent } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { render } from "@react-email/components";
 
-//Handler
-import { sentEmail } from "@/Helper/email";
-
 //Components
 import Success from "../Common/Success";
 
 //Template
 import Template from "./Template";
+
+//Query
+import { useMutation } from "@tanstack/react-query";
+import { SENT_EMAIL } from "@/Query/Function/Email/email.function";
+import { SentEmailData } from "@/Query/Types/Email/email.types";
 
 //Interface
 export interface Inputs {
@@ -23,8 +25,7 @@ export interface Inputs {
 const Form = () => {
     //State
     const [open, setOpen] = useState<boolean>(false);
-    const [loading, setLoading] = useState<boolean>(false);
-    const [message, setMessage] = useState<{ text: string, severity: boolean | null }>({ text: "", severity: null });
+    const [message, setMessage] = useState<{ text: string, severity: boolean }>({ text: "", severity: false })
 
     //Form Initializing
     const {
@@ -34,22 +35,36 @@ const Form = () => {
         reset
     } = useForm<Inputs>();
 
+    //Query
+    const { mutate, isPending } = useMutation({
+        mutationKey: ["contactEmail"],
+        mutationFn: (formData: SentEmailData) => SENT_EMAIL(formData),
+        onSuccess(data) {
+            setOpen(true)
+            if (data.MessageID) {
+                setMessage({ text: "We receive your email successfully, we will contact you soon!", severity: true })
+                reset()
+            } else {
+                setMessage({ text: "Something went wrong!", severity: false })
+            }
+        },
+        onError() {
+            setOpen(true)
+            setMessage({ text: "Something went wrong!", severity: false })
+        }
+    })
+
     //Submit Handler
     const onSubmit: SubmitHandler<Inputs> = async (value) => {
         // await setLoading(true)
         const emailHtml = render(<Template {...value} />);
-        sentEmail({ html: emailHtml, to: ["siamahanf198@gmail.com"], subject: `New contact message arrived from ${value.firstName}` })
-        // .then(() => {
-        //     setOpen(true)
-        //     setMessage({ text: "We will contact your soon!", severity: true })
-        //     setLoading(false)
-        //     reset()
-        // }).catch(() => {
-        //     setOpen(true)
-        //     setMessage({ text: "Something went wrong!", severity: false })
-        //     setLoading(false)
-        // });
-
+        const formData = {
+            to: [{ name: "Simon Parker", email: "simon@wedogreetings.co.uk" }],
+            cc: [{ name: value.firstName, email: value.email }],
+            subject: `New contact message arrived from ${value.firstName}`,
+            html: emailHtml
+        }
+        mutate(formData)
     }
 
     return (
@@ -103,10 +118,10 @@ const Form = () => {
                     </div>
                 </div>
                 <div className="text-center mt-7">
-                    <button type="submit" className="bg-c-deep-sky py-2 px-16 4xl:px-24 4xl:py-3.5 3xl:py-2.5 rounded-md text-white font-semibold uppercase text-sm relative" disabled={loading}>
-                        <span className={`${loading ? "opacity-30" : "opacity-100"}`}>send</span>
+                    <button type="submit" className="bg-c-deep-sky py-2 px-16 4xl:px-24 4xl:py-3.5 3xl:py-2.5 rounded-md text-white font-semibold uppercase text-sm relative" disabled={isPending}>
+                        <span className={`${isPending ? "opacity-30" : "opacity-100"}`}>send</span>
                         <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
-                            {loading &&
+                            {isPending &&
                                 <div className="w-5 h-5 border-b-2 border-white rounded-full animate-spin ml-auto"></div>
                             }
                         </div>

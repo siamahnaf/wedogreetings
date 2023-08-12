@@ -314,7 +314,7 @@ const Availability = () => {
                                         {...register("postalCode", {
                                             required: "Postal code is required!",
                                             pattern: {
-                                                value: /^(GIR 0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]([0-9ABEHMNPRV-Y])?)|[0-9][A-HJKPS-UW]) ?[0-9]( ?[ABD-HJLNP-UW-Z]{2})?)$/,
+                                                value: /^(GIR 0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]([0-9ABEHMNPRV-Y])?)|[0-9][A-HJKPS-UW]) ?[0-9][ABD-HJLNP-UW-Z]{2})$/,
                                                 message: "Invalid UK postcode. Please enter a postcode in the format 'AA9A 9AA', 'A9 9AA', 'A9A 9AA', 'A99 9AA', or 'AA99 9AA'."
                                             }
                                         })}

@@ -15,7 +15,7 @@ export const GET_SINGLE_PRODUCT = async (id: number): Promise<ProductData[]> => 
 export const GET_ALL_PRODUCT = async (): Promise<ProductData[]> => await (await fetch("https://wdg.teamdesk.net/secure/api/v2/90582/Web%20Product%20Listing/Default%20View/select.json?filter=%5BStatus%5D%3D%22Active%22", { headers }).then(res => res.json()));
 
 //GET Postal Codes
-export const GET_POSTAL_CODE = async (code: string): Promise<FranchiseeAreaCodeData[]> => await (await fetch(`https://wdg.teamdesk.net/secure/api/v2/90582/Franchisee%20Area%20Code/select.json?filter=%5BArea%20Code%20w%2Fo%20Spaces%5D%3D%22${code.replace(/\s/g, '')}%22`, { headers }).then(res => res.json()));
+export const GET_POSTAL_CODE = async (code: string): Promise<FranchiseeAreaCodeData[]> => await (await fetch(`https://wdg.teamdesk.net/secure/api/v2/90582/Franchisee%20Area%20Code/select.json?filter=%5BArea%20Code%20w%2Fo%20Spaces%5D%3D%22${code.substring(0, code.length - 2).replace(/ /g, '')}%22%20or%20%5BArea%20Code%20w%2Fo%20Spaces%5D%3D%22${code.replace(/ /g, '')}%22`, { headers }).then(res => res.json()));
 
 //GET Unavailability Date
 export const GET_UNAVAILABLE_DATE = async (id: string): Promise<UnavailabilityData[]> => await (await fetch(`https://wdg.teamdesk.net/secure/api/v2/90582/Unavailable%20Date/select.json?filter=%5BReference%20to%20Admin%20-%20User%20Property%5D%3DToUser(%22${getOwner(id)}%22)`, { headers }).then(res => res.json()));

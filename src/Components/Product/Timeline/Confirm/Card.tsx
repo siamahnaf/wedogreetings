@@ -6,9 +6,6 @@ import crypto from "crypto";
 import { useRouter } from "next/router";
 import { render } from "@react-email/components";
 
-//Handler
-import { sentEmail } from "@/Helper/email";
-
 //Template
 import Template from "./Template";
 
@@ -21,6 +18,8 @@ import { TimelineContext } from "@/Context/timeline.context";
 //Query
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { GET_PAYMENT_RESPONSE, PLACE_ORDER, GET_SINGLE_PRODUCT } from "@/Query/Function/Product/product.function";
+import { SENT_EMAIL } from "@/Query/Function/Email/email.function";
+import { SentEmailData } from "@/Query/Types/Email/email.types";
 
 //Interface Import
 import { AddOrderPlaceData } from "@/Query/Types/Product/product.types";
@@ -60,6 +59,19 @@ const Card = ({ setStep }: Props) => {
     };
 
     //Query
+    const { mutate: emailMutate, isPending: EmailPending } = useMutation({
+        mutationKey: ["Confirm_email"],
+        mutationFn: (formData: SentEmailData) => SENT_EMAIL(formData),
+        onSuccess(data) {
+            if (data.MessageID) {
+                setStep("step3")
+                const nextStepElement = document.getElementById("timeline-container");
+                if (nextStepElement) {
+                    nextStepElement.scrollIntoView({ block: "start" });
+                }
+            }
+        }
+    })
     const products = useQuery({ queryKey: ["product", router.query.id], queryFn: () => GET_SINGLE_PRODUCT(Number(router.query.id)) });
     const responseData = useQuery({ queryKey: ["paymentResponse", uniqueId], queryFn: () => GET_PAYMENT_RESPONSE(uniqueId), refetchInterval: 1500 });
     const { isPending, mutate } = useMutation({
@@ -67,11 +79,6 @@ const Card = ({ setStep }: Props) => {
         async onSuccess(data) {
             if (data[0].status === 201) {
                 if (responseData.data && responseData.data[0].Status === "Success") {
-                    setStep("step3")
-                    const nextStepElement = document.getElementById("timeline-container");
-                    if (nextStepElement) {
-                        nextStepElement.scrollIntoView({ block: "start" });
-                    }
                     const emailData = {
                         customerName: `${customer?.formData["First Name"]} ${customer?.formData["Last Name"]}` as string,
                         event: products.data?.[0]["Product Name"] as string,
@@ -88,7 +95,16 @@ const Card = ({ setStep }: Props) => {
                         transId: responseData.data?.[0].transId as string
                     }
                     const emailHtml = render(<Template {...emailData} />);
-                    await sentEmail({ html: emailHtml, to: [`${customer?.formData.Email}`, `${availableData?.details["Email Opt-Out"]}`, "simon@wedogreetings.co.uk"], subject: "Your order is confirmed!" })
+                    const emailForm = {
+                        to: [{ name: customer?.formData["First Name"] as string, email: customer?.formData.Email as string }],
+                        cc: [
+                            { name: availableData?.details["Public Name"] as string, email: availableData?.details["Email for Orders"] as string },
+                            { name: "Simon Parker", email: "simon@wedorertings.co.uk" },
+                        ],
+                        subject: "New order placed successfully!",
+                        html: emailHtml
+                    }
+                    emailMutate(emailForm)
                 } else {
                     setStep("step4")
                     const nextStepElement = document.getElementById("timeline-container");
@@ -118,7 +134,7 @@ const Card = ({ setStep }: Props) => {
         const createMD5Signature = (data: string) => {
             return crypto.createHash('md5').update(data).digest('hex');
         };
-        const billing = `&name=${customer?.formData["First Name"]}&address1=${customer?.formData["Address line"]}&town=${customer?.formData.County}&postcode=${customer?.formData["Post Code"]}&country=UK&tel=${customer?.formData.Phone}&email=${customer?.formData.Email}`
+        const billing = `&name=${customer?.formData["First Name"]}&address1=${customer?.formData["Address line"]}&town=${customer?.town}&postcode=${customer?.formData["Post Code"]}&country=UK&tel=${customer?.formData.Phone}&email=${customer?.formData.Email}`
         const url = `https://secure-test.worldpay.com/wcc/purchase?instId=1471088&cartId=${uniqueID}&amount=${getTotalPrice()}&currency=GBP&testMode=100&accId1=${availableData?.details["WP-M#"] || 44606504}&signature=${createMD5Signature(getTotalPrice()?.toString() as string)}${customer?.formData["Billing Address"] && billing}`;
         const newPopupWindow = window.open(url, 'mini-popup', `width=${width},height=${height},top=${top},left=${left}`);
         setPopupWindow(newPopupWindow)
@@ -223,10 +239,10 @@ const Card = ({ setStep }: Props) => {
                 <button className="bg-c-gainsboro text-white py-1.5 px-10 rounded-md" type="button" onClick={onBackHandler} disabled={(fetching || isPending || responseData.isFetching)}>
                     Back
                 </button>
-                <button className="bg-c-deep-sky py-1.5 px-12 text-white rounded-md relative" onClick={onPaymentSubmit} disabled={(fetching || isPending || responseData.isFetching)}>
-                    <span className={`${(fetching || isPending || responseData.isFetching) ? "opacity-30" : "opacity-100"}`}>Pay £{getTotalPrice()}</span>
+                <button className="bg-c-deep-sky py-1.5 px-12 text-white rounded-md relative" onClick={onPaymentSubmit} disabled={(fetching || isPending || EmailPending)}>
+                    <span className={`${(fetching || isPending || EmailPending) ? "opacity-30" : "opacity-100"}`}>Pay £{getTotalPrice()}</span>
                     <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
-                        {(fetching || isPending || responseData.isFetching) &&
+                        {(fetching || isPending || EmailPending) &&
                             <div className="w-5 h-5 border-b-2 border-white rounded-full animate-spin ml-auto"></div>
                         }
                     </div>
