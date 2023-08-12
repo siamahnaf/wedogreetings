@@ -21,7 +21,7 @@ export const ADD_CUSTOM_REQUEST = async () => await (await fetch("https://api.ma
 
 import { useMutation } from "@tanstack/react-query";
 
-const test = () => {
+const Test = () => {
     const { mutate, error, data } = useMutation({ mutationKey: ["test"], mutationFn: ADD_CUSTOM_REQUEST })
     return (
         <div>
