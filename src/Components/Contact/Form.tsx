@@ -38,7 +38,7 @@ const Form = () => {
     const onSubmit: SubmitHandler<Inputs> = async (value) => {
         // await setLoading(true)
         const emailHtml = render(<Template {...value} />);
-        sentEmail({ html: emailHtml, to: "siamahanf198@gmail.com", subject: `New contact message arrived from ${value.firstName}` })
+        sentEmail({ html: emailHtml, to: ["siamahanf198@gmail.com"], subject: `New contact message arrived from ${value.firstName}` })
         // .then(() => {
         //     setOpen(true)
         //     setMessage({ text: "We will contact your soon!", severity: true })
