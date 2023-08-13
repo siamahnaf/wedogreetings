@@ -4,10 +4,6 @@ import { Icon } from "@iconify/react";
 import moment from "moment";
 import crypto from "crypto";
 import { useRouter } from "next/router";
-import { render } from "@react-email/components";
-
-//Template
-import Template from "./Template";
 
 //Helpers Function
 import { getOrderId } from "@/Helper/uniqueId";
@@ -79,32 +75,30 @@ const Card = ({ setStep }: Props) => {
         async onSuccess(data) {
             if (data[0].status === 201) {
                 if (responseData.data && responseData.data[0].Status === "Success") {
-                    // const emailData = {
-                    //     customerName: `${customer?.formData["First Name"]} ${customer?.formData["Last Name"]}` as string,
-                    //     event: products.data?.[0]["Product Name"] as string,
-                    //     franchiseName: availableData?.details["Public Name"] as string,
-                    //     cost: getTotalPrice() as number,
-                    //     rental: availableData?.formData.rental as string,
-                    //     date: availableData?.formData.rental as string,
-                    //     time: availableData?.formData.setUpTime as string,
-                    //     location: configureData?.formData.location as string,
-                    //     base: configureData?.formData.base as string,
-                    //     removalTime: availableData?.formData.removalTime as string,
-                    //     number: availableData?.details.Phone as string,
-                    //     email: availableData?.details["Email for Orders"] as string,
-                    //     transId: responseData.data?.[0].transId as string
-                    // }
-                    // const emailHtml = render(<Template {...emailData} />);
-                    // const emailForm = {
-                    //     to: [{ name: customer?.formData["First Name"] as string, email: customer?.formData.Email as string }],
-                    //     cc: [
-                    //         { name: availableData?.details["Public Name"] as string, email: availableData?.details["Email for Orders"] as string },
-                    //         { name: "Simon Parker", email: "simon@wedorertings.co.uk" },
-                    //     ],
-                    //     subject: "New order placed successfully!",
-                    //     html: emailHtml
-                    // }
-                    // emailMutate(emailForm)
+                    const emailData = {
+                        customerName: `${customer?.formData["First Name"]} ${customer?.formData["Last Name"]}` as string,
+                        event: products.data?.[0]["Product Name"] as string,
+                        franchiseName: availableData?.details["Public Name"] as string,
+                        cost: getTotalPrice() as number,
+                        rental: availableData?.formData.rental as string,
+                        date: availableData?.formData.rental as string,
+                        time: availableData?.formData.setUpTime as string,
+                        location: configureData?.formData.location as string,
+                        base: configureData?.formData.base as string,
+                        removalTime: availableData?.formData.removalTime as string,
+                        number: availableData?.details.Phone as string,
+                        email: availableData?.details["Email for Orders"] as string,
+                        transId: responseData.data?.[0].transId as string
+                    }
+                    const emailForm = {
+                        to: [{ name: customer?.formData["First Name"] as string, email: customer?.formData.Email as string }],
+                        cc: [{ name: availableData?.details["Public Name"] as string, email: availableData?.details["Email for Orders"] as string }],
+                        bcc: [{ name: "Simon Parker", email: "simon@wedogreetings.co.uk" }],
+                        subject: "New order placed successfully!",
+                        templateName: "confirm",
+                        value: JSON.stringify(emailData)
+                    }
+                    emailMutate(emailForm)
                 } else {
                     setStep("step4")
                     const nextStepElement = document.getElementById("timeline-container");

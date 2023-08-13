@@ -30,6 +30,7 @@ export default async function handler(
             },
             To: req.body.to,
             Cc: req.body.cc,
+            Bcc: req.body.bcc,
             Subject: req.body.subject,
             ContentType: "HTML",
             HTMLContent: html
