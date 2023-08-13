@@ -100,7 +100,7 @@ const Card = ({ setStep }: Props) => {
             "Location": configureData?.formData.location,
             "Base": configureData?.formData.base,
             "Name of Recipient": customer?.formData.Recipient as string,
-            "Payment Status": true,
+            "Payment Status": "Unknown",
             "cartId": uniqueID
         }
         mutate(formData)

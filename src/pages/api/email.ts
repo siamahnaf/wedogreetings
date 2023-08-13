@@ -22,6 +22,8 @@ export default async function handler(
         } else if (req.body.templateName === "confirm") {
             const value = req.body.value
             html = render(ConfirmTemplate({ ...value }));
+        } else if (req.body.templateName === "cancelled") {
+            html = "<p>Payment is cancelled</p>"
         }
         const email = {
             From: {
