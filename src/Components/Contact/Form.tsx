@@ -13,6 +13,18 @@ import { useMutation } from "@tanstack/react-query";
 import { SENT_EMAIL } from "@/Query/Function/Email/email.function";
 import { SentEmailData } from "@/Query/Types/Email/email.types";
 
+//Test function
+const sentEmail = async (data: SentEmailData) => {
+    const headers = {
+        "Content-Type": "application/json"
+    }
+    const response = await fetch("/api/email", { method: "POST", headers, body: JSON.stringify(data) })
+    if (!response.ok) {
+        throw new Error("Something went wrong")
+    }
+    return response.json()
+}
+
 //Interface
 export interface Inputs {
     firstName: string;
@@ -25,6 +37,7 @@ export interface Inputs {
 const Form = () => {
     //State
     const [open, setOpen] = useState<boolean>(false);
+    const [isPending, setPending] = useState<boolean>(false);
     const [message, setMessage] = useState<{ text: string, severity: boolean }>({ text: "", severity: false })
 
     //Form Initializing
@@ -36,23 +49,23 @@ const Form = () => {
     } = useForm<Inputs>();
 
     //Query
-    const { data, error, mutate, isPending } = useMutation({
-        mutationKey: ["contactEmail"],
-        mutationFn: (formData: SentEmailData) => SENT_EMAIL(formData),
-        // onSuccess(data) {
-        //     setOpen(true)
-        //     if (data.MessageID) {
-        //         setMessage({ text: "We receive your email successfully, we will contact you soon!", severity: true })
-        //         reset()
-        //     } else {
-        //         setMessage({ text: "Something went wrong!", severity: false })
-        //     }
-        // },
-        // onError() {
-        //     setOpen(true)
-        //     setMessage({ text: "Something went wrong!", severity: false })
-        // }
-    })
+    // const { data, error, mutate, isPending } = useMutation({
+    //     mutationKey: ["contactEmail"],
+    //     mutationFn: (formData: SentEmailData) => SENT_EMAIL(formData),
+    //     onSuccess(data) {
+    //         setOpen(true)
+    //         if (data.MessageID) {
+    //             setMessage({ text: "We receive your email successfully, we will contact you soon!", severity: true })
+    //             reset()
+    //         } else {
+    //             setMessage({ text: "Something went wrong!", severity: false })
+    //         }
+    //     },
+    //     onError() {
+    //         setOpen(true)
+    //         setMessage({ text: "Something went wrong!", severity: false })
+    //     }
+    // })
 
     //Submit Handler
     const onSubmit: SubmitHandler<Inputs> = async (value) => {
@@ -64,15 +77,14 @@ const Form = () => {
             subject: `New contact message arrived from ${value.firstName}`,
             html: "<p>Hello World</p>"
         }
-        mutate(formData)
+        const data = await sentEmail(formData);
+        console.log(JSON.stringify(data))
         console.log(value);
         console.log("clicked 2")
     }
 
     return (
         <div className="col-span-8 3xl:col-span-9 lg:col-span-8 xxs:col-span-12 bg-c-deep-sky bg-opacity-10 p-7 sm:p-7 xxs:p-4 rounded-md">
-            {JSON.stringify(data)}
-            {JSON.stringify(error)}
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="grid grid-cols-2 gap-5 sm:gap-5 xxs:gap-3">
                     <div className="xxs:max-sm:col-span-2">
