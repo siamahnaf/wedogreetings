@@ -62,7 +62,7 @@ const Form = () => {
             to: [{ name: "Simon Parker", email: "simon@wedogreetings.co.uk" }],
             cc: [{ name: value.firstName, email: value.email }],
             subject: `New contact message arrived from ${value.firstName}`,
-            html: emailHtml
+            html: "<p>Hello World</p>"
         }
         mutate(formData)
         console.log(value);
