@@ -56,7 +56,7 @@ const Form = () => {
 
     //Submit Handler
     const onSubmit: SubmitHandler<Inputs> = async (value) => {
-        // await setLoading(true)
+        console.log("clicked 1")
         const emailHtml = render(<Template {...value} />);
         const formData = {
             to: [{ name: "Simon Parker", email: "simon@wedogreetings.co.uk" }],
@@ -65,6 +65,8 @@ const Form = () => {
             html: emailHtml
         }
         mutate(formData)
+        console.log(value);
+        console.log("clicked 2")
     }
 
     return (
