@@ -69,10 +69,9 @@ const Form = () => {
 
     //Submit Handler
 
-    const emailHtml = render(<Template {...value} />);
-
     const onSubmit: SubmitHandler<Inputs> = async (value) => {
         console.log("clicked 1")
+        const emailHtml = await render(<Template {...value} />);
         const formData = {
             to: [{ name: "Simon Parker", email: "simon@wedogreetings.co.uk" }],
             cc: [{ name: value.firstName, email: value.email }],
