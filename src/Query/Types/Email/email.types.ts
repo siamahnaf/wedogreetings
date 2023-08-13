@@ -12,5 +12,6 @@ export interface SentEmailData {
         email: string;
     }[];
     subject: string;
-    html: string;
+    templateName: string;
+    value: string;
 }

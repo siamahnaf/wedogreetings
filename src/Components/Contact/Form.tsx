@@ -1,29 +1,13 @@
 import { useState, ChangeEvent } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { render } from "@react-email/render";
 
 //Components
 import Success from "../Common/Success";
-
-//Template
-import Template from "./Template";
 
 //Query
 import { useMutation } from "@tanstack/react-query";
 import { SENT_EMAIL } from "@/Query/Function/Email/email.function";
 import { SentEmailData } from "@/Query/Types/Email/email.types";
-
-//Test function
-const sentEmail = async (data: SentEmailData) => {
-    const headers = {
-        "Content-Type": "application/json"
-    }
-    const response = await fetch("/api/email", { method: "POST", headers, body: JSON.stringify(data) })
-    if (!response.ok) {
-        throw new Error("Something went wrong")
-    }
-    return response.json()
-}
 
 //Interface
 export interface Inputs {
@@ -68,20 +52,20 @@ const Form = () => {
 
     //Submit Handler
     const onSubmit: SubmitHandler<Inputs> = async (value) => {
-        const emailHtml = render(<Template {...value} />)
         const formData = {
             to: [{ name: "Simon Parker", email: "simon@wedogreetings.co.uk" }],
             cc: [{ name: value.firstName, email: value.email }],
             subject: `New contact message arrived from ${value.firstName}`,
-            html: emailHtml
+            templateName: "contact",
+            value: JSON.stringify(value)
         }
         mutate(formData)
     }
 
     return (
         <div className="col-span-8 3xl:col-span-9 lg:col-span-8 xxs:col-span-12 bg-c-deep-sky bg-opacity-10 p-7 sm:p-7 xxs:p-4 rounded-md">
-            {JSON.stringify(data)}
             {JSON.stringify(error)}
+            {JSON.stringify(data)}
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="grid grid-cols-2 gap-5 sm:gap-5 xxs:gap-3">
                     <div className="xxs:max-sm:col-span-2">
