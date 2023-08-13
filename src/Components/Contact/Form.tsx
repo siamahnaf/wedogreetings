@@ -72,16 +72,18 @@ const Form = () => {
     const onSubmit: SubmitHandler<Inputs> = async (value) => {
         console.log("clicked 1")
         const emailHtml = await render(<Template {...value} />);
-        const formData = {
-            to: [{ name: "Simon Parker", email: "simon@wedogreetings.co.uk" }],
-            cc: [{ name: value.firstName, email: value.email }],
-            subject: `New contact message arrived from ${value.firstName}`,
-            html: emailHtml
+        if (emailHtml) {
+            const formData = {
+                to: [{ name: "Simon Parker", email: "simon@wedogreetings.co.uk" }],
+                cc: [{ name: value.firstName, email: value.email }],
+                subject: `New contact message arrived from ${value.firstName}`,
+                html: emailHtml
+            }
+            const data = await sentEmail(formData);
+            console.log(JSON.stringify(data))
+            console.log(value);
+            console.log("clicked 2")
         }
-        const data = await sentEmail(formData);
-        console.log(JSON.stringify(data))
-        console.log(value);
-        console.log("clicked 2")
     }
 
     return (
