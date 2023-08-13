@@ -70,16 +70,18 @@ const Form = () => {
     //Submit Handler
     const onSubmit: SubmitHandler<Inputs> = async (value) => {
         console.log("clicked 1")
-        const formData = {
-            to: [{ name: "Simon Parker", email: "simon@wedogreetings.co.uk" }],
-            cc: [{ name: value.firstName, email: value.email }],
-            subject: `New contact message arrived from ${value.firstName}`,
-            html: "<p>Hello World</p>"
-        }
-        const data = await sentEmail(formData);
-        console.log(JSON.stringify(data))
-        console.log(value);
-        console.log("clicked 2")
+        const emailHtml = render(<Template {...value} />);
+        console.log(JSON.stringify(emailHtml))
+        // const formData = {
+        //     to: [{ name: "Simon Parker", email: "simon@wedogreetings.co.uk" }],
+        //     cc: [{ name: value.firstName, email: value.email }],
+        //     subject: `New contact message arrived from ${value.firstName}`,
+        //     html: "<p>Hello World</p>"
+        // }
+        // const data = await sentEmail(formData);
+        // console.log(JSON.stringify(data))
+        // console.log(value);
+        // console.log("clicked 2")
     }
 
     return (
