@@ -1,10 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-import { render } from '@react-email/render';
-
-//Templates
-import ContactTemplate from "@/Components/Contact/Template";
-import ConfirmTemplate from "@/Components/Product/Timeline/Confirm/Template";
 
 type Data = {
     MessageID: string
@@ -15,14 +10,6 @@ export default async function handler(
     res: NextApiResponse<Data>
 ) {
     if (req.method === "POST") {
-        let html: string = ""
-        if (req.body.templateName === "contact") {
-            const value = JSON.parse(req.body.value)
-            html = render(ContactTemplate({ ...value }));
-        } else if (req.body.templateName === "confirm") {
-            const value = JSON.parse(req.body.value)
-            html = render(ContactTemplate({ ...value }));
-        }
         const email = {
             From: {
                 name: "We do greetings",
@@ -32,7 +19,7 @@ export default async function handler(
             Cc: req.body.cc,
             Subject: req.body.subject,
             ContentType: "HTML",
-            HTMLContent: html
+            HTMLContent: req.body.html
         }
         const headers = {
             "Authorization": `Bearer ${process.env.MAILER_API}`,
