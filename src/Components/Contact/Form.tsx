@@ -39,19 +39,19 @@ const Form = () => {
     const { data, error, mutate, isPending } = useMutation({
         mutationKey: ["contactEmail"],
         mutationFn: (formData: SentEmailData) => SENT_EMAIL(formData),
-        onSuccess(data) {
-            setOpen(true)
-            if (data.MessageID) {
-                setMessage({ text: "We receive your email successfully, we will contact you soon!", severity: true })
-                reset()
-            } else {
-                setMessage({ text: "Something went wrong!", severity: false })
-            }
-        },
-        onError() {
-            setOpen(true)
-            setMessage({ text: "Something went wrong!", severity: false })
-        }
+        // onSuccess(data) {
+        //     setOpen(true)
+        //     if (data.MessageID) {
+        //         setMessage({ text: "We receive your email successfully, we will contact you soon!", severity: true })
+        //         reset()
+        //     } else {
+        //         setMessage({ text: "Something went wrong!", severity: false })
+        //     }
+        // },
+        // onError() {
+        //     setOpen(true)
+        //     setMessage({ text: "Something went wrong!", severity: false })
+        // }
     })
 
     //Submit Handler
