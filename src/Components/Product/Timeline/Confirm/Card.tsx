@@ -2,7 +2,6 @@ import { Dispatch, SetStateAction, useContext, useState } from "react";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
 import moment from "moment";
-import crypto from "crypto";
 
 //Helpers Function
 import { getOrderId } from "@/Helper/uniqueId";
@@ -25,6 +24,7 @@ interface Props {
 const Card = ({ setStep }: Props) => {
     //State
     const [uniqueId, setUniqId] = useState<string>("");
+    const [loading, setLoading] = useState<boolean>(false);
 
     //Context
     const { customer, availableData, configureData, letters, emojis } = useContext(TimelineContext);
@@ -49,9 +49,9 @@ const Card = ({ setStep }: Props) => {
     const { isPending, mutate } = useMutation({
         mutationKey: ["placeOrder"], mutationFn: (formData: AddOrderPlaceData) => PLACE_ORDER(formData),
         async onSuccess() {
-            const createMD5Signature = (data: string) => {
-                return crypto.createHash('md5').update(data).digest('hex');
-            };
+            // const createMD5Signature = (data: string) => {
+            //     return crypto.createHash('md5').update(data).digest('hex');
+            // };
             const billing = `&name=${customer?.formData["First Name"]}&address1=${customer?.formData["Address line"]}&town=${customer?.town}&postcode=${customer?.formData["Post Code"]}&country=UK&tel=${customer?.formData.Phone}&email=${customer?.formData.Email}`
             const url = `https://secure-test.worldpay.com/wcc/purchase?instId=1471088&cartId=${uniqueId}&amount=${getTotalPrice()}&currency=GBP&testMode=100&accId1=${availableData?.details["WP-M#"] || 44606504}${customer?.formData["Billing Address"] && billing}`;
             window.location.href = url;
@@ -60,6 +60,7 @@ const Card = ({ setStep }: Props) => {
 
     //Payment Submit Window    
     const onPaymentSubmit = () => {
+        setLoading(true)
         const uniqueID = getOrderId();
         setUniqId(uniqueID)
         const result: { id: string, position: string }[] = [];
@@ -129,10 +130,10 @@ const Card = ({ setStep }: Props) => {
                 <button className="bg-c-gainsboro text-white py-1.5 px-10 rounded-md" type="button" onClick={onBackHandler} disabled={isPending}>
                     Back
                 </button>
-                <button className="bg-c-deep-sky py-1.5 px-12 text-white rounded-md relative" onClick={onPaymentSubmit} disabled={isPending}>
-                    <span className={`${isPending ? "opacity-30" : "opacity-100"}`}>Pay £{getTotalPrice()}</span>
+                <button className="bg-c-deep-sky py-1.5 px-12 text-white rounded-md relative" onClick={onPaymentSubmit} disabled={(isPending || loading)}>
+                    <span className={`${(isPending || loading) ? "opacity-30" : "opacity-100"}`}>Pay £{getTotalPrice()}</span>
                     <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
-                        {isPending &&
+                        {(isPending || loading) &&
                             <div className="w-5 h-5 border-b-2 border-white rounded-full animate-spin ml-auto"></div>
                         }
                     </div>
