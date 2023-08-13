@@ -2,9 +2,9 @@ import * as React from "react";
 import { Html, Head, Font, Tailwind, Text, Section, Link, Container } from '@react-email/components';
 
 //Interface
-import { Inputs } from "./Form";
+import { Inputs } from "@/Components/Contact/Form";
 
-const Template = (data: Inputs) => {
+const ContactTemplate = (data: Inputs) => {
     return (
         <Html lang="en">
             <Head>
@@ -50,4 +50,4 @@ const Template = (data: Inputs) => {
     );
 };
 
-export default Template;
+export default ContactTemplate;

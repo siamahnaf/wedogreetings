@@ -2,6 +2,7 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { useState } from "react";
 import GoogleAnalytics from "@bradgarropy/next-google-analytics";
+import Script from "next/script";
 
 //Progress
 import NextProgress from "next-progress";

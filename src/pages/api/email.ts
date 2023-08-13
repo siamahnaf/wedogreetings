@@ -3,8 +3,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { render } from '@react-email/render';
 
 //Templates
-import ContactTemplate from "@/Components/Contact/Template";
-import ConfirmTemplate from "@/Components/Product/Timeline/Confirm/Template";
+import ContactTemplate from "@/Helper/ContactTemplate";
+import ConfirmTemplate from "@/Helper/ConfirmTemplate";
 
 type Data = {
     MessageID: string
@@ -17,10 +17,10 @@ export default async function handler(
     if (req.method === "POST") {
         let html: string = ""
         if (req.body.templateName === "contact") {
-            const value = JSON.parse(req.body.value)
+            const value = req.body.value
             html = render(ContactTemplate({ ...value }));
         } else if (req.body.templateName === "confirm") {
-            const value = JSON.parse(req.body.value)
+            const value = req.body.value
             html = render(ConfirmTemplate({ ...value }));
         }
         const email = {

@@ -69,8 +69,7 @@ const Configuration = () => {
         control,
         watch,
         setValue,
-        trigger,
-        reset
+        trigger
     } = useForm<Inputs>();
 
     //FormData

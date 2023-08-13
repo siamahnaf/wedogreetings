@@ -57,15 +57,13 @@ const Form = () => {
             cc: [{ name: value.firstName, email: value.email }],
             subject: `New contact message arrived from ${value.firstName}`,
             templateName: "contact",
-            value: JSON.stringify(value)
+            value: value
         }
         mutate(formData)
     }
 
     return (
         <div className="col-span-8 3xl:col-span-9 lg:col-span-8 xxs:col-span-12 bg-c-deep-sky bg-opacity-10 p-7 sm:p-7 xxs:p-4 rounded-md">
-            {JSON.stringify(error)}
-            {JSON.stringify(data)}
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="grid grid-cols-2 gap-5 sm:gap-5 xxs:gap-3">
                     <div className="xxs:max-sm:col-span-2">

@@ -36,12 +36,30 @@ const Letters = ({ setStep }: Props) => {
     useEffect(() => {
         if (configureData?.formData.name) {
             const chars = Array(16).fill("");
-            const names = configureData.formData.name.split("");
-            const initialData = names.map((item, i) => ({ index: i, url: selected[i]?.url || "", id: selected[i]?.id || "", name: selected[i]?.name || "", letter: item }));
+            const pattern = /(\d*)(ST|ND|RD|TH)|(.)/g;
+            const result = [];
+            let match;
+            while ((match = pattern.exec(configureData.formData.name))) {
+                const [, number, ordinal, character] = match;
+
+                if (number) {
+                    result.push(number);
+                }
+
+                if (ordinal) {
+                    result.push(ordinal);
+                }
+
+                if (character) {
+                    result.push(character);
+                }
+            }
+            const initialData = result.map((item, i) => ({ index: i, url: selected[i]?.url || "", id: selected[i]?.id || "", name: selected[i]?.name || "", letter: item }));
             setSelected(initialData);
-            names.forEach((char, index) => {
+            result.forEach((char, index) => {
                 chars[index] = char;
             });
+            console.log(chars)
             setNames(chars);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

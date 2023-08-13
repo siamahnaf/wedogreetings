@@ -2,7 +2,6 @@ import { useContext, useState, useMemo } from "react";
 import { Dialog } from "@material-tailwind/react";
 import { Icon } from "@iconify/react";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import moment from "moment";
 
 //Fonts
@@ -37,12 +36,8 @@ const Backdrop = ({ open, onClose, selected, onChange }: Props) => {
     //Context
     const { availableData } = useContext(TimelineContext);
 
-    //Initialize Hook
-    const router = useRouter();
-
     //Query
-    const { data: productData } = useQuery({ queryKey: ["allProduct"], queryFn: GET_ALL_PRODUCT });
-    const { data } = useQuery({ queryKey: ["backdrop", availableData?.franchiseeId, productData?.find((item) => item["@row.id"].toString() === availableData?.formData.event)?.["Product Name"]], queryFn: () => GET_BACKDROP(availableData?.franchiseeId as string, productData?.find((item) => item["@row.id"].toString() === availableData?.formData.event)?.["Product Name"] as string) });
+    const { data } = useQuery({ queryKey: ["backdrop", availableData?.formData.event], queryFn: () => GET_BACKDROP(availableData?.franchiseeId as string, availableData?.formData.event as string) });
 
     //Handler onChange
     const onItemClick = async (url: string, id: string, name: string) => {
@@ -75,7 +70,7 @@ const Backdrop = ({ open, onClose, selected, onChange }: Props) => {
             setBackdrops(newData)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data]);
+    }, [data, availableData?.formData]);
 
     return (
         <Dialog
@@ -110,6 +105,12 @@ const Backdrop = ({ open, onClose, selected, onChange }: Props) => {
                         </div>
                     ))}
                 </div>
+                {backdrops.length === 0 &&
+                    <div className="text-center ">
+                        <h3 className="text-2xl mb-1"><span className="font-bold">Oh!</span> no</h3>
+                        <p className="text-base text-c-novel">There is no background in stock for your selected date <span className="font-semibold text-black">{moment(availableData?.formData.date?.endDate).format("Do MMMM YYYY")}</span></p>
+                    </div>
+                }
             </div>
         </Dialog>
     );

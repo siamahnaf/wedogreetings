@@ -38,7 +38,7 @@ const Customer = ({ setStep }: Props) => {
     const { setCustomer, availableData } = useContext(TimelineContext);
 
     //Query
-    const { data, refetch } = useQuery({ queryKey: ["coderPostal", availableData?.formData.postalCode], queryFn: () => GET_POSTCODER_DETAILS(availableData?.formData.postalCode as string) })
+    const { data, refetch, error } = useQuery({ queryKey: ["coderPostal", availableData?.formData.postalCode], queryFn: () => GET_POSTCODER_DETAILS(availableData?.formData.postalCode as string) })
 
     //Form Initializing
     const {
@@ -202,7 +202,6 @@ const Customer = ({ setStep }: Props) => {
                             label="County"
                             color="cyan"
                             id="county"
-                            readOnly
                             {...register("County", { required: true })}
                             error={errors["County"] ? true : false}
                             onInput={(e: ChangeEvent<HTMLInputElement>) => {

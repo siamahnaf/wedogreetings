@@ -40,7 +40,7 @@ export const ADD_CUSTOM_REQUEST = async (data: AddCustomRequestData): Promise<Ad
 export const GET_EXAMPLE_LETTERS = async (): Promise<GetExamLettersData[]> => await (await fetch("https://wdg.teamdesk.net/secure/api/v2/90582/Web%20Inspire%20%252F%20Show%20Me/Default%20View/select.json?filter=%5BType%5D%3D%22Inspire-Me%22", { headers }).then(res => res.json()));
 
 //GET Backdrop
-export const GET_BACKDROP = async (id: string, sub: string): Promise<GetProductData[]> => await (await fetch(`https://wdg.teamdesk.net/secure/api/v2/90582/Item%20in%20Stock/Default%20View/select.json?filter=%5BStatus%5D%3D%22Active%22%20and%20%5BCategory%5D%3D%22Foldable%20Background%22%20and%20%5BSub-Category%5D%3D%22${sub}%22%20and%20%5BEmail%5D%3D%22${getOwner(id)}%22`, { headers }).then(res => res.json()));
+export const GET_BACKDROP = async (id: string, product: string): Promise<GetProductData[]> => await (await fetch(`https://wdg.teamdesk.net/secure/api/v2/90582/Item%20in%20Stock/Default%20View/select.json?filter=%5BStatus%5D%3D%22Active%22%20and%20%5BCategory%5D%3D%22Foldable%20Background%22%20and%20%5BEmail%5D%3D%22${getOwner(id)}%22%20and%20Contains(%5BAssociated%20Web%20Product%20Ids%5D%2C%20%22${product}%22)`, { headers }).then(res => res.json()));
 
 
 //Get Letters
@@ -48,11 +48,6 @@ export const GET_LETTERS = async (letter: string, id: string): Promise<GetProduc
 
 //GET Emoji
 export const GET_EMOJIS = async (id: string): Promise<GetProductData[]> => await (await fetch(`https://wdg.teamdesk.net/secure/api/v2/90582/Item%20in%20Stock/Default%20View/select.json?filter=(%5BCategory%5D%3D%22Accessories%22%20or%20%5BCategory%5D%3D%22Emojis%22)%20and%20%5BStatus%5D%3D%22Active%22%20and%20%5BEmail%5D%3D%22${getOwner(id)}%22`, { headers }).then(res => res.json()));
-
-
-
-//Get The Response
-export const GET_PAYMENT_RESPONSE = async (id: string): Promise<GetResponseData[]> => await (await fetch(`https://wdg.teamdesk.net/secure/api/v2/90582/WorldPay%20Webhook/select.json?filter=%5BcartId%5D%3D%22${id}%22`, { headers }).then(res => res.json()));
 
 
 //Place the order

@@ -1,12 +1,17 @@
+import { useContext } from "react";
 import { Dialog } from "@material-tailwind/react";
 import { Icon } from "@iconify/react";
 import Image from "next/image";
+import moment from "moment";
 
 //Fonts
 import { poppins } from "@/Fonts";
 
 //Query
 import { GetProductData } from "@/Query/Types/Product/product.types";
+
+//Context
+import { TimelineContext } from "@/Context/timeline.context";
 
 //Interface
 interface EmojiTypes {
@@ -52,7 +57,8 @@ const Backdrop = ({ open, onClose, items, onChange, selected, index }: Props) =>
         return acc;
     }, {} as { [category: string]: { [subCategory: string]: GetProductData[] } });
 
-
+    //Context
+    const { availableData } = useContext(TimelineContext);
 
     return (
         <Dialog
@@ -83,7 +89,7 @@ const Backdrop = ({ open, onClose, items, onChange, selected, index }: Props) =>
                                 <div key={si}>
                                     <h5 className={`text-lg font-bold mb-10 ${si > 0 && "mt-16"}`}>{category} - {sub}</h5>
                                     <div className="grid grid-cols-5 sm:grid-cols-5 xxs:grid-cols-3 gap-4">
-                                        {groupedArray[category][sub].filter(inc => !selected.some(exc => exc.id === inc["@row.id"].toString())).map((main, mi) => (
+                                        {groupedArray[category][sub].filter(inc => !selected.some(exc => exc.id === inc["Item Id"])).map((main, mi) => (
                                             <div key={mi} className="cursor-pointer" onClick={() => onItemClick({ url: main["Image Address"], id: main["Item Id"], name: main.Item })}>
                                                 {main.Image ?
                                                     <Image src={main["Image Address"]} width={258} height={258} alt={main.Item} className="aspect-[1/1]" /> :
@@ -98,8 +104,14 @@ const Backdrop = ({ open, onClose, items, onChange, selected, index }: Props) =>
                         </div>
                     ))}
                 </div>
+                {items.length === 0 &&
+                    <div className="text-center ">
+                        <h3 className="text-2xl mb-1"><span className="font-bold">Oh!</span> no</h3>
+                        <p className="text-base text-c-novel">There is no accessories in stock for your selected date <span className="font-semibold text-black">{moment(availableData?.formData.date?.endDate).format("Do MMMM YYYY")}</span></p>
+                    </div>
+                }
             </div>
-        </Dialog >
+        </Dialog>
     );
 };
 
