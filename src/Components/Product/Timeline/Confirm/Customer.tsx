@@ -202,6 +202,7 @@ const Customer = ({ setStep }: Props) => {
                             label="County"
                             color="cyan"
                             id="county"
+                            readOnly
                             {...register("County", { required: true })}
                             error={errors["County"] ? true : false}
                             onInput={(e: ChangeEvent<HTMLInputElement>) => {

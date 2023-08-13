@@ -3,7 +3,6 @@ import Image from "next/image";
 import { Icon } from "@iconify/react";
 import moment from "moment";
 import crypto from "crypto";
-import { useRouter } from "next/router";
 
 //Helpers Function
 import { getOrderId } from "@/Helper/uniqueId";
@@ -30,9 +29,6 @@ const Card = ({ setStep }: Props) => {
     //Context
     const { customer, availableData, configureData, letters, emojis } = useContext(TimelineContext);
 
-    //Initialize Router
-    const router = useRouter();
-
 
     //Handler get total price
     const getTotalPrice = () => {
@@ -57,7 +53,7 @@ const Card = ({ setStep }: Props) => {
                 return crypto.createHash('md5').update(data).digest('hex');
             };
             const billing = `&name=${customer?.formData["First Name"]}&address1=${customer?.formData["Address line"]}&town=${customer?.town}&postcode=${customer?.formData["Post Code"]}&country=UK&tel=${customer?.formData.Phone}&email=${customer?.formData.Email}`
-            const url = `https://secure-test.worldpay.com/wcc/purchase?instId=1471088&cartId=${uniqueId}&amount=${getTotalPrice()}&currency=GBP&testMode=100&accId1=${availableData?.details["WP-M#"] || 44606504}&signature=${createMD5Signature("X6vT3kM1sP8nC7eB")}${customer?.formData["Billing Address"] && billing}`;
+            const url = `https://secure-test.worldpay.com/wcc/purchase?instId=1471088&cartId=${uniqueId}&amount=${getTotalPrice()}&currency=GBP&testMode=100&accId1=${availableData?.details["WP-M#"] || 44606504}${customer?.formData["Billing Address"] && billing}`;
             window.location.href = url;
         }
     });

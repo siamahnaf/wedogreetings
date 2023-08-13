@@ -46,7 +46,7 @@ const email = (data: Props) => {
             </Head>
             <Tailwind>
                 <Container className="mt-6">
-                    <Img src="https://wdg.teamdesk.net/secure/db/90582/logo.aspx?v=6" alt="cat" width="281" height="42" className="mx-auto w-[400px]" />
+                    <Img src="https://res.cloudinary.com/dbceuy3oy/image/upload/v1691944012/Logo_bxg349.png" alt="cat" width="281" height="42" className="mx-auto w-[400px]" />
                     <Heading as="h3" className="text-center text-2xl font-semibold mt-6">Order Confirmation</Heading>
                     <Text className="text-[17px]">Dear <span className="font-semibold">{data.customerName}</span></Text>
                     <Text className="text-[17px]">Thank you for choosing We Do Greeting for your special event.</Text>

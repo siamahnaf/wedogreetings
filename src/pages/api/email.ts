@@ -5,6 +5,7 @@ import { render } from "@react-email/render";
 //Templates
 import ContactTemplate from "@/Helper/ContactTemplate";
 import ConfirmTemplate from "@/Helper/ConfirmTemplate";
+import CancelTemplate from "@/Helper/CancelTemplate";
 
 type Data = {
     MessageID: string
@@ -23,7 +24,7 @@ export default async function handler(
             const value = req.body.value
             html = render(ConfirmTemplate({ ...value }));
         } else if (req.body.templateName === "cancelled") {
-            html = "<p>Payment is cancelled</p>"
+            html = render(CancelTemplate());
         }
         const email = {
             From: {
