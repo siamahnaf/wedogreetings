@@ -61,7 +61,7 @@ const email = (data: Props) => {
                     <Section>
                         <Text className="m-0 text-[17px]">Cost: <span className="font-semibold">£{data.cost}</span></Text>
                         <Text className="m-0 text-[17px]">Rental duration: <span className="font-semibold">{data.rental}</span></Text>
-                        <Text className="m-0 text-[17px]">Date of installation: <span className="font-semibold">{moment(data.time).format("Do MMMM YYYY, h:mmA")}</span></Text>
+                        <Text className="m-0 text-[17px]">Date of installation: <span className="font-semibold">{moment(data.date).format("Do MMMM YYYY, h:mmA")}</span></Text>
                         <Text className="m-0 text-[17px]">Time of installation: <span className="font-semibold">{data.time}</span></Text>
                         <Text className="m-0 text-[17px]">Install location: <span className="font-semibold">{data.location}</span></Text>
                         <Text className="m-0 text-[17px]">Install base: <span className="font-semibold">{data.base}</span></Text>
@@ -82,7 +82,7 @@ const email = (data: Props) => {
                 </Container>
                 <div className="bg-[#ead1dc] pb-8 mt-3">
                     <Container className="my-2">
-                        <Text>
+                        <Text className="px-3">
                             This email and any attachments are confidential and may be privileged. If you are not the intended recipient, please delete all copies and notify the sender immediately. Your privacy is important to us. As part of our commitment to protecting your data, we comply with the General Data Protection Regulation (GDPR). If you have any questions or requests regarding your data, or if you want to modify or remove your data from our records, please contact us at <Link href="mailto:info@wedogreetings.co.uk">info@wedogreetings.co.uk</Link>.For further information on how we handle your data, please read our <Link target="_blank" href="https://staging.wedogreetings.co.uk/privacy-and-cookie-policy">Privacy Policy</Link>. We also invite you to review our <Link target="_blank" href="https://staging.wedogreetings.co.uk/site-terms-and-conditions">Terms and Conditions</Link> and <Link target="_blank" href="https://staging.wedogreetings.co.uk/privacy-and-cookie-policy">Cookie Policy</Link> to understand how we use cookies and what your choices are. This franchise is owned by We Do Greetings Ltd, Unit A, 82 James Carter Road, Mildenhall, Suffolk, United Kingdom, IP28 7DE company number:14918382
                         </Text>
                     </Container>
