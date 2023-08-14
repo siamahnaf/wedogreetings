@@ -25,6 +25,7 @@ const Card = ({ setStep }: Props) => {
     //State
     const [uniqueId, setUniqId] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
+    const [error, setError] = useState<boolean>(false);
 
     //Context
     const { customer, availableData, configureData, letters, emojis } = useContext(TimelineContext);
@@ -35,32 +36,36 @@ const Card = ({ setStep }: Props) => {
         const totalPrice = Number(availableData?.surcharge) + (Number(availableData?.formData.rental) * 25);
         const midWeekPrice = availableData?.details?.["MidWk Price"]!;
         const wekndPrice = availableData?.details?.["Wknd Price"]!;
-        const publicHolidayPrice = 40;
         if (availableData?.formData.option === "mid-week") {
             return totalPrice + midWeekPrice
         } else if (availableData?.formData.option === "weekend") {
             return totalPrice + wekndPrice
         } else if (availableData?.formData.option === "bank-holiday") {
-            return totalPrice + publicHolidayPrice;
+            return totalPrice + wekndPrice;
         }
     };
 
     //Query
     const { isPending, mutate } = useMutation({
         mutationKey: ["placeOrder"], mutationFn: (formData: AddOrderPlaceData) => PLACE_ORDER(formData),
-        async onSuccess() {
-            // const createMD5Signature = (data: string) => {
-            //     return crypto.createHash('md5').update(data).digest('hex');
-            // };
-            const billing = `&name=${customer?.formData["First Name"]}&address1=${customer?.formData["Address line"]}&town=${customer?.town}&postcode=${customer?.formData["Post Code"]}&country=UK&tel=${customer?.formData.Phone}&email=${customer?.formData.Email}`
-            const url = `https://secure-test.worldpay.com/wcc/purchase?instId=1471088&cartId=${uniqueId}&amount=${getTotalPrice()}&currency=GBP&testMode=100&accId1=${availableData?.details["WP-M#"] || 44606504}${customer?.formData["Billing Address"] && billing}`;
-            window.location.href = url;
+        async onSuccess(data) {
+            if (data[0].status === 201) {
+                // const createMD5Signature = (data: string) => {
+                //     return crypto.createHash('md5').update(data).digest('hex');
+                // };
+                setLoading(true)
+                const billing = `&name=${customer?.formData["First Name"]}&address1=${customer?.formData["Address line"]}&town=${customer?.town}&postcode=${customer?.formData["Post Code"]}&country=UK&tel=${customer?.formData.Phone}&email=${customer?.formData.Email}`
+                const url = `https://secure-test.worldpay.com/wcc/purchase?instId=1471088&cartId=${uniqueId}&amount=${getTotalPrice()}&currency=GBP&testMode=100&accId1=${availableData?.details["WP-M#"] || 44606504}${customer?.formData["Billing Address"] && billing}`;
+                window.location.href = url;
+            } else {
+                setError(true)
+            }
         }
     });
 
     //Payment Submit Window    
     const onPaymentSubmit = () => {
-        setLoading(true)
+        setError(false)
         const uniqueID = getOrderId();
         setUniqId(uniqueID)
         const result: { id: string, position: string }[] = [];
@@ -139,6 +144,12 @@ const Card = ({ setStep }: Props) => {
                     </div>
                 </button>
             </div>
+            {error &&
+                <div className="text-center mt-8">
+                    <h2 className="text-2xl text-red-600"><span className="font-bold">Oh!</span> no</h2>
+                    <p className="text-red-600">Something went wrong when order creation process is running!</p>
+                </div>
+            }
         </div>
     );
 };

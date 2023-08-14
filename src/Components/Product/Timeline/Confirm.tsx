@@ -50,13 +50,12 @@ const Confirm = () => {
         const totalPrice = Number(availableData?.surcharge) + (Number(availableData?.formData.rental) * 25);
         const midWeekPrice = availableData?.details?.["MidWk Price"]!;
         const wekndPrice = availableData?.details?.["Wknd Price"]!;
-        const publicHolidayPrice = 40;
         if (availableData?.formData.option === "mid-week") {
             return totalPrice + midWeekPrice
         } else if (availableData?.formData.option === "weekend") {
             return totalPrice + wekndPrice
         } else if (availableData?.formData.option === "bank-holiday") {
-            return totalPrice + publicHolidayPrice;
+            return totalPrice + wekndPrice;
         }
     }
 
