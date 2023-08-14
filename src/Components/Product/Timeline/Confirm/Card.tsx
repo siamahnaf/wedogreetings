@@ -53,12 +53,7 @@ const Card = ({ setStep }: Props) => {
             //     return crypto.createHash('md5').update(data).digest('hex');
             // };
             const billing = `&name=${customer?.formData["First Name"]}&address1=${customer?.formData["Address line"]}&town=${customer?.town}&postcode=${customer?.formData["Post Code"]}&country=UK&tel=${customer?.formData.Phone}&email=${customer?.formData.Email}`
-            let url: string;
-            if (process.env.NODE_ENVIRONMENT = "production") {
-                url = `https://secure.worldpay.com/wcc/purchase?instId=1471088&cartId=${uniqueId}&amount=${getTotalPrice()}&currency=GBP&testMode=0&accId1=${availableData?.details["WP-M#"] || 44606504}${customer?.formData["Billing Address"] && billing}`;
-            } else {
-                url = `https://secure-test.worldpay.com/wcc/purchase?instId=1471088&cartId=${uniqueId}&amount=${getTotalPrice()}&currency=GBP&testMode=100&accId1=${availableData?.details["WP-M#"] || 44606504}${customer?.formData["Billing Address"] && billing}`;
-            }
+            const url = `https://secure-test.worldpay.com/wcc/purchase?instId=1471088&cartId=${uniqueId}&amount=${getTotalPrice()}&currency=GBP&testMode=100&accId1=${availableData?.details["WP-M#"] || 44606504}${customer?.formData["Billing Address"] && billing}`;
             window.location.href = url;
         }
     });
