@@ -61,8 +61,8 @@ const email = (data: Props) => {
                     <Section>
                         <Text className="m-0 text-[17px]">Cost: <span className="font-semibold">£{data.cost}</span></Text>
                         <Text className="m-0 text-[17px]">Rental duration: <span className="font-semibold">{data.rental}</span></Text>
-                        <Text className="m-0 text-[17px]">Date of installation: <span className="font-semibold">{moment(data.date).format("Do MMMM YYYY, h:mmA")}</span></Text>
-                        <Text className="m-0 text-[17px]">Time of installation: <span className="font-semibold">{data.time}</span></Text>
+                        <Text className="m-0 text-[17px]">Date of installation: <span className="font-semibold">{moment(data.date).format("Do MMMM YYYY")}</span></Text>
+                        <Text className="m-0 text-[17px]">Time of installation: <span className="font-semibold">{moment(data.date).format("h:mmA")}</span></Text>
                         <Text className="m-0 text-[17px]">Install location: <span className="font-semibold">{data.location}</span></Text>
                         <Text className="m-0 text-[17px]">Install base: <span className="font-semibold">{data.base}</span></Text>
                         <Text className="m-0 text-[17px]">Removal date/time: <span className="font-semibold">{moment(data.removalTime).format("Do MMMM YYYY, h:mmA")}</span></Text>
