@@ -14,7 +14,7 @@ const OrderSuccess = () => {
                     <Rive src="/rive/success.riv" width="100%" height="100%" />
                 </div>
                 <p className="text-c-novel text-[15px]">
-                    Wish to get a website or mobile app Developed. Let us handle everything for you. Palmspire is the one stop solution for all your technical and managerial hurdles when developing a Mobile or Web Application.
+                    Please check your email inbox for a confirmation receipt and further details about your purchase. It might take a few minutes for the email to arrive. If you don't see it, kindly check your spam or junk folder just in case.
                 </p>
                 <Link href="/" className="bg-c-deep-sky py-2 px-8 rounded-lg text-white block w-max mx-auto uppercase font-medium text-[15px] mt-8">
                     Continue Shopping

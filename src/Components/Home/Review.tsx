@@ -55,7 +55,7 @@ const Review = () => {
                             <div className="flex-[0_0_65%]">
                                 <h5 className="text-base 4xl:text-lg lg-max:text-base font-bold mb-1.5 w-[90%]">{item["Review Heading"]}</h5>
                                 <Rating value={item["Star Rating"]} readonly />
-                                <p className="text-sm 4xl:text-base lg-max:text-sm text-c-novel mt-2 w-[90%]">{item["Review Content"]}</p>
+                                <p className="text-sm 4xl:text-base lg-max:text-sm text-c-novel mt-2 w-[90%] lg:max-3xl:line-clamp-3">{item["Review Content"]}</p>
                             </div>
                         </div>
                     ))}
@@ -70,7 +70,7 @@ const Review = () => {
                         <div className="flex-[0_0_65%] sm:flex-[0_0_65%] xxs:flex-[0_0_100%]">
                             <h5 className="text-base 4xl:text-lg lg-max:text-base font-bold mb-1.5 w-[90%]">{item["Review Heading"]}</h5>
                             <Rating value={item["Star Rating"]} readonly />
-                            <p className="text-sm 4xl:text-base lg-max:text-sm text-c-novel mt-2 w-[90%]">{item["Review Content"]}</p>
+                            <p className="text-sm 4xl:text-base lg-max:text-sm text-c-novel mt-2 w-[90%] lg:max-3xl:line-clamp-3">{item["Review Content"]}</p>
                         </div>
                     </div>
                 ))}

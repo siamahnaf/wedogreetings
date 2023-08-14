@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Html, Head, Font, Img, Tailwind, Text, Heading, Section, Link, Container } from "@react-email/components";
+import moment from "moment";
 
 
 //Interface
@@ -58,13 +59,13 @@ const email = (data: Props) => {
                         My name is <span className="font-bold">{data.franchiseName}</span>. I will be responsible for ensuring everything runs smoothly on the day of your event. If you have any queries, concerns, or if you need to discuss anything regarding the event setup, please feel free to reach out to me. Here are my contact details:
                     </Text>
                     <Section>
-                        <Text className="m-0 text-[17px]">Cost: <span className="font-semibold">{data.cost}</span></Text>
+                        <Text className="m-0 text-[17px]">Cost: <span className="font-semibold">£{data.cost}</span></Text>
                         <Text className="m-0 text-[17px]">Rental duration: <span className="font-semibold">{data.rental}</span></Text>
-                        <Text className="m-0 text-[17px]">Date of installation: <span className="font-semibold">{data.date}</span></Text>
-                        <Text className="m-0 text-[17px]">Time of installation: <span className="font-semibold">[data.time]</span></Text>
+                        <Text className="m-0 text-[17px]">Date of installation: <span className="font-semibold">{moment(data.time).format("Do MMMM YYYY, h:mmA")}</span></Text>
+                        <Text className="m-0 text-[17px]">Time of installation: <span className="font-semibold">{data.time}</span></Text>
                         <Text className="m-0 text-[17px]">Install location: <span className="font-semibold">{data.location}</span></Text>
                         <Text className="m-0 text-[17px]">Install base: <span className="font-semibold">{data.base}</span></Text>
-                        <Text className="m-0 text-[17px]">Removal date/time: <span className="font-semibold">{data.removalTime}</span></Text>
+                        <Text className="m-0 text-[17px]">Removal date/time: <span className="font-semibold">{moment(data.removalTime).format("Do MMMM YYYY, h:mmA")}</span></Text>
                         <Text className="m-0 text-[17px]">Contact Number: <span className="font-semibold">{data.number}</span></Text>
                         <Text className="m-0 text-[17px]">Email Address: <span className="font-semibold">{data.email}</span></Text>
                     </Section>
@@ -79,13 +80,13 @@ const email = (data: Props) => {
                         <span className="font-bold">{data.franchiseName}</span>
                     </Text>
                 </Container>
-                <Section className="bg-[#ead1dc] pb-8 mt-3">
+                <div className="bg-[#ead1dc] pb-8 mt-3">
                     <Container className="my-2">
                         <Text>
                             This email and any attachments are confidential and may be privileged. If you are not the intended recipient, please delete all copies and notify the sender immediately. Your privacy is important to us. As part of our commitment to protecting your data, we comply with the General Data Protection Regulation (GDPR). If you have any questions or requests regarding your data, or if you want to modify or remove your data from our records, please contact us at <Link href="mailto:info@wedogreetings.co.uk">info@wedogreetings.co.uk</Link>.For further information on how we handle your data, please read our <Link target="_blank" href="https://staging.wedogreetings.co.uk/privacy-and-cookie-policy">Privacy Policy</Link>. We also invite you to review our <Link target="_blank" href="https://staging.wedogreetings.co.uk/site-terms-and-conditions">Terms and Conditions</Link> and <Link target="_blank" href="https://staging.wedogreetings.co.uk/privacy-and-cookie-policy">Cookie Policy</Link> to understand how we use cookies and what your choices are. This franchise is owned by We Do Greetings Ltd, Unit A, 82 James Carter Road, Mildenhall, Suffolk, United Kingdom, IP28 7DE company number:14918382
                         </Text>
                     </Container>
-                </Section>
+                </div>
             </Tailwind>
         </Html>
     );
